@@ -6,7 +6,7 @@ table {
   width: 100%;
 }
 
-.glbvariable-container {
+.glbvariable-table {
   margin-top: 10px;
   max-height: 550px;
   overflow: auto;
@@ -14,4 +14,9 @@ table {
 
 .margin-right {
   margin-right: 10px;
+}
+
+.glbvariable-container {
+  margin-right: 20px;
+  margin-left: 10px;
 }

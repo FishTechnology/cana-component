@@ -1,10 +1,10 @@
-<div>
+<div class="glbvariable-container">
   <mat-card>
     <div>
       <mat-toolbar>
         <span>Global Variables</span>
         <span class="global-spacer"></span>
-        <button mat-mini-fab color="primary" class="margin-right" aria-label="Example icon button with a delete icon">
+        <button mat-mini-fab color="primary" class="margin-right" aria-label="Example icon button with a delete icon" (click)="refresh()">
           <mat-icon>refresh</mat-icon>
         </button>
         <button mat-raised-button color="primary" [matMenuTriggerFor]="actions">
@@ -12,14 +12,14 @@
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
         <mat-menu #actions="matMenu">
-          <button mat-menu-item>Add</button>
+          <button mat-menu-item (click)="createGlobalVariable()">Add</button>
           <button mat-menu-item>Delete</button>
           <button mat-menu-item>Edit</button>
         </mat-menu>
       </mat-toolbar>
     </div>
     <div>
-      <div class="glbvariable-container">
+      <div class="glbvariable-table">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
           <!-- Checkbox Column -->
           <ng-container matColumnDef="select">

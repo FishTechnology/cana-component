@@ -10,11 +10,23 @@ import { MaterialModule } from "./material/material.module";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { ScheduleComponent } from "./automation/schedule/schedule.component";
 import { GlobalvariableComponent } from "./automation/configuration/globalvariable/globalvariable.component";
-import { HomeComponent } from './automation/configuration/home/home.component';
+import { HomeComponent } from "./automation/configuration/home/home.component";
+import { CreateGlobalVariableComponent } from "./automation/configuration/globalvariable/createglobalvariable/createglobalvariable.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent, DashboardComponent, ScheduleComponent, GlobalvariableComponent, HomeComponent],
-  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, MaterialModule],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    FooterComponent,
+    DashboardComponent,
+    ScheduleComponent,
+    GlobalvariableComponent,
+    HomeComponent,
+    CreateGlobalVariableComponent,
+  ],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule, MaterialModule, FormsModule, ReactiveFormsModule, FlexLayoutModule],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -1,0 +1,52 @@
+<div class="modelcontainer">
+  <mat-card>
+    <form [formGroup]="globalvariableform">
+      <mat-dialog-content>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div fxFlex="50%">
+            <mat-form-field appearance="fill">
+              <mat-label>Global Variable Key</mat-label>
+              <input matInput type="text" formControlName="key" placeholder="key" autocomplete="off" />
+              <button
+                *ngIf="globalvariableform.controls['key'].value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="globalvariableform.controls['key'].reset()"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div fxFlex="50%">
+            <mat-form-field appearance="fill">
+              <mat-label>Select me</mat-label>
+              <mat-select>
+                <mat-option value="variableType.value" *ngFor="let variableType of globalValueTypes">{{ variableType.key }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field appearance="fill">
+            <mat-label>Global Variable Value</mat-label>
+            <input matInput type="text" formControlName="value" placeholder="value" autocomplete="off" />
+            <button
+              *ngIf="globalvariableform.controls['value'].value"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="globalvariableform.controls['value'].reset()"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+      </mat-dialog-content>
+      <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close [mat-dialog-close]="true">Cancel</button>
+        <button mat-raised-button cdkFocusInitial color="primary">Primary</button>
+      </mat-dialog-actions>
+    </form>
+  </mat-card>
+</div>

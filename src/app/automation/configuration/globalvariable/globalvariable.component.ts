@@ -2,6 +2,8 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { Component, OnInit } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 import * as moment from "moment";
+import { MatDialog } from "@angular/material/dialog";
+import { CreateGlobalVariableComponent } from "./createglobalvariable/createglobalvariable.component";
 
 export interface PeriodicElement {
   id: number;
@@ -27,7 +29,7 @@ export class GlobalvariableComponent implements OnInit {
   selection = new SelectionModel<PeriodicElement>(true, []);
   moment = moment;
 
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {}
 
@@ -55,4 +57,10 @@ export class GlobalvariableComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? "deselect" : "select"} row ${row.key + 1}`;
   }
+
+  createGlobalVariable() {
+    this.dialog.open(CreateGlobalVariableComponent);
+  }
+
+  refresh() {}
 }

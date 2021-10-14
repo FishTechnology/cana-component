@@ -3,10 +3,16 @@
     <form [formGroup]="globalvariableform">
       <mat-dialog-content>
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <div fxFlex="50%">
-            <mat-form-field appearance="fill">
+          <div fxFlex="49%">
+            <mat-form-field appearance="fill" class="full-width">
               <mat-label>Global Variable Key</mat-label>
-              <input matInput type="text" formControlName="key" placeholder="key" autocomplete="off" />
+              <input
+                matInput
+                type="text"
+                formControlName="key"
+                placeholder="key"
+                autocomplete="off"
+              />
               <button
                 *ngIf="globalvariableform.controls['key'].value"
                 matSuffix
@@ -19,18 +25,34 @@
             </mat-form-field>
           </div>
           <div fxFlex="50%">
-            <mat-form-field appearance="fill">
-              <mat-label>Select me</mat-label>
-              <mat-select>
-                <mat-option value="variableType.value" *ngFor="let variableType of globalValueTypes">{{ variableType.key }}</mat-option>
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Value Type</mat-label>
+              <mat-select formControlName="valueType">
+                <mat-option
+                  [value]="variableType.value"
+                  *ngFor="let variableType of globalValueTypes"
+                  >{{ variableType.text }}</mat-option
+                >
               </mat-select>
             </mat-form-field>
           </div>
         </div>
-        <div fxLayout="row" fxLayoutAlign="space-between">
-          <mat-form-field appearance="fill">
+        <div
+          fxLayout="row"
+          fxLayoutAlign="space-between"
+          *ngIf="
+            globalvariableform.controls['valueType'].value === 'keyandvalue'
+          "
+        >
+          <mat-form-field appearance="fill" class="full-width">
             <mat-label>Global Variable Value</mat-label>
-            <input matInput type="text" formControlName="value" placeholder="value" autocomplete="off" />
+            <input
+              matInput
+              type="text"
+              formControlName="value"
+              placeholder="value"
+              autocomplete="off"
+            />
             <button
               *ngIf="globalvariableform.controls['value'].value"
               matSuffix
@@ -42,10 +64,51 @@
             </button>
           </mat-form-field>
         </div>
+        <div
+          fxLayout="row"
+          fxLayoutAlign="space-between"
+          *ngIf="globalvariableform.controls['valueType'].value === 'file'"
+        >
+          <ngx-dropzone
+            [multiple]="false"
+            (change)="onSelect($event)"
+            class="full-width"
+          >
+            <ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
+            <ngx-dropzone-preview
+              *ngFor="let f of files"
+              [removable]="true"
+              (removed)="onRemove(f)"
+            >
+              <ngx-dropzone-label
+                >{{ f.name }} ({{ f.type }})</ngx-dropzone-label
+              >
+            </ngx-dropzone-preview>
+          </ngx-dropzone>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field
+            appearance="fill"
+            class="full-width"
+            formControlName="comments"
+          >
+            <mat-label>Leave a comment</mat-label>
+            <textarea matInput></textarea>
+          </mat-form-field>
+        </div>
       </mat-dialog-content>
       <mat-dialog-actions align="end">
-        <button mat-button mat-dialog-close [mat-dialog-close]="true">Cancel</button>
-        <button mat-raised-button cdkFocusInitial color="primary">Primary</button>
+        <button mat-button mat-dialog-close [mat-dialog-close]="true">
+          Cancel
+        </button>
+        <button
+          mat-raised-button
+          cdkFocusInitial
+          color="primary"
+          (click)="createGlobalVariable()"
+        >
+          Save
+        </button>
       </mat-dialog-actions>
     </form>
   </mat-card>

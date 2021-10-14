@@ -8,6 +8,7 @@ import { GlobalvariableService } from './globalvariable.service';
 import { CustomerService } from '../../../commons/customer/customer.service';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { GlobalVariableModel } from './models/GlobalVariableModel';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 export interface PeriodicElement {
   id: number;
@@ -46,11 +47,14 @@ export class GlobalvariableComponent implements OnInit {
   moment = moment;
   customerDetail: CustomerDetail;
   globalVariableModels: GlobalVariableModel[];
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(
     public dialog: MatDialog,
     public globalvariableService: GlobalvariableService,
-    public customerService: CustomerService
+    public customerService: CustomerService,
+    private _snackBar: MatSnackBar
   ) {
     this.customerService
       .getUserDetail()
@@ -95,4 +99,28 @@ export class GlobalvariableComponent implements OnInit {
       .getGlobalVariable(this.customerDetail.userId)
       .subscribe((res) => (this.globalVariableModels = res));
   }
+
+  delete() {
+    const globalVariableId = 10;
+    const userId = 10;
+    this.globalvariableService
+      .deleteGlobalVariable(globalVariableId, userId)
+      .subscribe((res) => {
+        this.openSnackBar("successfully delete global variables");
+      });
+  }
+
+  update(){
+    this.globalvariableService
+    .deleteGlobalVariable(globalVariableId, userId)
+    .subscribe((res) => {
+      this.openSnackBar("successfully update global variable");
+    });
+  }
+
+  openSnackBar(message: string, closeText: string = 'Close'): void {
+    this._snackBar.open(message, closeText, {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
 }

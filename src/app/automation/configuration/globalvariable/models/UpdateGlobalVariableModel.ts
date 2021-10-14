@@ -1,4 +1,5 @@
-export interface CreateGlobalVariableModel {
+export interface UpdateGlobalVariableModel {
+  id: number;
   key: string;
   value: string;
   valueType: string;

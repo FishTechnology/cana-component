@@ -8,7 +8,7 @@ import {
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { SelectModel } from '../../../../commons/SelectModel';
 import { GlobalvariableService } from '../globalvariable.service';
-import { CreateGlobalVariable } from '../models/CreateGlobalVariableModel';
+import { CreateGlobalVariableModel } from '../models/CreateGlobalVariableModel';
 
 @Component({
   selector: 'app-createglobalvariable',
@@ -52,7 +52,7 @@ export class CreateGlobalVariableComponent implements OnInit {
     this.files.splice(this.files.indexOf(event), 1);
   }
   createGlobalVariable() {
-    let createGlobalVariable: CreateGlobalVariable = {
+    let createGlobalVariable: CreateGlobalVariableModel = {
       key: this.globalvariableform.get('key').value,
       value: this.globalvariableform.get('value').value,
       valueType: this.globalvariableform.get('valueType').value,

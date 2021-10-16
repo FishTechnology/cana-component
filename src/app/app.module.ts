@@ -16,6 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { CreateEnvironmentComponent } from './automation/configuration/environment/createenvironment/createenvironment.component';
+import { EnvironmentComponent } from './automation/configuration/environment/environment.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     GlobalvariableComponent,
     HomeComponent,
     CreateGlobalVariableComponent,
+    CreateEnvironmentComponent,
+    EnvironmentComponent,
   ],
   imports: [
     BrowserModule,

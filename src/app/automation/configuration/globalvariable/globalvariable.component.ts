@@ -8,7 +8,11 @@ import { GlobalvariableService } from './globalvariable.service';
 import { CustomerService } from '../../../commons/customer/customer.service';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { GlobalVariableModel } from './models/GlobalVariableModel';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 export interface PeriodicElement {
   id: number;
@@ -19,6 +23,78 @@ export interface PeriodicElement {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
+  {
+    id: 1,
+    key: 'username',
+    value: 'howareyou@90',
+    type: 'keyvalue',
+    createdon: '1 Jan 2011, 00:00:00',
+  },
+  {
+    id: 2,
+    key: 'username',
+    value: 'howareyou@90',
+    type: 'keyvalue',
+    createdon: '1 Jan 2011, 00:00:00',
+  },
+
+  {
+    id: 1,
+    key: 'username',
+    value: 'howareyou@90',
+    type: 'keyvalue',
+    createdon: '1 Jan 2011, 00:00:00',
+  },
+  {
+    id: 2,
+    key: 'username',
+    value: 'howareyou@90',
+    type: 'keyvalue',
+    createdon: '1 Jan 2011, 00:00:00',
+  },
+  {
+    id: 1,
+    key: 'username',
+    value: 'howareyou@90',
+    type: 'keyvalue',
+    createdon: '1 Jan 2011, 00:00:00',
+  },
+  {
+    id: 2,
+    key: 'username',
+    value: 'howareyou@90',
+    type: 'keyvalue',
+    createdon: '1 Jan 2011, 00:00:00',
+  },
+  {
+    id: 1,
+    key: 'username',
+    value: 'howareyou@90',
+    type: 'keyvalue',
+    createdon: '1 Jan 2011, 00:00:00',
+  },
+  {
+    id: 2,
+    key: 'username',
+    value: 'howareyou@90',
+    type: 'keyvalue',
+    createdon: '1 Jan 2011, 00:00:00',
+  },
+
+  {
+    id: 1,
+    key: 'username',
+    value: 'howareyou@90',
+    type: 'keyvalue',
+    createdon: '1 Jan 2011, 00:00:00',
+  },
+  {
+    id: 2,
+    key: 'username',
+    value: 'howareyou@90',
+    type: 'keyvalue',
+    createdon: '1 Jan 2011, 00:00:00',
+  },
   {
     id: 1,
     key: 'username',
@@ -106,16 +182,18 @@ export class GlobalvariableComponent implements OnInit {
     this.globalvariableService
       .deleteGlobalVariable(globalVariableId, userId)
       .subscribe((res) => {
-        this.openSnackBar("successfully delete global variables");
+        this.openSnackBar('successfully delete global variables');
       });
   }
 
-  update(){
+  update() {
+    const globalVariableId = 10;
+    const userId = 10;
     this.globalvariableService
-    .deleteGlobalVariable(globalVariableId, userId)
-    .subscribe((res) => {
-      this.openSnackBar("successfully update global variable");
-    });
+      .deleteGlobalVariable(globalVariableId, userId)
+      .subscribe((res) => {
+        this.openSnackBar('successfully update global variable');
+      });
   }
 
   openSnackBar(message: string, closeText: string = 'Close'): void {
@@ -123,4 +201,5 @@ export class GlobalvariableComponent implements OnInit {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
+  }
 }

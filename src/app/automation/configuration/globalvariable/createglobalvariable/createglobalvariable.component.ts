@@ -31,7 +31,7 @@ export class CreateGlobalVariableComponent implements OnInit {
       key: new FormControl(''),
       value: new FormControl(''),
       valueType: new FormControl('keyandvalue'),
-      comments: new FormControl('comments'),
+      comments: new FormControl(''),
     });
   }
 

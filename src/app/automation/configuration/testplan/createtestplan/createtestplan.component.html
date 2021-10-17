@@ -1,45 +1,24 @@
 <div class="modelcontainer">
   <mat-card>
-    <form [formGroup]="environmentform">
+    <form [formGroup]="testplanform">
       <mat-dialog-content>
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <div fxFlex="49%">
+          <div fxFlex="100%">
             <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Environment Key</mat-label>
+              <mat-label>Testplan Name</mat-label>
               <input
                 matInput
                 type="text"
-                formControlName="key"
-                placeholder="key"
+                formControlName="name"
+                placeholder="name"
                 autocomplete="off"
               />
               <button
-                *ngIf="environmentform.controls['key'].value"
+                *ngIf="testplanform.controls['name'].value"
                 matSuffix
                 mat-icon-button
                 aria-label="Clear"
-                (click)="environmentform.controls['key'].reset()"
-              >
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
-          <div fxFlex="50%">
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Environment Value</mat-label>
-              <input
-                matInput
-                type="text"
-                formControlName="value"
-                placeholder="value"
-                autocomplete="off"
-              />
-              <button
-                *ngIf="environmentform.controls['value'].value"
-                matSuffix
-                mat-icon-button
-                aria-label="Clear"
-                (click)="environmentform.controls['value'].reset()"
+                (click)="testplanform.controls['name'].reset()"
               >
                 <mat-icon>close</mat-icon>
               </button>
@@ -61,7 +40,7 @@
           mat-raised-button
           cdkFocusInitial
           color="primary"
-          (click)="createEnvironment()"
+          (click)="createTestplan()"
         >
           Save
         </button>

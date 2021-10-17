@@ -18,6 +18,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CreateEnvironmentComponent } from './automation/configuration/environment/createenvironment/createenvironment.component';
 import { EnvironmentComponent } from './automation/configuration/environment/environment.component';
+import { EnvironmentVariableComponent } from './automation/configuration/environmentvariable/environmentvariable.component';
+import { CreateEnvironmentVariableComponent } from './automation/configuration/environmentvariable/createenvironmentvariable/createenvironmentvariable.component';
+import { CreateTestplanComponent } from './automation/configuration/testplan/createtestplan/createtestplan.component';
+import { TestplanComponent } from './automation/configuration/testplan/testplan.component';
+import { CreateTestcaseComponent } from './automation/configuration/testcase/createtestcase/createtestcase.component';
+import { TestcaseComponent } from './automation/configuration/testcase/testcase.component';
+import { ActionComponent } from './automation/configuration/action/action.component';
+import { CreateActionComponent } from './automation/configuration/action/createaction/createaction.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +39,14 @@ import { EnvironmentComponent } from './automation/configuration/environment/env
     CreateGlobalVariableComponent,
     CreateEnvironmentComponent,
     EnvironmentComponent,
+    EnvironmentVariableComponent,
+    CreateEnvironmentVariableComponent,
+    CreateTestplanComponent,
+    TestplanComponent,
+    CreateTestcaseComponent,
+    TestcaseComponent,
+    ActionComponent,
+    CreateActionComponent,
   ],
   imports: [
     BrowserModule,

@@ -4,10 +4,10 @@ import { HomeComponent } from './automation/configuration/home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { GlobalvariableComponent } from './automation/configuration/globalvariable/globalvariable.component';
 import { EnvironmentComponent } from './automation/configuration/environment/environment.component';
-import { EnvironmentvariableComponent } from './automation/configuration/environmentvariable/environmentvariable.component';
+import { EnvironmentVariableComponent } from './automation/configuration/environmentvariable/environmentvariable.component';
 import { TestplanComponent } from './automation/configuration/testplan/testplan.component';
 import { TestcaseComponent } from './automation/configuration/testcase/testcase.component';
-import { TestcasecontrolComponent } from './automation/configuration/testcasecontrol/testcasecontrol.component';
+import { ActionComponent } from './automation/configuration/action/action.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -16,16 +16,16 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       {
-        path: 'globalvariable',
+        path: 'globalvariables',
         component: GlobalvariableComponent,
       },
       {
-        path: 'environment',
+        path: 'environments',
         component: EnvironmentComponent,
       },
       {
-        path: 'environmentvariable',
-        component: EnvironmentvariableComponent,
+        path: 'environmentvariables',
+        component: EnvironmentVariableComponent,
       },
       {
         path: 'testplan',
@@ -36,8 +36,12 @@ const routes: Routes = [
         component: TestcaseComponent,
       },
       {
+        path: 'testcase/:testcaseid',
+        component: TestcaseComponent,
+      },
+      {
         path: 'action',
-        component: TestcasecontrolComponent,
+        component: ActionComponent,
       },
     ],
   },

@@ -1,6 +1,6 @@
 <div class="modelcontainer">
   <mat-card>
-    <form [formGroup]="globalvariableform">
+    <form [formGroup]="environmentVariableForm">
       <mat-dialog-content>
         <div fxLayout="row" fxLayoutAlign="space-between">
           <div fxFlex="49%">
@@ -14,11 +14,11 @@
                 autocomplete="off"
               />
               <button
-                *ngIf="globalvariableform.controls['key'].value"
+                *ngIf="environmentVariableForm.controls['key'].value"
                 matSuffix
                 mat-icon-button
                 aria-label="Clear"
-                (click)="globalvariableform.controls['key'].reset()"
+                (click)="environmentVariableForm.controls['key'].reset()"
               >
                 <mat-icon>close</mat-icon>
               </button>
@@ -30,7 +30,7 @@
               <mat-select formControlName="valueType">
                 <mat-option
                   [value]="variableType.value"
-                  *ngFor="let variableType of globalValueTypes"
+                  *ngFor="let variableType of environmentValueTypes"
                   >{{ variableType.text }}</mat-option
                 >
               </mat-select>
@@ -41,7 +41,8 @@
           fxLayout="row"
           fxLayoutAlign="space-between"
           *ngIf="
-            globalvariableform.controls['valueType'].value === 'keyandvalue'
+            environmentVariableForm.controls['valueType'].value ===
+            'keyandvalue'
           "
         >
           <mat-form-field appearance="fill" class="full-width">
@@ -54,11 +55,11 @@
               autocomplete="off"
             />
             <button
-              *ngIf="globalvariableform.controls['value'].value"
+              *ngIf="environmentVariableForm.controls['value'].value"
               matSuffix
               mat-icon-button
               aria-label="Clear"
-              (click)="globalvariableform.controls['value'].reset()"
+              (click)="environmentVariableForm.controls['value'].reset()"
             >
               <mat-icon>close</mat-icon>
             </button>
@@ -67,7 +68,7 @@
         <div
           fxLayout="row"
           fxLayoutAlign="space-between"
-          *ngIf="globalvariableform.controls['valueType'].value === 'file'"
+          *ngIf="environmentVariableForm.controls['valueType'].value === 'file'"
         >
           <ngx-dropzone
             [multiple]="false"

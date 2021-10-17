@@ -1,0 +1,28 @@
+<div class="environment-container">
+  <mat-card>
+    <div>
+      <mat-toolbar>
+        <span>Action</span>
+        <span class="global-spacer"></span>
+        <button
+          mat-mini-fab
+          color="primary"
+          class="margin-right"
+          aria-label="Example icon button with a delete icon"
+          (click)="refresh()"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="actions">
+          Actions
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #actions="matMenu">
+          <button mat-menu-item (click)="createAction()">Add</button>
+          <button mat-menu-item>Delete</button>
+          <button mat-menu-item>Edit</button>
+        </mat-menu>
+      </mat-toolbar>
+    </div>
+  </mat-card>
+</div>

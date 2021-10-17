@@ -7,27 +7,29 @@ import {
 } from '@angular/material/snack-bar';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { SelectModel } from 'src/app/commons/SelectModel';
-import { EnvironmentService } from '../environment.service';
+import { EnvironmentVariableService } from '../environmentvariable.service';
+import { CreateEnvironmentVariableModel } from '../models/CreateEnvironmentVariableModel';
 
 @Component({
-  selector: 'app-createenvironment',
-  templateUrl: './createenvironment.component.html',
-  styleUrls: ['./createenvironment.component.scss'],
+  selector: 'app-createenvironmentvariable',
+  templateUrl: './createenvironmentvariable.component.html',
+  styleUrls: ['./createenvironmentvariable.component.scss'],
 })
-export class CreateEnvironmentComponent implements OnInit {
+export class CreateEnvironmentVariableComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   environmentValueTypes: SelectModel[];
-  environmentform: FormGroup;
+  environmentVariableForm: FormGroup;
   files: File[] = [];
   customerDetail: CustomerDetail;
   constructor(
-    private environmentService: EnvironmentService,
+    private environmentVariableService: EnvironmentVariableService,
     private _snackBar: MatSnackBar
   ) {
-    this.environmentform = new FormGroup({
+    this.environmentVariableForm = new FormGroup({
       key: new FormControl(''),
       value: new FormControl(''),
+      valueType: new FormControl('keyandvalue'),
       comments: new FormControl(''),
     });
   }
@@ -48,25 +50,25 @@ export class CreateEnvironmentComponent implements OnInit {
     console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
   }
+  createGlobalVariable() {
+    // let createGlobalVariable: CreateEnvironmentVariableModel = {
+    //   key: this.globalvariableform.get('key').value,
+    //   value: this.globalvariableform.get('value').value,
+    //   valueType: this.globalvariableform.get('valueType').value,
+    //   comments: this.globalvariableform.get('comments').value,
+    //   userid: this.customerDetail.userId,
+    // };
+    // this.globalvariableService
+    //   .createGlobalVariable(createGlobalVariable)
+    //   .subscribe((res) => {
+    //     this.openSnackBar('successfully created global variables');
+    //   });
+  }
 
   openSnackBar(message: string, closeText: string = 'Close'): void {
     this._snackBar.open(message, closeText, {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
-  }
-  createEnvironment() {
-    // let createEnvironment: CreateEnvironmentModel = {
-    //   key: this.environmentform.get('key').value,
-    //   value: this.environmentform.get('value').value,
-    //   valueType: this.environmentform.get('valueType').value,
-    //   comments: this.environmentform.get('comments').value,
-    //   userid: this.customerDetail.userId,
-    // };
-    // this.environmentService
-    //   .createGlobalVariable(createGlobalVariable)
-    //   .subscribe((res) => {
-    //     this.openSnackBar('successfully created global variables');
-    //   });
   }
 }

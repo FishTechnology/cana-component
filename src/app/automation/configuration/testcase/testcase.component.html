@@ -21,6 +21,13 @@
           <button mat-menu-item (click)="createGlobalVariable()">Add</button>
           <button mat-menu-item>Delete</button>
           <button mat-menu-item>Edit</button>
+          <button mat-menu-item [matMenuTriggerFor]="actionsMenu">
+            Action
+          </button>
+        </mat-menu>
+        <mat-menu #actionsMenu="matMenu">
+          <button mat-menu-item (click)="navigateAddNewAction()">Add</button>
+          <button mat-menu-item>View</button>
         </mat-menu>
       </mat-toolbar>
     </div>

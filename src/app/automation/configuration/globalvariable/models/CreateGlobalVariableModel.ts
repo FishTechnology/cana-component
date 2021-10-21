@@ -2,7 +2,7 @@ export interface CreateGlobalVariableModel {
   key: string;
   value: string;
   valueType: string;
-  userid: number;
+  userid: string;
   comments?: string;
   content?: string;
 }

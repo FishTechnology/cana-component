@@ -11,103 +11,11 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { CreateEnvironmentComponent } from './createenvironment/createenvironment.component';
-
-export interface PeriodicElement {
-  id: number;
-  value: string;
-  key: string;
-  type: string;
-  createdon: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-];
+import { EnvironmentService } from './environment.service';
+import { EnvironmentModel } from './models/EnvironmentModel';
+import { DeleteEnvironmentModel } from './models/DeleteEnvironmentModel';
+import { DateTime } from 'luxon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-environment',
@@ -115,22 +23,27 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./environment.component.scss'],
 })
 export class EnvironmentComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'key', 'value', 'type', 'createdon'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  displayedColumns: string[] = ['select', 'name', 'createdon'];
+  dataSource = new MatTableDataSource<EnvironmentModel>();
+  selection = new SelectionModel<EnvironmentModel>(true, []);
   moment = moment;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
   customerDetail: CustomerDetail;
+  environmentModels: EnvironmentModel[];
+  DateTime = DateTime;
 
   constructor(
     public dialog: MatDialog,
     public customerService: CustomerService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private environmentService: EnvironmentService,
+    private router: Router
   ) {
-    this.customerService
-      .getUserDetail()
-      .subscribe((res) => (this.customerDetail = res));
+    this.customerService.getUserDetail().subscribe((res) => {
+      this.customerDetail = res;
+      this.getEnvironmentByUserId();
+    });
   }
 
   ngOnInit(): void {}
@@ -152,24 +65,56 @@ export class EnvironmentComponent implements OnInit {
     this.selection.select(...this.dataSource.data);
   }
 
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.key + 1
-    }`;
+  createEnvironment() {
+    this.dialog.open(CreateEnvironmentComponent, {
+      data: {
+        customerDetail: this.customerDetail,
+      },
+    });
   }
 
-  createEnvironment() {
-    this.dialog.open(CreateEnvironmentComponent);
+  editEnvironment(): void {
+    this.dialog.open(CreateEnvironmentComponent, {
+      data: {
+        customerDetail: this.customerDetail,
+        environmentId: this.selection.selected[0].id,
+      },
+    });
   }
-  refresh() {}
+
+  deleteEnvironments() {
+    this.selection.selected.forEach((env) => {
+      this.environmentService.deleteEnvironment(env.id).subscribe(
+        () => {
+          this.openSnackBar('successfull deleted environments');
+          this.getEnvironmentByUserId();
+        },
+        () => {
+          this.openSnackBar('error while deleting environments');
+        }
+      );
+    });
+  }
+
+  getFormatTime(time: string): any {
+    return DateTime.fromSQL(time).toRelative();
+  }
+
+  refresh() {
+    this.getEnvironmentByUserId();
+  }
   openSnackBar(message: string, closeText: string = 'Close'): void {
     this._snackBar.open(message, closeText, {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
+  }
+  getEnvironmentByUserId(): void {
+    this.environmentService
+      .getEnvironment(this.customerDetail.userId)
+      .subscribe((res) => {
+        this.environmentModels = res;
+        this.dataSource.data = this.environmentModels;
+      });
   }
 }

@@ -26,6 +26,7 @@ import { CreateTestcaseComponent } from './automation/configuration/testcase/cre
 import { TestcaseComponent } from './automation/configuration/testcase/testcase.component';
 import { ActionComponent } from './automation/configuration/action/action.component';
 import { CreateActionComponent } from './automation/configuration/action/createaction/createaction.component';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,9 @@ import { CreateActionComponent } from './automation/configuration/action/createa
     HttpClientModule,
     NgxDropzoneModule,
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

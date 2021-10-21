@@ -8,6 +8,7 @@ import { EnvironmentVariableComponent } from './automation/configuration/environ
 import { TestplanComponent } from './automation/configuration/testplan/testplan.component';
 import { TestcaseComponent } from './automation/configuration/testcase/testcase.component';
 import { ActionComponent } from './automation/configuration/action/action.component';
+import { CreateActionComponent } from './automation/configuration/action/createaction/createaction.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -28,22 +29,34 @@ const routes: Routes = [
         component: EnvironmentVariableComponent,
       },
       {
-        path: 'testplan',
+        path: 'testplans',
         component: TestplanComponent,
       },
       {
-        path: 'testcase',
+        path: 'testcases',
         component: TestcaseComponent,
       },
       {
-        path: 'testcase/:testcaseid',
+        path: 'testplans/:testplanid/testcases/:testcaseid',
         component: TestcaseComponent,
       },
       {
-        path: 'action',
+        path: 'testplans/:testplanid/testcases/:testcaseid/actions/:actionid',
+        component: ActionComponent,
+      },
+      {
+        path: 'testcases/:testcaseid/actions/:actionid',
+        component: ActionComponent,
+      },
+      {
+        path: 'testcases/:testcaseid/actions',
         component: ActionComponent,
       },
     ],
+  },
+  {
+    path: 'testcases/:testcaseid/actions/create',
+    component: CreateActionComponent,
   },
 ];
 

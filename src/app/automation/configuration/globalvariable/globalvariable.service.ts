@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { CreateGlobalVariableModel } from './models/CreateGlobalVariableModel';
 import { GlobalVariableModel } from './models/GlobalVariableModel';
 import { ResultModel } from '../../../../app/commons/models/ResultModel';
-import { ErrorMessage } from 'src/app/commons/models/ErrorMessage';
+import { ErrorMessageModel } from 'src/app/commons/models/ErrorMessageModel';
 import { UpdateGlobalVariableModel } from './models/UpdateGlobalVariableModel';
 
 @Injectable({
@@ -13,7 +13,7 @@ import { UpdateGlobalVariableModel } from './models/UpdateGlobalVariableModel';
 export class GlobalvariableService {
   constructor(private http: HttpClient) {}
 
-  getGlobalVariable(userId: number): Observable<GlobalVariableModel[]> {
+  getGlobalVariable(userId: string): Observable<GlobalVariableModel[]> {
     const url = '';
     return this.http.get<GlobalVariableModel[]>(url);
   }
@@ -28,16 +28,16 @@ export class GlobalvariableService {
   deleteGlobalVariable(
     globalVariableId: number,
     userId: number
-  ): Observable<ErrorMessage[]> {
+  ): Observable<ErrorMessageModel[]> {
     const url = '';
-    return this.http.delete<ErrorMessage[]>(url);
+    return this.http.delete<ErrorMessageModel[]>(url);
   }
 
   updateGlobalVariable(
     globalVariableId: number,
     updateGlobalVariable: UpdateGlobalVariableModel
-  ): Observable<ErrorMessage[]> {
+  ): Observable<ErrorMessageModel[]> {
     const url = '';
-    return this.http.put<ErrorMessage[]>(url, updateGlobalVariable);
+    return this.http.put<ErrorMessageModel[]>(url, updateGlobalVariable);
   }
 }

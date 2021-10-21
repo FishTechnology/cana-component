@@ -13,6 +13,7 @@ import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { TestplanService } from './testplan.service';
 import { GlobalVariableModel } from '../globalvariable/models/GlobalVariableModel';
 import { CreateTestplanComponent } from './createtestplan/createtestplan.component';
+import { ScheduleComponent } from '../../schedule/schedule.component';
 
 export interface PeriodicElement {
   id: number;
@@ -166,6 +167,10 @@ export class TestplanComponent implements OnInit {
   }
   createGlobalVariable() {
     this.dialog.open(CreateTestplanComponent);
+  }
+
+  scheduleTestPlan(): void {
+    this.dialog.open(ScheduleComponent);
   }
 
   refresh() {

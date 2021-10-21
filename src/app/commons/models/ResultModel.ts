@@ -1,6 +1,6 @@
-import { ErrorMessage } from './ErrorMessage';
+import { ErrorMessageModel } from './ErrorMessageModel';
 
 export interface ResultModel {
   id: string;
-  errorMessages?: ErrorMessage[];
+  errorMessages?: ErrorMessageModel[];
 }

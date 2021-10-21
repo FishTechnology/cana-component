@@ -10,8 +10,8 @@ export class CustomerService {
 
   getUserDetail(): Observable<CustomerDetail> {
     let customerDetail: CustomerDetail = {
-      userName: 'sajajan',
-      userId: 10,
+      userName: 'sajan',
+      userId: '2680912425326220290',
     };
 
     return of(customerDetail);

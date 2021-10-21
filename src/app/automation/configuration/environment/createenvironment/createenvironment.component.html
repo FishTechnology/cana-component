@@ -3,48 +3,30 @@
     <form [formGroup]="environmentform">
       <mat-dialog-content>
         <div fxLayout="row" fxLayoutAlign="space-between">
-          <div fxFlex="49%">
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Environment Key</mat-label>
-              <input
-                matInput
-                type="text"
-                formControlName="key"
-                placeholder="key"
-                autocomplete="off"
-              />
-              <button
-                *ngIf="environmentform.controls['key'].value"
-                matSuffix
-                mat-icon-button
-                aria-label="Clear"
-                (click)="environmentform.controls['key'].reset()"
-              >
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
-          <div fxFlex="50%">
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Environment Value</mat-label>
-              <input
-                matInput
-                type="text"
-                formControlName="value"
-                placeholder="value"
-                autocomplete="off"
-              />
-              <button
-                *ngIf="environmentform.controls['value'].value"
-                matSuffix
-                mat-icon-button
-                aria-label="Clear"
-                (click)="environmentform.controls['value'].reset()"
-              >
-                <mat-icon>close</mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Environment Name</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="name"
+              placeholder="name"
+              autocomplete="off"
+            />
+            <button
+              *ngIf="environmentform.controls['name'].value"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="environmentform.controls['name'].reset()"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error
+              *ngIf="environmentform.controls['name'].hasError('required')"
+            >
+              Environment Name is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
         </div>
         <div fxLayout="row" fxLayoutAlign="space-between">
           <mat-form-field appearance="fill" class="full-width">
@@ -62,6 +44,7 @@
           cdkFocusInitial
           color="primary"
           (click)="createEnvironment()"
+          [disabled]="!environmentform.valid"
         >
           Save
         </button>

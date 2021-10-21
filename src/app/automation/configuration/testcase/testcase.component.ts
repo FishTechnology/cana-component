@@ -7,6 +7,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { CustomerService } from 'src/app/commons/customer/customer.service';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
@@ -125,12 +126,23 @@ export class TestcaseComponent implements OnInit {
   testcaseModels: TestCaseModel[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  testPlanId: number;
   constructor(
     public dialog: MatDialog,
     public testcaseService: TestcaseService,
     public customerService: CustomerService,
-    private _snackBar: MatSnackBar
-  ) {}
+    private _snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.route.params.subscribe((params) => {
+      this.testPlanId = params['testplanid'];
+    });
+
+    this.customerService
+      .getUserDetail()
+      .subscribe((res) => (this.customerDetail = res));
+  }
 
   ngOnInit(): void {}
 
@@ -164,6 +176,11 @@ export class TestcaseComponent implements OnInit {
   createGlobalVariable() {
     this.dialog.open(CreateTestcaseComponent);
   }
+
+  navigateAddNewAction(): void {
+    this.router.navigate(['/testcases/10/actions/create']);
+  }
+  navigateViewNewAction(): void {}
 
   refresh() {
     // this.testcaseService

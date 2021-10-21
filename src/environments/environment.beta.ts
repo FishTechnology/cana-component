@@ -4,7 +4,6 @@
 
 export const environment = {
   production: false,
-  canaApiUrl: 'http://localhost:8080',
 };
 
 /*

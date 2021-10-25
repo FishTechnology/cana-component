@@ -13,7 +13,7 @@ import { CustomerService } from 'src/app/commons/customer/customer.service';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { CreateTestcaseComponent } from './createtestcase/createtestcase.component';
 import { TestCaseModel } from './models/TestCaseModel';
-import { TestcaseService } from './testcase.service';
+import { TestCaseService } from './testcase.service';
 
 export interface PeriodicElement {
   id: number;
@@ -129,7 +129,7 @@ export class TestcaseComponent implements OnInit {
   testPlanId: number;
   constructor(
     public dialog: MatDialog,
-    public testcaseService: TestcaseService,
+    public testcaseService: TestCaseService,
     public customerService: CustomerService,
     private _snackBar: MatSnackBar,
     private route: ActivatedRoute,

@@ -52,6 +52,10 @@ const routes: Routes = [
         path: 'testcases/:testcaseid/actions',
         component: ActionComponent,
       },
+      {
+        path: 'testplans/:testplanid/testcases',
+        component: TestcaseComponent,
+      },
     ],
   },
   {

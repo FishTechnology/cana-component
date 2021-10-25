@@ -66,19 +66,26 @@ export class EnvironmentComponent implements OnInit {
   }
 
   createEnvironment() {
-    this.dialog.open(CreateEnvironmentComponent, {
+    var modelRef = this.dialog.open(CreateEnvironmentComponent, {
       data: {
         customerDetail: this.customerDetail,
       },
     });
+    modelRef.componentInstance.environmentEvent.subscribe((event) => {
+      this.getEnvironmentByUserId();
+    });
   }
 
   editEnvironment(): void {
-    this.dialog.open(CreateEnvironmentComponent, {
+    var modelRef = this.dialog.open(CreateEnvironmentComponent, {
       data: {
         customerDetail: this.customerDetail,
         environmentId: this.selection.selected[0].id,
       },
+    });
+
+    modelRef.componentInstance.environmentEvent.subscribe((event) => {
+      this.getEnvironmentByUserId();
     });
   }
 

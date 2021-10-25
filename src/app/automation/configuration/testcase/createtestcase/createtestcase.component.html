@@ -1,6 +1,7 @@
 <div class="modelcontainer">
   <mat-card>
     <form [formGroup]="testCaseform">
+      <p *ngIf="testPlanModel">Test Plan : {{ testPlanModel.name }}</p>
       <mat-dialog-content>
         <div fxLayout="row" fxLayoutAlign="space-between">
           <div fxFlex="100%">

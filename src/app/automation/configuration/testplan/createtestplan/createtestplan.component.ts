@@ -1,12 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { error } from '@angular/compiler/src/util';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
-import { SelectModel } from 'src/app/commons/SelectModel';
+import { CreateTestplanModel } from '../models/CreateTestplanModel';
+import { UpdateTestplanModel } from '../models/UpdateTestplanModel';
 import { TestplanService } from '../testplan.service';
 
 @Component({
@@ -15,23 +25,72 @@ import { TestplanService } from '../testplan.service';
   styleUrls: ['./createtestplan.component.scss'],
 })
 export class CreateTestplanComponent implements OnInit {
-  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  @Output() testPlanEvent = new EventEmitter<string>();
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
   testplanform: FormGroup;
-  customerDetail: CustomerDetail;
   constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: { customerDetail: CustomerDetail; testPlanId: number },
     private testplanService: TestplanService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private dialogRef: MatDialogRef<CreateTestplanComponent>
   ) {
     this.testplanform = new FormGroup({
       name: new FormControl(''),
       comments: new FormControl(''),
     });
+    if (this.data.testPlanId) {
+      this.testplanService
+        .getTestPlanById(this.data.testPlanId)
+        .subscribe((res) => {
+          this.testplanform.get('name').setValue(res.name);
+          this.testplanform.get('comments').setValue(res.comments);
+        });
+    }
   }
 
   ngOnInit(): void {}
 
-  createTestplan(): void {}
+  createTestplan(): void {
+    if (this.data?.testPlanId) {
+      return this.updateTestplan();
+    }
+    var createTestplanModel: CreateTestplanModel = {
+      name: this.testplanform.get('name').value,
+      comments: this.testplanform.get('comments').value,
+      userId: this.data.customerDetail.userId,
+    };
+    this.testplanService.createTestplan(createTestplanModel).subscribe(
+      (res) => {
+        this.openSnackBar('successfull created test plan');
+        this.dialogRef.close();
+        this.testPlanEvent.emit('success');
+      },
+      (error) => {
+        this.openSnackBar('error in created test plan');
+      }
+    );
+  }
+  updateTestplan(): void {
+    var updateTestplanModel: UpdateTestplanModel = {
+      name: this.testplanform.get('name').value,
+      comments: this.testplanform.get('comments').value,
+      userId: this.data.customerDetail.userId,
+    };
+    this.testplanService
+      .updateTestPlan(this.data.testPlanId, updateTestplanModel)
+      .subscribe(
+        (res) => {
+          this.openSnackBar('successfull updated test plan');
+          this.dialogRef.close();
+          this.testPlanEvent.emit('success');
+        },
+        (error) => {
+          this.openSnackBar('error in update test plan');
+        }
+      );
+  }
 
   openSnackBar(message: string, closeText: string = 'Close'): void {
     this._snackBar.open(message, closeText, {

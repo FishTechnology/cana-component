@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   MatSnackBar,
@@ -18,6 +18,7 @@ import { UpdateEnvironmentModel } from '../models/UpdateEnvironmentModel';
   styleUrls: ['./createenvironment.component.scss'],
 })
 export class CreateEnvironmentComponent implements OnInit {
+  @Output() environmentEvent = new EventEmitter<string>();
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   environmentValueTypes: SelectModel[];
@@ -84,6 +85,7 @@ export class CreateEnvironmentComponent implements OnInit {
       (res) => {
         this.openSnackBar('successfully created environment');
         this.dialogRef.close();
+        this.environmentEvent.emit('success');
       },
       (err) => {
         this.openSnackBar('Error in creating environment');
@@ -106,6 +108,7 @@ export class CreateEnvironmentComponent implements OnInit {
         (res) => {
           this.openSnackBar('successfully updated environment');
           this.dialogRef.close();
+          this.environmentEvent.emit('success');
         },
         (err) => {
           this.openSnackBar('Error in update environment');

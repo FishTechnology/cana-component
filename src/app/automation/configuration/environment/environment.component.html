@@ -27,6 +27,19 @@
           >
             Edit
           </button>
+          <button
+            mat-menu-item
+            [disabled]="this.selection.selected.length != 1"
+            [matMenuTriggerFor]="environmentvariables"
+          >
+            Environment Variable
+          </button>
+        </mat-menu>
+        <mat-menu #environmentvariables="matMenu">
+          <button mat-menu-item>Add</button>
+          <button mat-menu-item (click)="navigateEnvVariableView()">
+            View
+          </button>
         </mat-menu>
       </mat-toolbar>
     </div>

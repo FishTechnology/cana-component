@@ -12,3 +12,10 @@ body {
 .full-width {
   width: 100%;
 }
+
+.truncate-cell {
+  max-width: 60px; /* feel free to include any other value */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

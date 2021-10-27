@@ -1,9 +1,8 @@
 export interface UpdateGlobalVariableModel {
-  id: number;
   key: string;
   value: string;
   valueType: string;
-  userid: number;
+  userId: string;
   comments?: string;
-  content?: string;
+  file?: FormData;
 }

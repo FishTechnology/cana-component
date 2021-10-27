@@ -41,6 +41,7 @@
           mat-raised-button
           cdkFocusInitial
           color="primary"
+          [disabled]="!testCaseform.valid"
           (click)="createTestCase()"
         >
           Save

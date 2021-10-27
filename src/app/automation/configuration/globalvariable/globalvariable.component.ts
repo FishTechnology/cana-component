@@ -14,103 +14,6 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 
-export interface PeriodicElement {
-  id: number;
-  value: string;
-  key: string;
-  type: string;
-  createdon: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-];
-
 @Component({
   selector: 'app-globalvariable',
   templateUrl: './globalvariable.component.html',
@@ -118,13 +21,13 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class GlobalvariableComponent implements OnInit {
   displayedColumns: string[] = ['select', 'key', 'value', 'type', 'createdon'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  dataSource = new MatTableDataSource<GlobalVariableModel>();
+  selection = new SelectionModel<GlobalVariableModel>(true, []);
   moment = moment;
   customerDetail: CustomerDetail;
   globalVariableModels: GlobalVariableModel[];
-  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   constructor(
     public dialog: MatDialog,
@@ -132,9 +35,10 @@ export class GlobalvariableComponent implements OnInit {
     public customerService: CustomerService,
     private _snackBar: MatSnackBar
   ) {
-    this.customerService
-      .getUserDetail()
-      .subscribe((res) => (this.customerDetail = res));
+    this.customerService.getUserDetail().subscribe((res) => {
+      this.customerDetail = res;
+      this.getGlobalVariables();
+    });
   }
 
   ngOnInit(): void {}
@@ -157,17 +61,24 @@ export class GlobalvariableComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: GlobalVariableModel): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.key + 1
-    }`;
+    // return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+    //   row.key + 1
+    // }`;
   }
 
   createGlobalVariable() {
-    this.dialog.open(CreateGlobalVariableComponent);
+    var modelRef = this.dialog.open(CreateGlobalVariableComponent, {
+      data: {
+        customerDetail: this.customerDetail,
+      },
+    });
+    modelRef.componentInstance.globalVariableEvent.subscribe((res) => {
+      this.getGlobalVariables();
+    });
   }
 
   refresh() {
@@ -177,23 +88,27 @@ export class GlobalvariableComponent implements OnInit {
   }
 
   delete() {
-    const globalVariableId = 10;
-    const userId = 10;
     this.globalvariableService
-      .deleteGlobalVariable(globalVariableId, userId)
+      .deleteGlobalVariable(
+        this.selection.selected[0].id,
+        this.customerDetail.userId
+      )
       .subscribe((res) => {
         this.openSnackBar('successfully delete global variables');
+        this.getGlobalVariables();
       });
   }
 
   update() {
-    const globalVariableId = 10;
-    const userId = 10;
-    this.globalvariableService
-      .deleteGlobalVariable(globalVariableId, userId)
-      .subscribe((res) => {
-        this.openSnackBar('successfully update global variable');
-      });
+    var modelRef = this.dialog.open(CreateGlobalVariableComponent, {
+      data: {
+        customerDetail: this.customerDetail,
+        globalVariableId: this.selection.selected[0].id,
+      },
+    });
+    modelRef.componentInstance.globalVariableEvent.subscribe((res) => {
+      this.getGlobalVariables();
+    });
   }
 
   openSnackBar(message: string, closeText: string = 'Close'): void {
@@ -201,5 +116,18 @@ export class GlobalvariableComponent implements OnInit {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
+  }
+
+  getGlobalVariables(): void {
+    this.globalvariableService
+      .getGlobalVariable(this.customerDetail.userId)
+      .subscribe(
+        (res) => {
+          this.dataSource.data = res;
+        },
+        (err) => {
+          this.openSnackBar('error loading global variables');
+        }
+      );
   }
 }

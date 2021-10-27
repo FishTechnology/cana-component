@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
@@ -12,6 +12,7 @@ import { TestPlanModel } from '../../testplan/models/TestPlanModel';
 import { TestplanService } from '../../testplan/testplan.service';
 import { CreateTestCaseByTestPlanIdModel } from '../models/CreateTestCaseByTestPlanIdModel';
 import { CreateTestCaseModel } from '../models/CreateTestCaseModel';
+import { TestCaseModel } from '../models/TestCaseModel';
 import { TestCaseService } from '../testcase.service';
 
 @Component({
@@ -20,11 +21,13 @@ import { TestCaseService } from '../testcase.service';
   styleUrls: ['./createtestcase.component.scss'],
 })
 export class CreateTestcaseComponent implements OnInit {
+  @Output() testCaseEvent = new EventEmitter<string>();
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   testCaseform: FormGroup;
   files: File[] = [];
   testPlanModel: TestPlanModel;
+  testCaseModel: TestCaseModel;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -52,6 +55,19 @@ export class CreateTestcaseComponent implements OnInit {
         }
       );
     }
+
+    if (this.data.testCaseId) {
+      this._testCaseService.getTestCaseById(this.data.testCaseId).subscribe(
+        (res) => {
+          this.testCaseModel = res;
+          this.testCaseform.get('name').setValue(res.name);
+          this.testCaseform.get('comments').setValue(res.comments);
+        },
+        (err) => {
+          this.openSnackBar('Error while fetching data from server');
+        }
+      );
+    }
   }
 
   ngOnInit(): void {}
@@ -72,6 +88,7 @@ export class CreateTestcaseComponent implements OnInit {
           (res) => {
             this.openSnackBar('successfully created test case');
             this.dialogRef.close();
+            this.testCaseEvent.emit('success');
             this._router.navigate([
               '/configuration/testplans/' + this.data.testPlanId + '/testcases',
             ]);
@@ -91,6 +108,8 @@ export class CreateTestcaseComponent implements OnInit {
     this._testCaseService.createTestCase(createTestCaseModel).subscribe(
       (res) => {
         this.openSnackBar('successfully created test case');
+        this.dialogRef.close();
+        this.testCaseEvent.emit('success');
       },
       (err) => {
         this.openSnackBar('error while creating test case');

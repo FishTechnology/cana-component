@@ -13,7 +13,6 @@ import {
 import { CreateEnvironmentComponent } from './createenvironment/createenvironment.component';
 import { EnvironmentService } from './environment.service';
 import { EnvironmentModel } from './models/EnvironmentModel';
-import { DeleteEnvironmentModel } from './models/DeleteEnvironmentModel';
 import { DateTime } from 'luxon';
 import { Router } from '@angular/router';
 
@@ -44,6 +43,10 @@ export class EnvironmentComponent implements OnInit {
       this.customerDetail = res;
       this.getEnvironmentByUserId();
     });
+    // this.environmentVariableViewUrl =
+    //   '/environments/' +
+    //   this.selection.selected[0].id +
+    //   '/environmentvariables';
   }
 
   ngOnInit(): void {}
@@ -110,6 +113,15 @@ export class EnvironmentComponent implements OnInit {
   refresh() {
     this.getEnvironmentByUserId();
   }
+
+  navigateEnvVariableView() {
+    this.router.navigate([
+      '/configuration/environments/' +
+        this.selection.selected[0].id +
+        '/environmentvariables',
+    ]);
+  }
+
   openSnackBar(message: string, closeText: string = 'Close'): void {
     this._snackBar.open(message, closeText, {
       horizontalPosition: this.horizontalPosition,

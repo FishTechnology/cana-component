@@ -102,6 +102,7 @@
           cdkFocusInitial
           color="primary"
           (click)="createGlobalVariable()"
+          [disabled]="!globalvariableform.valid"
         >
           Save
         </button>

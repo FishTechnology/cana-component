@@ -25,7 +25,7 @@ const routes: Routes = [
         component: EnvironmentComponent,
       },
       {
-        path: 'environmentvariables',
+        path: 'environments/:environmentid/environmentvariables',
         component: EnvironmentVariableComponent,
       },
       {

@@ -15,112 +15,15 @@ import { CreateTestcaseComponent } from './createtestcase/createtestcase.compone
 import { TestCaseModel } from './models/TestCaseModel';
 import { TestCaseService } from './testcase.service';
 
-export interface PeriodicElement {
-  id: number;
-  value: string;
-  key: string;
-  type: string;
-  createdon: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-];
-
 @Component({
   selector: 'app-testcase',
   templateUrl: './testcase.component.html',
   styleUrls: ['./testcase.component.scss'],
 })
 export class TestcaseComponent implements OnInit {
-  displayedColumns: string[] = ['select', 'key', 'value', 'type', 'createdon'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  displayedColumns: string[] = ['select', 'name', 'createdon', 'comments'];
+  dataSource = new MatTableDataSource<TestCaseModel>();
+  selection = new SelectionModel<TestCaseModel>(true, []);
   moment = moment;
   customerDetail: CustomerDetail;
   testcaseModels: TestCaseModel[];
@@ -139,9 +42,10 @@ export class TestcaseComponent implements OnInit {
       this.testPlanId = params['testplanid'];
     });
 
-    this.customerService
-      .getUserDetail()
-      .subscribe((res) => (this.customerDetail = res));
+    this.customerService.getUserDetail().subscribe((res) => {
+      this.customerDetail = res;
+      this.getTestCaseByUserId();
+    });
   }
 
   ngOnInit(): void {}
@@ -164,17 +68,25 @@ export class TestcaseComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: TestCaseModel): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.key + 1
-    }`;
+    // return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+    //  // row.key + 1
+    // }`;
   }
 
-  createGlobalVariable() {
-    this.dialog.open(CreateTestcaseComponent);
+  createTestCase() {
+    var modelRef = this.dialog.open(CreateTestcaseComponent, {
+      data: {
+        customerDetail: this.customerDetail,
+        testPlanId: this.testPlanId,
+      },
+    });
+    modelRef.componentInstance.testCaseEvent.subscribe((res) => {
+      this.getTestCaseByUserId();
+    });
   }
 
   navigateAddNewAction(): void {
@@ -198,14 +110,17 @@ export class TestcaseComponent implements OnInit {
     //   });
   }
 
-  update() {
-    // const globalVariableId = 10;
-    // const userId = 10;
-    // this.globalvariableService
-    //   .deleteGlobalVariable(globalVariableId, userId)
-    //   .subscribe((res) => {
-    //     this.openSnackBar('successfully update global variable');
-    //   });
+  edit() {
+    var modelRef = this.dialog.open(CreateTestcaseComponent, {
+      data: {
+        customerDetail: this.customerDetail,
+        testPlanId: this.testPlanId,
+        testCaseId: this.selection.selected[0].id,
+      },
+    });
+    modelRef.componentInstance.testCaseEvent.subscribe((res) => {
+      this.getTestCaseByUserId();
+    });
   }
 
   openSnackBar(message: string, closeText: string = 'Close'): void {
@@ -213,5 +128,35 @@ export class TestcaseComponent implements OnInit {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
+  }
+
+  getTestCases(): void {
+    if (this.testPlanId) {
+      this.getTestCasesByTestPlanId();
+    }
+    this.getTestCaseByUserId();
+  }
+  getTestCasesByTestPlanId() {
+    this.testcaseService.getTestCaseByTestPlanId(this.testPlanId).subscribe(
+      (res) => {
+        this.dataSource.data = res;
+      },
+      (err) => {
+        this.openSnackBar('Error loading testcases');
+      }
+    );
+  }
+
+  getTestCaseByUserId(): void {
+    this.testcaseService
+      .getTestCaseByUserId(this.customerDetail.userId)
+      .subscribe(
+        (res) => {
+          this.dataSource.data = res;
+        },
+        (err) => {
+          this.openSnackBar('Error loading testcases');
+        }
+      );
   }
 }

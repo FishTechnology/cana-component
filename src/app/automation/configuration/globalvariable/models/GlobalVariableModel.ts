@@ -1,6 +1,9 @@
 export interface GlobalVariableModel {
   id: number;
-  name: string;
+  key: string;
+  value: string;
+  valueType: string;
+  content: string;
   userid: number;
   comments?: string;
   isactive: boolean;

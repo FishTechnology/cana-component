@@ -13,103 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomerService } from 'src/app/commons/customer/customer.service';
 import { EnvironmentVariableService } from './environmentvariable.service';
 import { CreateEnvironmentVariableComponent } from './createenvironmentvariable/createenvironmentvariable.component';
-
-export interface PeriodicElement {
-  id: number;
-  value: string;
-  key: string;
-  type: string;
-  createdon: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 1,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-  {
-    id: 2,
-    key: 'username',
-    value: 'howareyou@90',
-    type: 'keyvalue',
-    createdon: '1 Jan 2011, 00:00:00',
-  },
-];
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-environmentvariable',
@@ -118,19 +22,29 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class EnvironmentVariableComponent implements OnInit {
   displayedColumns: string[] = ['select', 'key', 'value', 'type', 'createdon'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  dataSource = new MatTableDataSource<EnvironmentVariableModel>();
+  selection = new SelectionModel<EnvironmentVariableModel>(true, []);
   moment = moment;
   customerDetail: CustomerDetail;
   environmentVariableModels: EnvironmentVariableModel[];
-  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  environmentId: number;
   constructor(
     public dialog: MatDialog,
     public environmentVariableService: EnvironmentVariableService,
     public customerService: CustomerService,
-    private _snackBar: MatSnackBar
-  ) {}
+    private _snackBar: MatSnackBar,
+    private route: ActivatedRoute
+  ) {
+    this.route.params.subscribe((params) => {
+      this.environmentId = params.environmentid;
+      this.getEnvVariablesByEnvironmentId();
+    });
+    this.customerService.getUserDetail().subscribe((res) => {
+      this.customerDetail = res;
+    });
+  }
 
   ngOnInit(): void {}
 
@@ -151,7 +65,7 @@ export class EnvironmentVariableComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: EnvironmentVariableModel): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -168,32 +82,57 @@ export class EnvironmentVariableComponent implements OnInit {
   }
 
   createEnvironmentVariable() {
-    this.dialog.open(CreateEnvironmentVariableComponent);
+    var modelRef = this.dialog.open(CreateEnvironmentVariableComponent, {
+      data: {
+        customerDetail: this.customerDetail,
+        environmentId: this.environmentId,
+      },
+    });
+    modelRef.componentInstance.environmentVariableEvent.subscribe((event) => {
+      this.getEnvVariablesByEnvironmentId();
+    });
   }
 
   refresh() {
-    // this.environmentVariableService
-    //   .getGlobalVariable(this.customerDetail.userId)
-    //   .subscribe((res) => (this.globalVariableModels = res));
+    this.getEnvVariablesByEnvironmentId();
   }
 
   delete() {
-    const globalVariableId = 10;
-    const userId = 10;
-    // this.environmentVariableService
-    //   .deleteGlobalVariable(globalVariableId, userId)
-    //   .subscribe((res) => {
-    //     this.openSnackBar('successfully delete global variables');
-    //   });
+    this.environmentVariableService
+      .deleteEnvVariable(
+        this.environmentId,
+        this.selection.selected[0].id,
+        this.customerDetail.userId
+      )
+      .subscribe(
+        (res) => {
+          this.openSnackBar('successfully  delete environment variable');
+          this.getEnvVariablesByEnvironmentId();
+        },
+        (err) => {
+          this.openSnackBar('error while delete environment variable');
+        }
+      );
   }
 
   update() {
-    const globalVariableId = 10;
-    const userId = 10;
-    // this.environmentVariableService
-    //   .deleteGlobalVariable(globalVariableId, userId)
-    //   .subscribe((res) => {
-    //     this.openSnackBar('successfully update global variable');
-    //   });
+    var modelRef = this.dialog.open(CreateEnvironmentVariableComponent, {
+      data: {
+        customerDetail: this.customerDetail,
+        environmentId: this.environmentId,
+        envVariableId: this.selection.selected[0].id,
+      },
+    });
+    modelRef.componentInstance.environmentVariableEvent.subscribe((event) => {
+      this.getEnvVariablesByEnvironmentId();
+    });
+  }
+
+  getEnvVariablesByEnvironmentId() {
+    this.environmentVariableService
+      .getEnvVariablesByEnvId(this.environmentId)
+      .subscribe((res) => {
+        this.dataSource.data = res;
+      });
   }
 }

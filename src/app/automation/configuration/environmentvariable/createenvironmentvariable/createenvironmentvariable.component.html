@@ -5,7 +5,7 @@
         <div fxLayout="row" fxLayoutAlign="space-between">
           <div fxFlex="49%">
             <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Global Variable Key</mat-label>
+              <mat-label>Environment Variable Key</mat-label>
               <input
                 matInput
                 type="text"
@@ -40,13 +40,10 @@
         <div
           fxLayout="row"
           fxLayoutAlign="space-between"
-          *ngIf="
-            environmentVariableForm.controls['valueType'].value ===
-            'keyandvalue'
-          "
+          *ngIf="environmentVariableForm.controls['valueType'].value === 'text'"
         >
           <mat-form-field appearance="fill" class="full-width">
-            <mat-label>Global Variable Value</mat-label>
+            <mat-label>Environment Variable Value</mat-label>
             <input
               matInput
               type="text"
@@ -102,7 +99,8 @@
           mat-raised-button
           cdkFocusInitial
           color="primary"
-          (click)="createGlobalVariable()"
+          [disabled]="!environmentVariableForm.valid"
+          (click)="createEnvironmentVariable()"
         >
           Save
         </button>

@@ -21,8 +21,20 @@
           <button mat-menu-item (click)="createEnvironmentVariable()">
             Add
           </button>
-          <button mat-menu-item>Delete</button>
-          <button mat-menu-item>Edit</button>
+          <button
+            mat-menu-item
+            (click)="delete()"
+            [disabled]="selection.selected.length !== 1"
+          >
+            Delete
+          </button>
+          <button
+            mat-menu-item
+            (click)="update()"
+            [disabled]="selection.selected.length !== 1"
+          >
+            Edit
+          </button>
         </mat-menu>
       </mat-toolbar>
     </div>

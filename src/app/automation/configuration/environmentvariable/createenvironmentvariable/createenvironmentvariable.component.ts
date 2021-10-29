@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
@@ -8,7 +9,8 @@ import {
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { SelectModel } from 'src/app/commons/SelectModel';
 import { EnvironmentVariableService } from '../environmentvariable.service';
-import { CreateEnvironmentVariableModel } from '../models/CreateEnvironmentVariableModel';
+import { CreateEnvVariableModel } from '../models/CreateEnvVariableModel';
+import { UpdateEnvVariableModel } from '../models/UpdateEnvVariableModel';
 
 @Component({
   selector: 'app-createenvironmentvariable',
@@ -16,27 +18,50 @@ import { CreateEnvironmentVariableModel } from '../models/CreateEnvironmentVaria
   styleUrls: ['./createenvironmentvariable.component.scss'],
 })
 export class CreateEnvironmentVariableComponent implements OnInit {
-  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  @Output() environmentVariableEvent = new EventEmitter<string>();
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
   environmentValueTypes: SelectModel[];
   environmentVariableForm: FormGroup;
   files: File[] = [];
   customerDetail: CustomerDetail;
   constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      customerDetail: CustomerDetail;
+      environmentId: number;
+      envVariableId: number;
+    },
+    private dialogRef: MatDialogRef<CreateEnvironmentVariableComponent>,
     private environmentVariableService: EnvironmentVariableService,
     private _snackBar: MatSnackBar
   ) {
     this.environmentVariableForm = new FormGroup({
-      key: new FormControl(''),
-      value: new FormControl(''),
-      valueType: new FormControl('keyandvalue'),
+      key: new FormControl('', Validators.required),
+      value: new FormControl('', Validators.required),
+      valueType: new FormControl('text', Validators.required),
       comments: new FormControl(''),
     });
+    if (this.data.envVariableId) {
+      this.environmentVariableService
+        .getEnvVariablesById(this.data.environmentId, this.data.envVariableId)
+        .subscribe(
+          (res) => {
+            this.environmentVariableForm.get('key').setValue(res.key);
+            this.environmentVariableForm.get('value').setValue(res.value);
+            this.environmentVariableForm.get('valueType').setValue(res.type);
+            this.environmentVariableForm.get('comments').setValue(res.comments);
+          },
+          (err) => {
+            this.openSnackBar('error while loading environment variable');
+          }
+        );
+    }
   }
 
   ngOnInit(): void {
     this.environmentValueTypes = [
-      { text: 'Key And Value', value: 'keyandvalue' },
+      { text: 'Text', value: 'text' },
       { text: 'File', value: 'file' },
     ];
   }
@@ -50,19 +75,56 @@ export class CreateEnvironmentVariableComponent implements OnInit {
     console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
   }
-  createGlobalVariable() {
-    // let createGlobalVariable: CreateEnvironmentVariableModel = {
-    //   key: this.globalvariableform.get('key').value,
-    //   value: this.globalvariableform.get('value').value,
-    //   valueType: this.globalvariableform.get('valueType').value,
-    //   comments: this.globalvariableform.get('comments').value,
-    //   userid: this.customerDetail.userId,
-    // };
-    // this.globalvariableService
-    //   .createGlobalVariable(createGlobalVariable)
-    //   .subscribe((res) => {
-    //     this.openSnackBar('successfully created global variables');
-    //   });
+  createEnvironmentVariable() {
+    if (this.data.envVariableId) {
+      this.updateEnvironmentVariable();
+      return;
+    }
+    let createEnvVariableModel: CreateEnvVariableModel = {
+      comments: this.environmentVariableForm.get('comments').value,
+      key: this.environmentVariableForm.get('key').value,
+      type: this.environmentVariableForm.get('valueType').value,
+      userId: this.data.customerDetail.userId,
+      value: this.environmentVariableForm.get('value').value,
+    };
+    this.environmentVariableService
+      .createEnvVariable(this.data.environmentId, createEnvVariableModel)
+      .subscribe(
+        (res) => {
+          this.openSnackBar('successfull created environment variable');
+          this.dialogRef.close();
+          this.environmentVariableEvent.emit('success');
+        },
+        (err) => {
+          this.openSnackBar('error while creating environment variables');
+        }
+      );
+  }
+
+  updateEnvironmentVariable() {
+    let updateEnvVariableModel: UpdateEnvVariableModel = {
+      comments: this.environmentVariableForm.get('comments').value,
+      key: this.environmentVariableForm.get('key').value,
+      type: this.environmentVariableForm.get('valueType').value,
+      userId: this.data.customerDetail.userId,
+      value: this.environmentVariableForm.get('value').value,
+    };
+    this.environmentVariableService
+      .updateEnvVariable(
+        this.data.environmentId,
+        this.data.envVariableId,
+        updateEnvVariableModel
+      )
+      .subscribe(
+        (res) => {
+          this.openSnackBar('successfull created environment variable');
+          this.dialogRef.close();
+          this.environmentVariableEvent.emit('success');
+        },
+        (err) => {
+          this.openSnackBar('error while creating environment variables');
+        }
+      );
   }
 
   openSnackBar(message: string, closeText: string = 'Close'): void {

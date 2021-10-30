@@ -8,6 +8,7 @@ import {
 } from '@angular/material/snack-bar';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { SelectModel } from 'src/app/commons/SelectModel';
+import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { EnvironmentVariableService } from '../environmentvariable.service';
 import { CreateEnvVariableModel } from '../models/CreateEnvVariableModel';
 import { UpdateEnvVariableModel } from '../models/UpdateEnvVariableModel';
@@ -34,7 +35,7 @@ export class CreateEnvironmentVariableComponent implements OnInit {
     },
     private dialogRef: MatDialogRef<CreateEnvironmentVariableComponent>,
     private environmentVariableService: EnvironmentVariableService,
-    private _snackBar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {
     this.environmentVariableForm = new FormGroup({
       key: new FormControl('', Validators.required),
@@ -53,7 +54,9 @@ export class CreateEnvironmentVariableComponent implements OnInit {
             this.environmentVariableForm.get('comments').setValue(res.comments);
           },
           (err) => {
-            this.openSnackBar('error while loading environment variable');
+            this.snackbarService.openSnackBar(
+              'error while loading environment variable'
+            );
           }
         );
     }
@@ -91,12 +94,16 @@ export class CreateEnvironmentVariableComponent implements OnInit {
       .createEnvVariable(this.data.environmentId, createEnvVariableModel)
       .subscribe(
         (res) => {
-          this.openSnackBar('successfull created environment variable');
+          this.snackbarService.openSnackBar(
+            'successfull created environment variable'
+          );
           this.dialogRef.close();
           this.environmentVariableEvent.emit('success');
         },
         (err) => {
-          this.openSnackBar('error while creating environment variables');
+          this.snackbarService.openSnackBar(
+            'error while creating environment variables'
+          );
         }
       );
   }
@@ -117,20 +124,17 @@ export class CreateEnvironmentVariableComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          this.openSnackBar('successfull created environment variable');
+          this.snackbarService.openSnackBar(
+            'successfull created environment variable'
+          );
           this.dialogRef.close();
           this.environmentVariableEvent.emit('success');
         },
         (err) => {
-          this.openSnackBar('error while creating environment variables');
+          this.snackbarService.openSnackBar(
+            'error while creating environment variables'
+          );
         }
       );
-  }
-
-  openSnackBar(message: string, closeText: string = 'Close'): void {
-    this._snackBar.open(message, closeText, {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
   }
 }

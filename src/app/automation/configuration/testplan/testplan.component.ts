@@ -17,6 +17,7 @@ import { ScheduleComponent } from '../../schedule/schedule.component';
 import { TestPlanModel } from './models/TestPlanModel';
 import { CreateTestcaseComponent } from '../testcase/createtestcase/createtestcase.component';
 import { TestCaseService } from '../testcase/testcase.service';
+import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-testplan',
@@ -38,8 +39,8 @@ export class TestplanComponent implements OnInit {
     public dialog: MatDialog,
     private testplanService: TestplanService,
     public customerService: CustomerService,
-    private _snackBar: MatSnackBar,
-    private testCaseService: TestCaseService
+    private testCaseService: TestCaseService,
+    private snackbarService: SnackbarService
   ) {
     this.customerService.getUserDetail().subscribe((res) => {
       this.customerDetail = res;
@@ -93,7 +94,7 @@ export class TestplanComponent implements OnInit {
 
   createTestCase(): void {
     if (this.selection.selected.length !== 1) {
-      this.openSnackBar('please select one test plan');
+      this.snackbarService.openSnackBar('please select one test plan');
       return;
     }
 
@@ -113,7 +114,9 @@ export class TestplanComponent implements OnInit {
     this.testplanService
       .deleteTestPlanById(this.selection.selected[0].id)
       .subscribe((res) => {
-        this.openSnackBar('successfully delete global variables');
+        this.snackbarService.openSnackBar(
+          'successfully delete global variables'
+        );
         this.getTestplanByUserId();
       });
   }
@@ -130,13 +133,6 @@ export class TestplanComponent implements OnInit {
     });
   }
 
-  openSnackBar(message: string, closeText: string = 'Close'): void {
-    this._snackBar.open(message, closeText, {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-  }
-
   getTestplanByUserId(): void {
     this.testplanService
       .getTestPlansByUserId(this.customerDetail.userId)
@@ -145,7 +141,7 @@ export class TestplanComponent implements OnInit {
           this.dataSource.data = res;
         },
         (error) => {
-          this.openSnackBar('error in loading test plan');
+          this.snackbarService.openSnackBar('error in loading test plan');
         }
       );
   }

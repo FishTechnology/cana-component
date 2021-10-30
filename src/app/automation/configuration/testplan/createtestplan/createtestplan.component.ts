@@ -15,6 +15,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
+import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { CreateTestplanModel } from '../models/CreateTestplanModel';
 import { UpdateTestplanModel } from '../models/UpdateTestplanModel';
 import { TestplanService } from '../testplan.service';
@@ -33,8 +34,8 @@ export class CreateTestplanComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: { customerDetail: CustomerDetail; testPlanId: number },
     private testplanService: TestplanService,
-    private _snackBar: MatSnackBar,
-    private dialogRef: MatDialogRef<CreateTestplanComponent>
+    private dialogRef: MatDialogRef<CreateTestplanComponent>,
+    private snackbarService: SnackbarService
   ) {
     this.testplanform = new FormGroup({
       name: new FormControl(''),
@@ -63,12 +64,12 @@ export class CreateTestplanComponent implements OnInit {
     };
     this.testplanService.createTestplan(createTestplanModel).subscribe(
       (res) => {
-        this.openSnackBar('successfull created test plan');
+        this.snackbarService.openSnackBar('successfull created test plan');
         this.dialogRef.close();
         this.testPlanEvent.emit('success');
       },
       (error) => {
-        this.openSnackBar('error in created test plan');
+        this.snackbarService.openSnackBar('error in created test plan');
       }
     );
   }
@@ -82,20 +83,13 @@ export class CreateTestplanComponent implements OnInit {
       .updateTestPlan(this.data.testPlanId, updateTestplanModel)
       .subscribe(
         (res) => {
-          this.openSnackBar('successfull updated test plan');
+          this.snackbarService.openSnackBar('successfull updated test plan');
           this.dialogRef.close();
           this.testPlanEvent.emit('success');
         },
         (error) => {
-          this.openSnackBar('error in update test plan');
+          this.snackbarService.openSnackBar('error in update test plan');
         }
       );
-  }
-
-  openSnackBar(message: string, closeText: string = 'Close'): void {
-    this._snackBar.open(message, closeText, {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
   }
 }

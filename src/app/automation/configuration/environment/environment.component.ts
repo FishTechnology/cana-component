@@ -15,6 +15,7 @@ import { EnvironmentService } from './environment.service';
 import { EnvironmentModel } from './models/EnvironmentModel';
 import { DateTime } from 'luxon';
 import { Router } from '@angular/router';
+import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-environment',
@@ -37,7 +38,8 @@ export class EnvironmentComponent implements OnInit {
     public customerService: CustomerService,
     private _snackBar: MatSnackBar,
     private environmentService: EnvironmentService,
-    private router: Router
+    private router: Router,
+    private snackbarService: SnackbarService
   ) {
     this.customerService.getUserDetail().subscribe((res) => {
       this.customerDetail = res;
@@ -96,11 +98,13 @@ export class EnvironmentComponent implements OnInit {
     this.selection.selected.forEach((env) => {
       this.environmentService.deleteEnvironment(env.id).subscribe(
         () => {
-          this.openSnackBar('successfull deleted environments');
+          this.snackbarService.openSnackBar('successfull deleted environments');
           this.getEnvironmentByUserId();
         },
         () => {
-          this.openSnackBar('error while deleting environments');
+          this.snackbarService.openSnackBar(
+            'error while deleting environments'
+          );
         }
       );
     });
@@ -122,12 +126,6 @@ export class EnvironmentComponent implements OnInit {
     ]);
   }
 
-  openSnackBar(message: string, closeText: string = 'Close'): void {
-    this._snackBar.open(message, closeText, {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-  }
   getEnvironmentByUserId(): void {
     this.environmentService
       .getEnvironment(this.customerDetail.userId)

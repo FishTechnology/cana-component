@@ -1,0 +1,86 @@
+<div>
+  <form [formGroup]="uiControlForm">
+    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+      <div fxFlex="25%">
+        <mat-form-field appearance="fill" fxFill>
+          <mat-label>Select an ui action type</mat-label>
+          <mat-select formControlName="uiactionType">
+            <mat-option
+              [value]="uiCtlActionType.value"
+              *ngFor="let uiCtlActionType of uiCtlActionTypes"
+              >{{ uiCtlActionType.text }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="35%">
+        <mat-form-field class="example-full-width" appearance="fill" fxFill>
+          <mat-label>Key</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="key"
+            [errorStateMatcher]="matcher"
+            placeholder="Ex. id:name"
+            autocomplete="off"
+          />
+          <mat-error
+            *ngIf="
+              uiControlForm.controls['key'].hasError('key') &&
+              !uiControlForm.controls['key'].hasError('required')
+            "
+          >
+            Please enter a valid key
+          </mat-error>
+          <mat-error *ngIf="uiControlForm.controls['key'].hasError('required')">
+            Key is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="35%">
+        <mat-form-field appearance="fill" fxFill>
+          <mat-label>Value</mat-label>
+          <input matInput placeholder="Ex. 12" formControlName="value" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+      <mat-form-field class="example-chip-list" appearance="fill" fxFill>
+        <mat-label>UI Action optional</mat-label>
+        <mat-chip-list #chipList aria-label="Fruit selection">
+          <mat-chip
+            *ngFor="let uiControlOption of uiControlOptions"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(uiControlOption)"
+          >
+            {{ uiControlOption }}
+            <button matChipRemove *ngIf="removable">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input
+            placeholder="new ui control option..."
+            #optionInput
+            formControlName="eventOption"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-list>
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="selected($event)"
+        >
+          <mat-option
+            *ngFor="let uiControlOption of filteredUIControlOptions | async"
+            [value]="uiControlOption"
+          >
+            {{ uiControlOption }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </form>
+</div>

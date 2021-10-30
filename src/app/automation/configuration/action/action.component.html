@@ -18,9 +18,11 @@
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
         <mat-menu #actions="matMenu">
-          <button mat-menu-item (click)="createAction()">Add</button>
+          <button mat-menu-item (click)="navigateToActionCreation()">
+            Add
+          </button>
           <button mat-menu-item>Delete</button>
-          <button mat-menu-item>Edit</button>
+          <button mat-menu-item (click)="navigateToActionEdit()">Edit</button>
         </mat-menu>
       </mat-toolbar>
     </div>

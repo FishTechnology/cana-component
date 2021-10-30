@@ -1,7 +1,61 @@
 <div>
-  <div>
+  <div class="action-container">
     <mat-card>
-      <mat-card-content> Actions </mat-card-content>
+      <mat-card-title> Action Creation </mat-card-title>
+      <mat-card-content>
+        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="gappx">
+          <div fxFlex="25%">
+            <form [formGroup]="actionform">
+              <div
+                fxLayout="row"
+                fxLayoutAlign="start start"
+                fxLayoutGap="10px"
+              >
+                <mat-form-field appearance="fill" fxFill>
+                  <mat-label>Select an action type</mat-label>
+                  <mat-select formControlName="actionType">
+                    <mat-option
+                      [value]="actiontype.value"
+                      *ngFor="let actiontype of actionTypes"
+                      >{{ actiontype.text }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div
+          fxLayout="row"
+          fxLayoutAlign="start start"
+          *ngIf="actionform.controls['actionType'].value === 'uicontrol'"
+        >
+          <app-uicontrol
+            [actionType]="actionform.controls['actionType'].value"
+            fxFill
+          ></app-uicontrol>
+        </div>
+        <div
+          fxLayout="row"
+          fxLayoutAlign="start start"
+          *ngIf="actionform.controls['actionType'].value === 'api'"
+        >
+          <app-api
+            [actionType]="actionform.controls['actionType'].value"
+            fxFill
+          ></app-api>
+        </div>
+        <div
+          fxLayout="row"
+          fxLayoutAlign="start start"
+          *ngIf="actionform.controls['actionType'].value === 'database'"
+        >
+          <app-database
+            [actionType]="actionform.controls['actionType'].value"
+            fxFill
+          ></app-database>
+        </div>
+      </mat-card-content>
       <mat-card-actions> </mat-card-actions>
     </mat-card>
   </div>

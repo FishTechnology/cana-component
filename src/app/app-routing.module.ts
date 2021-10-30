@@ -41,25 +41,25 @@ const routes: Routes = [
         component: TestcaseComponent,
       },
       {
-        path: 'testplans/:testplanid/testcases/:testcaseid/actions/:actionid',
-        component: ActionComponent,
+        path: 'testplans/:testplanid/testcases',
+        component: TestcaseComponent,
       },
       {
-        path: 'testcases/:testcaseid/actions/:actionid',
+        path: 'testplans/:testplanid/testcases/:testcaseid/actions',
         component: ActionComponent,
       },
       {
         path: 'testcases/:testcaseid/actions',
         component: ActionComponent,
       },
-      {
-        path: 'testplans/:testplanid/testcases',
-        component: TestcaseComponent,
-      },
     ],
   },
   {
     path: 'testcases/:testcaseid/actions/create',
+    component: CreateActionComponent,
+  },
+  {
+    path: 'configuration/testplans/:testplanid/testcases/:testcaseid/actions/create',
     component: CreateActionComponent,
   },
 ];

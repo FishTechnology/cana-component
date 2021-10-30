@@ -14,6 +14,9 @@ import { CustomerService } from 'src/app/commons/customer/customer.service';
 import { EnvironmentVariableService } from './environmentvariable.service';
 import { CreateEnvironmentVariableComponent } from './createenvironmentvariable/createenvironmentvariable.component';
 import { ActivatedRoute } from '@angular/router';
+import { EnvironmentService } from '../environment/environment.service';
+import { EnvironmentModel } from '../environment/models/EnvironmentModel';
+import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-environmentvariable',
@@ -30,20 +33,32 @@ export class EnvironmentVariableComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   environmentId: number;
+  environmentModel: EnvironmentModel;
+
   constructor(
     public dialog: MatDialog,
     public environmentVariableService: EnvironmentVariableService,
     public customerService: CustomerService,
-    private _snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private environmentService: EnvironmentService,
+    private snackbarService: SnackbarService
   ) {
     this.route.params.subscribe((params) => {
       this.environmentId = params.environmentid;
       this.getEnvVariablesByEnvironmentId();
+      this.getEnvironmentById();
     });
     this.customerService.getUserDetail().subscribe((res) => {
       this.customerDetail = res;
     });
+  }
+
+  getEnvironmentById() {
+    this.environmentService
+      .getEnvironmentById(this.environmentId)
+      .subscribe((res) => {
+        this.environmentModel = res;
+      });
   }
 
   ngOnInit(): void {}
@@ -74,13 +89,6 @@ export class EnvironmentVariableComponent implements OnInit {
     }`;
   }
 
-  openSnackBar(message: string, closeText: string = 'Close'): void {
-    this._snackBar.open(message, closeText, {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-  }
-
   createEnvironmentVariable() {
     var modelRef = this.dialog.open(CreateEnvironmentVariableComponent, {
       data: {
@@ -106,11 +114,15 @@ export class EnvironmentVariableComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          this.openSnackBar('successfully  delete environment variable');
+          this.snackbarService.openSnackBar(
+            'successfully  delete environment variable'
+          );
           this.getEnvVariablesByEnvironmentId();
         },
         (err) => {
-          this.openSnackBar('error while delete environment variable');
+          this.snackbarService.openSnackBar(
+            'error while delete environment variable'
+          );
         }
       );
   }

@@ -13,6 +13,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-globalvariable',
@@ -33,7 +34,7 @@ export class GlobalvariableComponent implements OnInit {
     public dialog: MatDialog,
     public globalvariableService: GlobalvariableService,
     public customerService: CustomerService,
-    private _snackBar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {
     this.customerService.getUserDetail().subscribe((res) => {
       this.customerDetail = res;
@@ -94,7 +95,9 @@ export class GlobalvariableComponent implements OnInit {
         this.customerDetail.userId
       )
       .subscribe((res) => {
-        this.openSnackBar('successfully delete global variables');
+        this.snackbarService.openSnackBar(
+          'successfully delete global variables'
+        );
         this.getGlobalVariables();
       });
   }
@@ -111,13 +114,6 @@ export class GlobalvariableComponent implements OnInit {
     });
   }
 
-  openSnackBar(message: string, closeText: string = 'Close'): void {
-    this._snackBar.open(message, closeText, {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-  }
-
   getGlobalVariables(): void {
     this.globalvariableService
       .getGlobalVariable(this.customerDetail.userId)
@@ -126,7 +122,7 @@ export class GlobalvariableComponent implements OnInit {
           this.dataSource.data = res;
         },
         (err) => {
-          this.openSnackBar('error loading global variables');
+          this.snackbarService.openSnackBar('error loading global variables');
         }
       );
   }

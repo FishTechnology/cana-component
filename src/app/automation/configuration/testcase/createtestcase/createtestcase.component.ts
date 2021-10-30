@@ -8,6 +8,7 @@ import {
 } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
+import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { TestPlanModel } from '../../testplan/models/TestPlanModel';
 import { TestplanService } from '../../testplan/testplan.service';
 import { CreateTestCaseByTestPlanIdModel } from '../models/CreateTestCaseByTestPlanIdModel';
@@ -36,10 +37,10 @@ export class CreateTestcaseComponent implements OnInit {
       testCaseId: number;
     },
     private _testCaseService: TestCaseService,
-    private _snackBar: MatSnackBar,
     private _testPlanService: TestplanService,
     private _router: Router,
-    private dialogRef: MatDialogRef<CreateTestcaseComponent>
+    private dialogRef: MatDialogRef<CreateTestcaseComponent>,
+    private snackbarService: SnackbarService
   ) {
     this.testCaseform = new FormGroup({
       name: new FormControl('', Validators.required),
@@ -51,7 +52,9 @@ export class CreateTestcaseComponent implements OnInit {
           this.testPlanModel = res;
         },
         (err) => {
-          this.openSnackBar('Error while fetching data from server');
+          this.snackbarService.openSnackBar(
+            'Error while fetching data from server'
+          );
         }
       );
     }
@@ -64,7 +67,9 @@ export class CreateTestcaseComponent implements OnInit {
           this.testCaseform.get('comments').setValue(res.comments);
         },
         (err) => {
-          this.openSnackBar('Error while fetching data from server');
+          this.snackbarService.openSnackBar(
+            'Error while fetching data from server'
+          );
         }
       );
     }
@@ -86,7 +91,7 @@ export class CreateTestcaseComponent implements OnInit {
         )
         .subscribe(
           (res) => {
-            this.openSnackBar('successfully created test case');
+            this.snackbarService.openSnackBar('successfully created test case');
             this.dialogRef.close();
             this.testCaseEvent.emit('success');
             this._router.navigate([
@@ -94,7 +99,7 @@ export class CreateTestcaseComponent implements OnInit {
             ]);
           },
           (err) => {
-            this.openSnackBar('error while creating test case');
+            this.snackbarService.openSnackBar('error while creating test case');
           }
         );
       return;
@@ -107,20 +112,13 @@ export class CreateTestcaseComponent implements OnInit {
     };
     this._testCaseService.createTestCase(createTestCaseModel).subscribe(
       (res) => {
-        this.openSnackBar('successfully created test case');
+        this.snackbarService.openSnackBar('successfully created test case');
         this.dialogRef.close();
         this.testCaseEvent.emit('success');
       },
       (err) => {
-        this.openSnackBar('error while creating test case');
+        this.snackbarService.openSnackBar('error while creating test case');
       }
     );
-  }
-
-  openSnackBar(message: string, closeText: string = 'Close'): void {
-    this._snackBar.open(message, closeText, {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
   }
 }

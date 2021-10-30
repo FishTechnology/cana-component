@@ -7,6 +7,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
+import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { SelectModel } from '../../../../commons/SelectModel';
 import { GlobalvariableService } from '../globalvariable.service';
 import { CreateGlobalVariableModel } from '../models/CreateGlobalVariableModel';
@@ -29,8 +30,8 @@ export class CreateGlobalVariableComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: { customerDetail: CustomerDetail; globalVariableId: number },
     private globalVariableService: GlobalvariableService,
-    private _snackBar: MatSnackBar,
-    private dialogRef: MatDialogRef<CreateGlobalVariableComponent>
+    private dialogRef: MatDialogRef<CreateGlobalVariableComponent>,
+    private snackbarService: SnackbarService
   ) {
     this.globalvariableform = new FormGroup({
       key: new FormControl('', Validators.required),
@@ -90,12 +91,16 @@ export class CreateGlobalVariableComponent implements OnInit {
       .createGlobalVariable(createGlobalVariable)
       .subscribe(
         (res) => {
-          this.openSnackBar('successfully created global variable');
+          this.snackbarService.openSnackBar(
+            'successfully created global variable'
+          );
           this.globalVariableEvent.emit('success');
           this.dialogRef.close();
         },
         (err) => {
-          this.openSnackBar('error while creating global variable');
+          this.snackbarService.openSnackBar(
+            'error while creating global variable'
+          );
         }
       );
   }
@@ -122,20 +127,17 @@ export class CreateGlobalVariableComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          this.openSnackBar('successfully updated global variable');
+          this.snackbarService.openSnackBar(
+            'successfully updated global variable'
+          );
           this.globalVariableEvent.emit('success');
           this.dialogRef.close();
         },
         (err) => {
-          this.openSnackBar('error while update global variable');
+          this.snackbarService.openSnackBar(
+            'error while update global variable'
+          );
         }
       );
-  }
-
-  openSnackBar(message: string, closeText: string = 'Close'): void {
-    this._snackBar.open(message, closeText, {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
   }
 }

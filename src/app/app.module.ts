@@ -27,6 +27,9 @@ import { TestcaseComponent } from './automation/configuration/testcase/testcase.
 import { ActionComponent } from './automation/configuration/action/action.component';
 import { CreateActionComponent } from './automation/configuration/action/createaction/createaction.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { UicontrolComponent } from './automation/configuration/action/createaction/types/uicontrol/uicontrol.component';
+import { ApiComponent } from './automation/configuration/action/createaction/types/api/api.component';
+import { DatabaseComponent } from './automation/configuration/action/createaction/types/database/database.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +51,9 @@ import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
     TestcaseComponent,
     ActionComponent,
     CreateActionComponent,
+    UicontrolComponent,
+    ApiComponent,
+    DatabaseComponent,
   ],
   imports: [
     BrowserModule,

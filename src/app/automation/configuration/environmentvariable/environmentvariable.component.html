@@ -2,7 +2,12 @@
   <mat-card>
     <div>
       <mat-toolbar>
-        <span>Environment Variables</span>
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+          <div>Environment Variables</div>
+          <div class="mat-subheading-2">
+            Environment:{{ environmentModel?.name }}
+          </div>
+        </div>
         <span class="global-spacer"></span>
         <button
           mat-mini-fab

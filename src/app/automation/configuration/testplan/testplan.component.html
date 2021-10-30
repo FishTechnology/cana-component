@@ -35,10 +35,10 @@
           </button>
           <button
             mat-menu-item
-            (click)="createTestCase()"
             [disabled]="this.selection.selected.length !== 1"
+            [matMenuTriggerFor]="testcases"
           >
-            Create Test Case
+            Test Case
           </button>
           <button
             mat-menu-item
@@ -46,6 +46,19 @@
             [disabled]="this.selection.selected.length !== 1"
           >
             Schedule
+          </button>
+        </mat-menu>
+        <mat-menu #testcases="matMenu">
+          <button mat-menu-item (click)="createTestCase()">Add</button>
+          <button
+            mat-menu-item
+            [routerLink]="[
+              '/configuration/testplans',
+              selection.selected[0]?.id,
+              'testcases'
+            ]"
+          >
+            View
           </button>
         </mat-menu>
       </mat-toolbar>

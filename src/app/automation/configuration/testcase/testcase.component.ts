@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { CustomerService } from 'src/app/commons/customer/customer.service';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
+import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { CreateTestcaseComponent } from './createtestcase/createtestcase.component';
 import { TestCaseModel } from './models/TestCaseModel';
 import { TestCaseService } from './testcase.service';
@@ -34,9 +35,9 @@ export class TestcaseComponent implements OnInit {
     public dialog: MatDialog,
     public testcaseService: TestCaseService,
     public customerService: CustomerService,
-    private _snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private snackbarService: SnackbarService
   ) {
     this.route.params.subscribe((params) => {
       this.testPlanId = params['testplanid'];
@@ -92,7 +93,16 @@ export class TestcaseComponent implements OnInit {
   navigateAddNewAction(): void {
     this.router.navigate(['/testcases/10/actions/create']);
   }
-  navigateViewNewAction(): void {}
+
+  navigateViewAction(): void {
+    let url = `/configuration`;
+    if (this.testPlanId) {
+      url = `/configuration/testplans/${this.testPlanId}`;
+    }
+
+    url += `/testcases/${this.selection.selected[0].id}/actions`;
+    this.router.navigate([url]);
+  }
 
   refresh() {
     // this.testcaseService
@@ -123,13 +133,6 @@ export class TestcaseComponent implements OnInit {
     });
   }
 
-  openSnackBar(message: string, closeText: string = 'Close'): void {
-    this._snackBar.open(message, closeText, {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-  }
-
   getTestCases(): void {
     if (this.testPlanId) {
       this.getTestCasesByTestPlanId();
@@ -142,7 +145,7 @@ export class TestcaseComponent implements OnInit {
         this.dataSource.data = res;
       },
       (err) => {
-        this.openSnackBar('Error loading testcases');
+        this.snackbarService.openSnackBar('Error loading testcases');
       }
     );
   }
@@ -155,7 +158,7 @@ export class TestcaseComponent implements OnInit {
           this.dataSource.data = res;
         },
         (err) => {
-          this.openSnackBar('Error loading testcases');
+          this.snackbarService.openSnackBar('Error loading testcases');
         }
       );
   }

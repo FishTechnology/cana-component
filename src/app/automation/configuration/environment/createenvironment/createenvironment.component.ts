@@ -11,6 +11,7 @@ import { EnvironmentService } from '../environment.service';
 import { CreateEnvironmentModel } from '../models/CreateEnvironmentModel';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UpdateEnvironmentModel } from '../models/UpdateEnvironmentModel';
+import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-createenvironment',
@@ -30,7 +31,8 @@ export class CreateEnvironmentComponent implements OnInit {
     public data: { customerDetail: CustomerDetail; environmentId: number },
     private environmentService: EnvironmentService,
     private _snackBar: MatSnackBar,
-    private dialogRef: MatDialogRef<CreateEnvironmentComponent>
+    private dialogRef: MatDialogRef<CreateEnvironmentComponent>,
+    private snackbarService: SnackbarService
   ) {
     this.environmentform = new FormGroup({
       id: new FormControl(''),
@@ -66,12 +68,6 @@ export class CreateEnvironmentComponent implements OnInit {
     this.files.splice(this.files.indexOf(event), 1);
   }
 
-  openSnackBar(message: string, closeText: string = 'Close'): void {
-    this._snackBar.open(message, closeText, {
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-  }
   createEnvironment() {
     if (this.environmentform.get('id').value) {
       return this.updateEnvironment();
@@ -83,12 +79,12 @@ export class CreateEnvironmentComponent implements OnInit {
     };
     this.environmentService.createEnvironment(createEnvironment).subscribe(
       (res) => {
-        this.openSnackBar('successfully created environment');
+        this.snackbarService.openSnackBar('successfully created environment');
         this.dialogRef.close();
         this.environmentEvent.emit('success');
       },
       (err) => {
-        this.openSnackBar('Error in creating environment');
+        this.snackbarService.openSnackBar('Error in creating environment');
       }
     );
   }
@@ -106,12 +102,12 @@ export class CreateEnvironmentComponent implements OnInit {
       )
       .subscribe(
         (res) => {
-          this.openSnackBar('successfully updated environment');
+          this.snackbarService.openSnackBar('successfully updated environment');
           this.dialogRef.close();
           this.environmentEvent.emit('success');
         },
         (err) => {
-          this.openSnackBar('Error in update environment');
+          this.snackbarService.openSnackBar('Error in update environment');
         }
       );
   }

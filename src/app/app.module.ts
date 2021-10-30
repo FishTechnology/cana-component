@@ -28,6 +28,7 @@ import { DatabaseComponent } from './automation/configuration/action/createactio
 import { UicontrolComponent } from './automation/configuration/action/createaction/types/uicontrol/uicontrol.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { HttpClientModule } from '@angular/common/http';
     NgxDropzoneModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FlexLayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

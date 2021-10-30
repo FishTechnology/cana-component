@@ -22,7 +22,10 @@ export class CreateGlobalVariableComponent implements OnInit {
   @Output() globalVariableEvent = new EventEmitter<string>();
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  globalValueTypes: SelectModel[];
+  globalValueTypes: SelectModel[] = [
+    { text: 'Key And Value', value: 'keyandvalue' },
+    { text: 'File', value: 'file' },
+  ];
   globalvariableform: FormGroup;
   files: File[] = [];
 
@@ -43,29 +46,24 @@ export class CreateGlobalVariableComponent implements OnInit {
       this.globalVariableService
         .getGlobalVariableById(this.data.globalVariableId)
         .subscribe((res) => {
-          this.globalvariableform.get('key').setValue(res.key);
-          this.globalvariableform.get('value').setValue(res.value);
+          this.globalvariableform.get('key')?.setValue(res.key);
+          this.globalvariableform.get('value')?.setValue(res.value);
           this.globalvariableform
             .get('valueType')
-            .setValue(res.valueType.toLowerCase());
-          this.globalvariableform.get('comments').setValue(res.comments);
+            ?.setValue(res.valueType.toLowerCase());
+          this.globalvariableform.get('comments')?.setValue(res.comments);
         });
     }
   }
 
-  ngOnInit(): void {
-    this.globalValueTypes = [
-      { text: 'Key And Value', value: 'keyandvalue' },
-      { text: 'File', value: 'file' },
-    ];
-  }
+  ngOnInit(): void {}
 
-  onSelect(event) {
+  onSelect(event: any) {
     console.log(event);
     this.files.push(...event.addedFiles);
   }
 
-  onRemove(event) {
+  onRemove(event: any) {
     console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
   }
@@ -74,10 +72,10 @@ export class CreateGlobalVariableComponent implements OnInit {
       return this.updateGlobalVariable();
     }
     let createGlobalVariable: CreateGlobalVariableModel = {
-      key: this.globalvariableform.get('key').value,
-      value: this.globalvariableform.get('value').value,
-      valueType: this.globalvariableform.get('valueType').value,
-      comments: this.globalvariableform.get('comments').value,
+      key: this.globalvariableform.get('key')?.value,
+      value: this.globalvariableform.get('value')?.value,
+      valueType: this.globalvariableform.get('valueType')?.value,
+      comments: this.globalvariableform.get('comments')?.value,
       userId: this.data.customerDetail.userId,
     };
 
@@ -107,10 +105,10 @@ export class CreateGlobalVariableComponent implements OnInit {
 
   updateGlobalVariable() {
     let updateGlobalVariableModel: UpdateGlobalVariableModel = {
-      key: this.globalvariableform.get('key').value,
-      value: this.globalvariableform.get('value').value,
-      valueType: this.globalvariableform.get('valueType').value,
-      comments: this.globalvariableform.get('comments').value,
+      key: this.globalvariableform.get('key')?.value,
+      value: this.globalvariableform.get('value')?.value,
+      valueType: this.globalvariableform.get('valueType')?.value,
+      comments: this.globalvariableform.get('comments')?.value,
       userId: this.data.customerDetail.userId,
     };
     if (this.files.length >= 1) {

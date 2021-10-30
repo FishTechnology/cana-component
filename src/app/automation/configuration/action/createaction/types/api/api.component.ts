@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./api.component.scss'],
 })
 export class ApiComponent implements OnInit {
-  @Input() actionType: string;
+  @Input() actionType: string | undefined;
 
   constructor() {}
 

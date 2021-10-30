@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./database.component.scss'],
 })
 export class DatabaseComponent implements OnInit {
-  @Input() actionType: string;
+  @Input() actionType: string | undefined;
 
   constructor() {}
 

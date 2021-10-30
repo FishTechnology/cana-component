@@ -10,8 +10,8 @@ import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
   styleUrls: ['./action.component.scss'],
 })
 export class ActionComponent implements OnInit {
-  testPlanId: number;
-  testCaseId: number;
+  testPlanId!: number;
+  testCaseId!: number;
   constructor(
     public dialog: MatDialog,
     public customerService: CustomerService,

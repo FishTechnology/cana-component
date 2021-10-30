@@ -28,12 +28,12 @@ export class EnvironmentVariableComponent implements OnInit {
   dataSource = new MatTableDataSource<EnvironmentVariableModel>();
   selection = new SelectionModel<EnvironmentVariableModel>(true, []);
   moment = moment;
-  customerDetail: CustomerDetail;
-  environmentVariableModels: EnvironmentVariableModel[];
+  customerDetail!: CustomerDetail;
+  environmentVariableModels!: EnvironmentVariableModel[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  environmentId: number;
-  environmentModel: EnvironmentModel;
+  environmentId!: number;
+  environmentModel!: EnvironmentModel;
 
   constructor(
     public dialog: MatDialog,

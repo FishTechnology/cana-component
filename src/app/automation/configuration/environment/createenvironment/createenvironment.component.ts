@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-  MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
@@ -22,15 +21,14 @@ export class CreateEnvironmentComponent implements OnInit {
   @Output() environmentEvent = new EventEmitter<string>();
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  environmentValueTypes: SelectModel[];
+  environmentValueTypes!: SelectModel[];
   environmentform: FormGroup;
   files: File[] = [];
-  customerDetail: CustomerDetail;
+  customerDetail!: CustomerDetail;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: { customerDetail: CustomerDetail; environmentId: number },
     private environmentService: EnvironmentService,
-    private _snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<CreateEnvironmentComponent>,
     private snackbarService: SnackbarService
   ) {
@@ -47,9 +45,9 @@ export class CreateEnvironmentComponent implements OnInit {
       this.environmentService
         .getEnvironmentById(this.data.environmentId)
         .subscribe((res) => {
-          this.environmentform.get('id').setValue(res.id);
-          this.environmentform.get('name').setValue(res.name);
-          this.environmentform.get('comments').setValue(res.comments);
+          this.environmentform.get('id')!.setValue(res.id);
+          this.environmentform.get('name')!.setValue(res.name);
+          this.environmentform.get('comments')!.setValue(res.comments);
         });
     }
     this.environmentValueTypes = [
@@ -58,23 +56,23 @@ export class CreateEnvironmentComponent implements OnInit {
     ];
   }
 
-  onSelect(event) {
+  onSelect(event: any) {
     console.log(event);
     this.files.push(...event.addedFiles);
   }
 
-  onRemove(event) {
+  onRemove(event: any) {
     console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
   }
 
   createEnvironment() {
-    if (this.environmentform.get('id').value) {
+    if (this.environmentform.get('id')?.value) {
       return this.updateEnvironment();
     }
     let createEnvironment: CreateEnvironmentModel = {
-      name: this.environmentform.get('name').value,
-      comments: this.environmentform.get('comments').value,
+      name: this.environmentform.get('name')?.value,
+      comments: this.environmentform.get('comments')?.value,
       userId: this.customerDetail.userId.toString(),
     };
     this.environmentService.createEnvironment(createEnvironment).subscribe(
@@ -91,14 +89,14 @@ export class CreateEnvironmentComponent implements OnInit {
 
   updateEnvironment(): void {
     let updateEnvironmentModel: UpdateEnvironmentModel = {
-      name: this.environmentform.get('name').value,
-      comments: this.environmentform.get('comments').value,
+      name: this.environmentform.get('name')?.value,
+      comments: this.environmentform.get('comments')?.value,
       userId: this.customerDetail.userId.toString(),
     };
     this.environmentService
       .updateEnvironment(
         updateEnvironmentModel,
-        this.environmentform.get('id').value
+        this.environmentform.get('id')?.value
       )
       .subscribe(
         (res) => {

@@ -2,7 +2,6 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
-  MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
@@ -27,8 +26,8 @@ export class CreateTestcaseComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   testCaseform: FormGroup;
   files: File[] = [];
-  testPlanModel: TestPlanModel;
-  testCaseModel: TestCaseModel;
+  testPlanModel!: TestPlanModel;
+  testCaseModel!: TestCaseModel;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -63,8 +62,8 @@ export class CreateTestcaseComponent implements OnInit {
       this._testCaseService.getTestCaseById(this.data.testCaseId).subscribe(
         (res) => {
           this.testCaseModel = res;
-          this.testCaseform.get('name').setValue(res.name);
-          this.testCaseform.get('comments').setValue(res.comments);
+          this.testCaseform.get('name')!.setValue(res.name);
+          this.testCaseform.get('comments')!.setValue(res.comments);
         },
         (err) => {
           this.snackbarService.openSnackBar(
@@ -80,8 +79,8 @@ export class CreateTestcaseComponent implements OnInit {
   createTestCase(): void {
     if (this.data.testPlanId) {
       var createTestCaseByTestPlanIdModel: CreateTestCaseByTestPlanIdModel = {
-        name: this.testCaseform.get('name').value,
-        comments: this.testCaseform.get('comments').value,
+        name: this.testCaseform.get('name')!.value,
+        comments: this.testCaseform.get('comments')!.value,
         userId: this.data.customerDetail.userId,
       };
       this._testCaseService
@@ -106,8 +105,8 @@ export class CreateTestcaseComponent implements OnInit {
     }
 
     var createTestCaseModel: CreateTestCaseModel = {
-      name: this.testCaseform.get('name').value,
-      comments: this.testCaseform.get('comments').value,
+      name: this.testCaseform.get('name')!.value,
+      comments: this.testCaseform.get('comments')!.value,
       userId: this.data.customerDetail.userId,
     };
     this._testCaseService.createTestCase(createTestCaseModel).subscribe(

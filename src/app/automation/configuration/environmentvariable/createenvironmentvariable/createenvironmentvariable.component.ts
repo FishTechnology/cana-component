@@ -2,7 +2,6 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
-  MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
@@ -22,10 +21,10 @@ export class CreateEnvironmentVariableComponent implements OnInit {
   @Output() environmentVariableEvent = new EventEmitter<string>();
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  environmentValueTypes: SelectModel[];
+  environmentValueTypes!: SelectModel[];
   environmentVariableForm: FormGroup;
   files: File[] = [];
-  customerDetail: CustomerDetail;
+  customerDetail!: CustomerDetail;
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -48,10 +47,12 @@ export class CreateEnvironmentVariableComponent implements OnInit {
         .getEnvVariablesById(this.data.environmentId, this.data.envVariableId)
         .subscribe(
           (res) => {
-            this.environmentVariableForm.get('key').setValue(res.key);
-            this.environmentVariableForm.get('value').setValue(res.value);
-            this.environmentVariableForm.get('valueType').setValue(res.type);
-            this.environmentVariableForm.get('comments').setValue(res.comments);
+            this.environmentVariableForm.get('key')!.setValue(res.key);
+            this.environmentVariableForm.get('value')!.setValue(res.value);
+            this.environmentVariableForm.get('valueType')!.setValue(res.type);
+            this.environmentVariableForm
+              .get('comments')!
+              .setValue(res.comments);
           },
           (err) => {
             this.snackbarService.openSnackBar(
@@ -69,12 +70,12 @@ export class CreateEnvironmentVariableComponent implements OnInit {
     ];
   }
 
-  onSelect(event) {
+  onSelect(event: any) {
     console.log(event);
     this.files.push(...event.addedFiles);
   }
 
-  onRemove(event) {
+  onRemove(event: any) {
     console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
   }
@@ -84,11 +85,11 @@ export class CreateEnvironmentVariableComponent implements OnInit {
       return;
     }
     let createEnvVariableModel: CreateEnvVariableModel = {
-      comments: this.environmentVariableForm.get('comments').value,
-      key: this.environmentVariableForm.get('key').value,
-      type: this.environmentVariableForm.get('valueType').value,
+      comments: this.environmentVariableForm.get('comments')!.value,
+      key: this.environmentVariableForm.get('key')!.value,
+      type: this.environmentVariableForm.get('valueType')!.value,
       userId: this.data.customerDetail.userId,
-      value: this.environmentVariableForm.get('value').value,
+      value: this.environmentVariableForm.get('value')!.value,
     };
     this.environmentVariableService
       .createEnvVariable(this.data.environmentId, createEnvVariableModel)
@@ -110,11 +111,11 @@ export class CreateEnvironmentVariableComponent implements OnInit {
 
   updateEnvironmentVariable() {
     let updateEnvVariableModel: UpdateEnvVariableModel = {
-      comments: this.environmentVariableForm.get('comments').value,
-      key: this.environmentVariableForm.get('key').value,
-      type: this.environmentVariableForm.get('valueType').value,
+      comments: this.environmentVariableForm.get('comments')!.value,
+      key: this.environmentVariableForm.get('key')!.value,
+      type: this.environmentVariableForm.get('valueType')!.value,
       userId: this.data.customerDetail.userId,
-      value: this.environmentVariableForm.get('value').value,
+      value: this.environmentVariableForm.get('value')!.value,
     };
     this.environmentVariableService
       .updateEnvVariable(

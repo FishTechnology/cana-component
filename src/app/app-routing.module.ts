@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './automation/configuration/home/home.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { GlobalvariableComponent } from './automation/configuration/globalvariable/globalvariable.component';
-import { EnvironmentComponent } from './automation/configuration/environment/environment.component';
-import { EnvironmentVariableComponent } from './automation/configuration/environmentvariable/environmentvariable.component';
-import { TestplanComponent } from './automation/configuration/testplan/testplan.component';
-import { TestcaseComponent } from './automation/configuration/testcase/testcase.component';
 import { ActionComponent } from './automation/configuration/action/action.component';
 import { CreateActionComponent } from './automation/configuration/action/createaction/createaction.component';
+import { EnvironmentComponent } from './automation/configuration/environment/environment.component';
+import { EnvironmentVariableComponent } from './automation/configuration/environmentvariable/environmentvariable.component';
+import { GlobalvariableComponent } from './automation/configuration/globalvariable/globalvariable.component';
+import { HomeComponent } from './automation/configuration/home/home.component';
+import { TestcaseComponent } from './automation/configuration/testcase/testcase.component';
+import { TestplanComponent } from './automation/configuration/testplan/testplan.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -65,7 +65,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

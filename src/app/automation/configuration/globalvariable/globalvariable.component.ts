@@ -9,7 +9,6 @@ import { CustomerService } from '../../../commons/customer/customer.service';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { GlobalVariableModel } from './models/GlobalVariableModel';
 import {
-  MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
@@ -25,8 +24,8 @@ export class GlobalvariableComponent implements OnInit {
   dataSource = new MatTableDataSource<GlobalVariableModel>();
   selection = new SelectionModel<GlobalVariableModel>(true, []);
   moment = moment;
-  customerDetail: CustomerDetail;
-  globalVariableModels: GlobalVariableModel[];
+  customerDetail: CustomerDetail | undefined;
+  globalVariableModels: GlobalVariableModel[] = [];
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
@@ -69,6 +68,7 @@ export class GlobalvariableComponent implements OnInit {
     // return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
     //   row.key + 1
     // }`;
+    return '';
   }
 
   createGlobalVariable() {
@@ -84,7 +84,7 @@ export class GlobalvariableComponent implements OnInit {
 
   refresh() {
     this.globalvariableService
-      .getGlobalVariable(this.customerDetail.userId)
+      .getGlobalVariable(this.customerDetail!.userId)
       .subscribe((res) => (this.globalVariableModels = res));
   }
 
@@ -92,7 +92,7 @@ export class GlobalvariableComponent implements OnInit {
     this.globalvariableService
       .deleteGlobalVariable(
         this.selection.selected[0].id,
-        this.customerDetail.userId
+        this.customerDetail!.userId
       )
       .subscribe((res) => {
         this.snackbarService.openSnackBar(
@@ -116,7 +116,7 @@ export class GlobalvariableComponent implements OnInit {
 
   getGlobalVariables(): void {
     this.globalvariableService
-      .getGlobalVariable(this.customerDetail.userId)
+      .getGlobalVariable(this.customerDetail!.userId)
       .subscribe(
         (res) => {
           this.dataSource.data = res;

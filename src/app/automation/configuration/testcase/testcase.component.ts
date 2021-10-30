@@ -26,11 +26,11 @@ export class TestcaseComponent implements OnInit {
   dataSource = new MatTableDataSource<TestCaseModel>();
   selection = new SelectionModel<TestCaseModel>(true, []);
   moment = moment;
-  customerDetail: CustomerDetail;
-  testcaseModels: TestCaseModel[];
+  customerDetail!: CustomerDetail;
+  testcaseModels!: TestCaseModel[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  testPlanId: number;
+  testPlanId!: number;
   constructor(
     public dialog: MatDialog,
     public testcaseService: TestCaseService,
@@ -76,6 +76,7 @@ export class TestcaseComponent implements OnInit {
     // return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
     //  // row.key + 1
     // }`;
+    return '';
   }
 
   createTestCase() {

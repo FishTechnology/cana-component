@@ -13,7 +13,6 @@ import {
 import { CreateEnvironmentComponent } from './createenvironment/createenvironment.component';
 import { EnvironmentService } from './environment.service';
 import { EnvironmentModel } from './models/EnvironmentModel';
-import { DateTime } from 'luxon';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 
@@ -29,14 +28,12 @@ export class EnvironmentComponent implements OnInit {
   moment = moment;
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  customerDetail: CustomerDetail;
-  environmentModels: EnvironmentModel[];
-  DateTime = DateTime;
+  customerDetail!: CustomerDetail;
+  environmentModels!: EnvironmentModel[];
 
   constructor(
     public dialog: MatDialog,
     public customerService: CustomerService,
-    private _snackBar: MatSnackBar,
     private environmentService: EnvironmentService,
     private router: Router,
     private snackbarService: SnackbarService
@@ -108,10 +105,6 @@ export class EnvironmentComponent implements OnInit {
         }
       );
     });
-  }
-
-  getFormatTime(time: string): any {
-    return DateTime.fromSQL(time).toRelative();
   }
 
   refresh() {

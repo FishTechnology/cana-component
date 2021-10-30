@@ -34,8 +34,10 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./uicontrol.component.scss'],
 })
 export class UicontrolComponent implements OnInit {
-  @Input() actionType: string;
-  @ViewChild('optionInput') optionInput: ElementRef<HTMLInputElement>;
+  @Input() actionType: string | undefined;
+  @ViewChild('optionInput') optionInput:
+    | ElementRef<HTMLInputElement>
+    | undefined;
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -93,12 +95,12 @@ export class UicontrolComponent implements OnInit {
     // Clear the input value
     // event.chipInput!.clear();
 
-    this.uiControlForm.get('eventOption').setValue(null);
+    this.uiControlForm.get('eventOption')!.setValue(null);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this.uiControlOptions.push(event.option.viewValue);
-    this.optionInput.nativeElement.value = '';
-    this.uiControlForm.get('eventOption').setValue(null);
+    //this.optionInput.nativeElement.value = '';
+    this.uiControlForm.get('eventOption')!.setValue(null);
   }
 }

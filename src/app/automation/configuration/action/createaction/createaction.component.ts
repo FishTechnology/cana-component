@@ -10,9 +10,9 @@ import { ActionType } from './models/ActionTypes';
   styleUrls: ['./createaction.component.scss'],
 })
 export class CreateActionComponent implements OnInit {
-  testPlanId: number;
-  testCaseId: number;
-  actionTypes: SelectModel[];
+  testPlanId!: number;
+  testCaseId!: number;
+  actionTypes!: SelectModel[];
   actionform: FormGroup;
 
   constructor(private snackbarService: SnackbarService) {

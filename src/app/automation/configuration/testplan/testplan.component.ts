@@ -2,7 +2,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
-  MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
@@ -16,7 +15,6 @@ import { CreateTestplanComponent } from './createtestplan/createtestplan.compone
 import { ScheduleComponent } from '../../schedule/schedule.component';
 import { TestPlanModel } from './models/TestPlanModel';
 import { CreateTestcaseComponent } from '../testcase/createtestcase/createtestcase.component';
-import { TestCaseService } from '../testcase/testcase.service';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 
 @Component({
@@ -30,16 +28,15 @@ export class TestplanComponent implements OnInit {
 
   selection = new SelectionModel<TestPlanModel>(true, []);
   moment = moment;
-  customerDetail: CustomerDetail;
-  globalVariableModels: GlobalVariableModel[];
+  customerDetail!: CustomerDetail;
+  globalVariableModels!: GlobalVariableModel[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  isShowDeleteBtn: boolean;
+  isShowDeleteBtn: boolean = false;
   constructor(
     public dialog: MatDialog,
     private testplanService: TestplanService,
     public customerService: CustomerService,
-    private testCaseService: TestCaseService,
     private snackbarService: SnackbarService
   ) {
     this.customerService.getUserDetail().subscribe((res) => {
@@ -75,6 +72,7 @@ export class TestplanComponent implements OnInit {
     // return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
     //  // row.key + 1
     // }`;
+    return '';
   }
 
   createTestPlan() {

@@ -1,16 +1,7 @@
-import { error } from '@angular/compiler/src/util';
-import {
-  Component,
-  EventEmitter,
-  Inject,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
-  MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
@@ -45,8 +36,8 @@ export class CreateTestplanComponent implements OnInit {
       this.testplanService
         .getTestPlanById(this.data.testPlanId)
         .subscribe((res) => {
-          this.testplanform.get('name').setValue(res.name);
-          this.testplanform.get('comments').setValue(res.comments);
+          this.testplanform.get('name')!.setValue(res.name);
+          this.testplanform.get('comments')!.setValue(res.comments);
         });
     }
   }
@@ -58,8 +49,8 @@ export class CreateTestplanComponent implements OnInit {
       return this.updateTestplan();
     }
     var createTestplanModel: CreateTestplanModel = {
-      name: this.testplanform.get('name').value,
-      comments: this.testplanform.get('comments').value,
+      name: this.testplanform.get('name')!.value,
+      comments: this.testplanform.get('comments')!.value,
       userId: this.data.customerDetail.userId,
     };
     this.testplanService.createTestplan(createTestplanModel).subscribe(
@@ -75,8 +66,8 @@ export class CreateTestplanComponent implements OnInit {
   }
   updateTestplan(): void {
     var updateTestplanModel: UpdateTestplanModel = {
-      name: this.testplanform.get('name').value,
-      comments: this.testplanform.get('comments').value,
+      name: this.testplanform.get('name')!.value,
+      comments: this.testplanform.get('comments')!.value,
       userId: this.data.customerDetail.userId,
     };
     this.testplanService

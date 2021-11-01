@@ -13,7 +13,56 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div fxFlex="35%">
+      <div fxFlex="75%">
+        <mat-form-field class="example-chip-list" appearance="fill">
+          <mat-label>Control Options</mat-label>
+          <mat-chip-list
+            class="example-chip"
+            #chipList
+            aria-label="Control Option selection"
+            cdkDropList
+            cdkDropListOrientation="horizontal"
+            (cdkDropListDropped)="drop($event)"
+          >
+            <mat-chip
+              class="example-box"
+              *ngFor="let ctlOptions of ctlOptions"
+              [selectable]="selectable"
+              [removable]="removable"
+              (removed)="remove(ctlOptions)"
+              cdkDrag
+            >
+              {{ ctlOptions.text }}
+              <button matChipRemove *ngIf="removable">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input
+              placeholder="New option..."
+              #ctlOptionInput
+              formControlName="eventOption"
+              [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="add($event)"
+            />
+          </mat-chip-list>
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            (optionSelected)="selected($event)"
+          >
+            <mat-option
+              *ngFor="let ctlOption of filteredCtlOptions | async"
+              [value]="ctlOption"
+            >
+              {{ ctlOption.text }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+      <div fxFlex="50%">
         <mat-form-field class="example-full-width" appearance="fill" fxFill>
           <mat-label>Key</mat-label>
           <input
@@ -37,50 +86,33 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <div fxFlex="35%">
+      <div fxFlex="50%">
         <mat-form-field appearance="fill" fxFill>
           <mat-label>Value</mat-label>
           <input matInput placeholder="Ex. 12" formControlName="value" />
         </mat-form-field>
       </div>
     </div>
-    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
-      <mat-form-field class="example-chip-list" appearance="fill" fxFill>
-        <mat-label>UI Action optional</mat-label>
-        <mat-chip-list #chipList aria-label="Fruit selection">
-          <mat-chip
-            *ngFor="let uiControlOption of uiControlOptions"
-            [selectable]="selectable"
-            [removable]="removable"
-            (removed)="remove(uiControlOption)"
-          >
-            {{ uiControlOption }}
-            <button matChipRemove *ngIf="removable">
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip>
-          <input
-            placeholder="new ui control option..."
-            #optionInput
-            formControlName="eventOption"
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="add($event)"
-          />
-        </mat-chip-list>
-        <mat-autocomplete
-          #auto="matAutocomplete"
-          (optionSelected)="selected($event)"
-        >
-          <mat-option
-            *ngFor="let uiControlOption of filteredUIControlOptions | async"
-            [value]="uiControlOption"
-          >
-            {{ uiControlOption }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+    <div>
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start start"
+        fxLayoutGap="10px"
+        *ngFor="let ctlOption of ctlOptions"
+      >
+        <div *ngIf="ctlOption.value === 'WAIT'" fxFill>
+          <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="gappx">
+            <div fxFlex="10%">Select</div>
+            <div fxFlex="50%">{{ ctlOption.text }}</div>
+          </div>
+        </div>
+        <div *ngIf="ctlOption.value === 'WAITFORVISIBLE'" fxFill>
+          <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="gappx">
+            <div fxFlex="10%">Select</div>
+            <div fxFlex="50%">{{ ctlOption.text }}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </form>
 </div>

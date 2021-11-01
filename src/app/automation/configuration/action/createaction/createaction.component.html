@@ -1,5 +1,5 @@
 <div>
-  <div class="action-container">
+  <div class="action-container mat-elevation-z8">
     <mat-card>
       <mat-card-title> Action Creation </mat-card-title>
       <mat-card-content>
@@ -28,10 +28,11 @@
         <div
           fxLayout="row"
           fxLayoutAlign="start start"
-          *ngIf="actionform.controls['actionType'].value === 'uicontrol'"
+          *ngIf="actionform.controls['actionType'].value === 'UI_ACTION'"
         >
           <app-uicontrol
             [actionType]="actionform.controls['actionType'].value"
+            [saveEvent]="childUiControl"
             fxFill
           ></app-uicontrol>
         </div>
@@ -56,7 +57,24 @@
           ></app-database>
         </div>
       </mat-card-content>
-      <mat-card-actions> </mat-card-actions>
+      <mat-card-actions align="end">
+        <button
+          mat-button
+          mat-dialog-close
+          [mat-dialog-close]="true"
+          (click)="navigateToAction()"
+        >
+          Cancel
+        </button>
+        <button
+          mat-raised-button
+          cdkFocusInitial
+          color="primary"
+          (click)="createAction()"
+        >
+          Save
+        </button>
+      </mat-card-actions>
     </mat-card>
   </div>
 </div>

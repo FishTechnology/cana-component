@@ -14,6 +14,7 @@ import { UpdateEnvironmentModel } from './models/UpdateEnvironmentModel';
 })
 export class EnvironmentService {
   constructor(private httpClient: HttpClient) {}
+
   getEnvironment(userId: string): Observable<EnvironmentModel[]> {
     return this.httpClient.get<EnvironmentModel[]>(
       environment.canaApiUrl + '/api/environments?userId=' + userId

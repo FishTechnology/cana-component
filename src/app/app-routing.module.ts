@@ -55,7 +55,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'testcases/:testcaseid/actions/create',
+    path: 'configuration/testcases/:testcaseid/actions/create',
     component: CreateActionComponent,
   },
   {

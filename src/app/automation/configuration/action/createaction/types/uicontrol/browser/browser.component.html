@@ -1,0 +1,50 @@
+<div [formGroup]="browserForm">
+  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+    <div fxFlex="50%">
+      <mat-form-field appearance="fill" fxFill>
+        <mat-label>Browser Action Type</mat-label>
+        <mat-select formControlName="actionType">
+          <mat-option
+            *ngFor="let browserActionType of browserActionTypes"
+            [value]="browserActionType.value"
+          >
+            {{ browserActionType.text }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="50%" fxFill>
+      <mat-form-field appearance="fill" fxFill>
+        <mat-label>Url</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="url"
+          [errorStateMatcher]="matcher"
+          placeholder="Ex. google.com"
+          autocomplete="off"
+        />
+        <mat-error
+          *ngIf="
+            browserForm.hasError('value') && !browserForm.hasError('required')
+          "
+        >
+          Please enter a valid url address
+        </mat-error>
+        <mat-error *ngIf="browserForm.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+    <mat-form-field appearance="fill" fxFill>
+      <mat-label>Leave a comment</mat-label>
+      <textarea
+        matInput
+        placeholder="Ex. action of the browser..."
+        formControlName="comments"
+      ></textarea>
+    </mat-form-field>
+  </div>
+</div>

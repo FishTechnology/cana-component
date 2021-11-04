@@ -40,9 +40,7 @@
         <div
           fxLayout="row"
           fxLayoutAlign="space-between"
-          *ngIf="
-            globalvariableform.controls['valueType'].value === 'keyandvalue'
-          "
+          *ngIf="globalvariableform.controls['valueType'].value === 'TEXT'"
         >
           <mat-form-field appearance="fill" class="full-width">
             <mat-label>Global Variable Value</mat-label>
@@ -67,7 +65,7 @@
         <div
           fxLayout="row"
           fxLayoutAlign="space-between"
-          *ngIf="globalvariableform.controls['valueType'].value === 'file'"
+          *ngIf="globalvariableform.controls['valueType'].value === 'FILE'"
         >
           <ngx-dropzone
             [multiple]="false"
@@ -101,7 +99,7 @@
           mat-raised-button
           cdkFocusInitial
           color="primary"
-          (click)="createGlobalVariable()"
+          (click)="create()"
           [disabled]="!globalvariableform.valid"
         >
           Save

@@ -1,0 +1,31 @@
+<div>
+  <mat-card>
+    <mat-card-content>
+      <p>{{ actionDetailModel.uiActionType }}</p>
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start start"
+        fxLayoutGap="10px"
+        class="row-ready-only"
+      >
+        <div fxFlex="15%">
+          <span class="mat-body-strong">Browser Action Type: </span>
+          {{ actionDetailModel.browserActionType }}
+        </div>
+        <div fxFlex="50%">
+          <span class="mat-body-strong">Url: </span>
+          {{ actionDetailModel.url }}
+        </div>
+      </div>
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start start"
+        fxLayoutGap="10px"
+        class="row-ready-only"
+      >
+        <span class="mat-body-strong">Comments: </span>
+        <p>{{ actionDetailModel.comments }}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

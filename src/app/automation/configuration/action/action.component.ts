@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from 'src/app/commons/customer/customer.service';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
+import { ActionService } from './action.service';
+import { ActionDetailModel } from './models/ActionDetailModel';
 
 @Component({
   selector: 'app-action',
@@ -12,22 +14,28 @@ import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 export class ActionComponent implements OnInit {
   testPlanId!: number;
   testCaseId!: number;
+  actionDetailModels!: ActionDetailModel[];
+
   constructor(
     public dialog: MatDialog,
     public customerService: CustomerService,
     private route: ActivatedRoute,
     private snackbarService: SnackbarService,
-    private router: Router
+    private router: Router,
+    private actionService: ActionService
   ) {
     this.route.params.subscribe((params) => {
       this.testCaseId = params['testcaseid'];
       this.testPlanId = params['testplanid'];
+      this.getActionByTestCaseId();
     });
   }
 
   ngOnInit(): void {}
 
-  refresh(): void {}
+  refresh(): void {
+    this.getActionByTestCaseId();
+  }
 
   navigateToActionCreation(): void {
     let url = `/configuration/testcases/${this.testCaseId}/actions/create`;
@@ -43,5 +51,13 @@ export class ActionComponent implements OnInit {
       url = `/configuration/testcases/${this.testCaseId}/actions/edit`;
     }
     this.router.navigate([url]);
+  }
+
+  getActionByTestCaseId(): void {
+    this.actionService
+      .getActionByTestCaseId(this.testCaseId)
+      .subscribe((res) => {
+        this.actionDetailModels = res;
+      });
   }
 }

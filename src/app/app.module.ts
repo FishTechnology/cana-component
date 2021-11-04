@@ -29,6 +29,9 @@ import { UicontrolComponent } from './automation/configuration/action/createacti
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { BrowserComponent } from './automation/configuration/action/createaction/types/uicontrol/browser/browser.component';
+import { BrowserReadonlyComponent } from './automation/configuration/action/createaction/types/uicontrol/browser/browserreadonly/browser.readonly.component';
+import { UiControlReadonlyComponent } from './automation/configuration/action/createaction/types/uicontrol/uicontrol.readonly/uicontrol.readonly.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ApiComponent,
     DatabaseComponent,
     UicontrolComponent,
+    BrowserComponent,
+    BrowserReadonlyComponent,
+    UiControlReadonlyComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,60 @@
+<div>
+  <mat-card>
+    <mat-card-content>
+      <p class="mat-body-strong">Type: {{ actionDetailModel.type }}</p>
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start start"
+        fxLayoutGap="10px"
+        class="row-ready-only"
+      >
+        <div fxFlex="30%">
+          <span class="mat-body-strong">Key: </span>
+          <mat-label>{{ actionDetailModel.key }}</mat-label>
+        </div>
+        <div fxFlex="30%">
+          <span class="mat-body-strong">Value: </span>
+          <mat-label>{{ actionDetailModel.value }}</mat-label>
+        </div>
+        <div fxFlex="30%">
+          <span class="mat-body-strong">type: </span>
+          <mat-label>{{ actionDetailModel.type }}</mat-label>
+        </div>
+      </div>
+      <div class="row-ready-only">
+        <div class="mat-typography row-ready-only">
+          <mat-label class="headline mat-body-strong"
+            >Action Control Options:</mat-label
+          >
+        </div>
+      </div>
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start start"
+        fxLayoutGap="10px"
+        *ngFor="let actionOptionModel of actionDetailModel.actionOptionModels"
+        class="row-ready-only"
+      >
+        <div fxFlex="30%">
+          <span class="mat-body-strong">Option Type: </span>
+          <mat-label>{{ actionOptionModel.optionType }}</mat-label>
+        </div>
+        <div fxFlex="30%">
+          <span class="mat-body-strong">Wait Duration: </span>
+          <mat-label>{{ actionOptionModel.waitDuration }}</mat-label>
+        </div>
+        <mat-divider></mat-divider>
+      </div>
+
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start start"
+        fxLayoutGap="10px"
+        class="row-ready-only"
+      >
+        <span class="mat-body-strong">Comments:</span
+        ><mat-label>{{ actionDetailModel.comments }}</mat-label>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

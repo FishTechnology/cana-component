@@ -13,6 +13,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
+import { UploadService } from 'src/app/commons/upload/upload.service';
 
 @Component({
   selector: 'app-globalvariable',
@@ -83,9 +84,7 @@ export class GlobalvariableComponent implements OnInit {
   }
 
   refresh() {
-    this.globalvariableService
-      .getGlobalVariable(this.customerDetail!.userId)
-      .subscribe((res) => (this.globalVariableModels = res));
+    this.getGlobalVariables();
   }
 
   delete() {
@@ -120,6 +119,7 @@ export class GlobalvariableComponent implements OnInit {
       .subscribe(
         (res) => {
           this.dataSource.data = res;
+          this.selection = new SelectionModel<GlobalVariableModel>(true, []);
         },
         (err) => {
           this.snackbarService.openSnackBar('error loading global variables');

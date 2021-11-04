@@ -122,9 +122,15 @@ export class EnvironmentComponent implements OnInit {
   getEnvironmentByUserId(): void {
     this.environmentService
       .getEnvironment(this.customerDetail.userId)
-      .subscribe((res) => {
-        this.environmentModels = res;
-        this.dataSource.data = this.environmentModels;
-      });
+      .subscribe(
+        (res) => {
+          this.environmentModels = res;
+          this.dataSource.data = this.environmentModels;
+          this.selection = new SelectionModel<EnvironmentModel>(true, []);
+        },
+        (err) => {
+          this.snackbarService.openSnackBar('error while loading environment');
+        }
+      );
   }
 }

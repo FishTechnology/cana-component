@@ -25,7 +25,6 @@ import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 export class TestplanComponent implements OnInit {
   displayedColumns: string[] = ['select', 'name', 'status', 'createdon'];
   dataSource = new MatTableDataSource<TestPlanModel>();
-
   selection = new SelectionModel<TestPlanModel>(true, []);
   moment = moment;
   customerDetail!: CustomerDetail;
@@ -137,6 +136,7 @@ export class TestplanComponent implements OnInit {
       .subscribe(
         (res) => {
           this.dataSource.data = res;
+          this.selection = new SelectionModel<TestPlanModel>(true, []);
         },
         (error) => {
           this.snackbarService.openSnackBar('error in loading test plan');

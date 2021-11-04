@@ -1,5 +1,5 @@
-<div class="environment-container">
-  <mat-card>
+<div class="configuration-container">
+  <mat-card class="margin-bottom">
     <div>
       <mat-toolbar>
         <span>Action</span>
@@ -27,4 +27,26 @@
       </mat-toolbar>
     </div>
   </mat-card>
+  <div id="actionlayout">
+    <div
+      fxFill
+      fxLayout="row"
+      fxLayoutAlign="start start"
+      fxLayoutGap="10px"
+      *ngFor="let action of actionDetailModels"
+      class="margin-bottom"
+    >
+      <div *ngIf="action.type === 'UI_ACTION'" fxFill>
+        <app-browser-readonly
+          [actionDetailModel]="action"
+          *ngIf="action.uiActionType === 'BROWSER'"
+        ></app-browser-readonly>
+        <app-uicontrol-readonly
+          [actionDetailModel]="action"
+          *ngIf="action.uiActionType !== 'BROWSER'"
+          fxFill
+        ></app-uicontrol-readonly>
+      </div>
+    </div>
+  </div>
 </div>

@@ -143,8 +143,19 @@ export class EnvironmentVariableComponent implements OnInit {
   getEnvVariablesByEnvironmentId() {
     this.environmentVariableService
       .getEnvVariablesByEnvId(this.environmentId)
-      .subscribe((res) => {
-        this.dataSource.data = res;
-      });
+      .subscribe(
+        (res) => {
+          this.dataSource.data = res;
+          this.selection = new SelectionModel<EnvironmentVariableModel>(
+            true,
+            []
+          );
+        },
+        (err) => {
+          this.snackbarService.openSnackBar(
+            'Error while loading environment variables'
+          );
+        }
+      );
   }
 }

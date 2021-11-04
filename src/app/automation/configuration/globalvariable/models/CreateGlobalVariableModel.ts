@@ -4,5 +4,5 @@ export interface CreateGlobalVariableModel {
   valueType: string;
   userId: string;
   comments?: string;
-  file?: FormData;
+  fileId?: number;
 }

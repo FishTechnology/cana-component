@@ -15,7 +15,8 @@ export class UiControlService {
     testCaseId: number,
     createActionModel: CreateActionModel
   ): Observable<ResultModel> {
-    const url = environment.canaApiUrl + `/api/testCases/${testCaseId}/actions`;
+    const url =
+      environment.canaApiUrl + `/api/testCases/${testCaseId}/actions/uiControl`;
     return this.httpClient.post<ResultModel>(url, createActionModel);
   }
 }

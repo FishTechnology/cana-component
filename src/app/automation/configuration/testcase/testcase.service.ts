@@ -40,7 +40,7 @@ export class TestCaseService {
 
   getTestCaseByTestPlanId(testPlanId: number): Observable<TestCaseModel[]> {
     return this.httpClient.get<TestCaseModel[]>(
-      environment.canaApiUrl + '/testPlans/' + testPlanId + '/testCases'
+      environment.canaApiUrl + '/api/testPlans/' + testPlanId + '/testCases'
     );
   }
 

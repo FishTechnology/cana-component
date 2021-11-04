@@ -21,7 +21,6 @@ export class CreateActionComponent implements OnInit {
   customerDetail!: CustomerDetail;
 
   constructor(
-    private snackbarService: SnackbarService,
     private route: ActivatedRoute,
     private router: Router,
     public customerService: CustomerService
@@ -29,8 +28,13 @@ export class CreateActionComponent implements OnInit {
     this.actionform = new FormGroup({
       actionType: new FormControl(ActionType.UI_Action, Validators.required),
     });
+
     this.customerService.getUserDetail().subscribe((res) => {
       this.customerDetail = res;
+    });
+    this.route.params.subscribe((params) => {
+      this.testPlanId = params.testplanid;
+      this.testCaseId = params.testcaseid;
     });
   }
 
@@ -50,7 +54,15 @@ export class CreateActionComponent implements OnInit {
       },
     ];
   }
-  navigateToAction(): void {}
+  navigateToTestCase(): void {
+    if (this.testPlanId) {
+      this.router.navigate([
+        `configuration/testplans/${this.testPlanId}/testcases`,
+      ]);
+      return;
+    }
+    this.router.navigate([`configuration/testcases`]);
+  }
   createAction(): void {
     this.childUiControl.emit('save');
   }

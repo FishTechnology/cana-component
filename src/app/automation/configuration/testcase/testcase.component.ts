@@ -45,7 +45,7 @@ export class TestcaseComponent implements OnInit {
 
     this.customerService.getUserDetail().subscribe((res) => {
       this.customerDetail = res;
-      this.getTestCaseByUserId();
+      this.getTestCases();
     });
   }
 
@@ -92,7 +92,13 @@ export class TestcaseComponent implements OnInit {
   }
 
   navigateAddNewAction(): void {
-    this.router.navigate(['/testcases/10/actions/create']);
+    let url = `/configuration`;
+    if (this.testPlanId) {
+      url = `/configuration/testplans/${this.testPlanId}`;
+    }
+
+    url += `/testcases/${this.selection.selected[0].id}/actions/create`;
+    this.router.navigate([url]);
   }
 
   navigateViewAction(): void {
@@ -106,9 +112,7 @@ export class TestcaseComponent implements OnInit {
   }
 
   refresh() {
-    // this.testcaseService
-    //   .getGlobalVariable(this.customerDetail.userId)
-    //   .subscribe((res) => (this.globalVariableModels = res));
+    this.getTestCases();
   }
 
   delete() {
@@ -137,13 +141,15 @@ export class TestcaseComponent implements OnInit {
   getTestCases(): void {
     if (this.testPlanId) {
       this.getTestCasesByTestPlanId();
+    } else {
+      this.getTestCaseByUserId();
     }
-    this.getTestCaseByUserId();
   }
   getTestCasesByTestPlanId() {
     this.testcaseService.getTestCaseByTestPlanId(this.testPlanId).subscribe(
       (res) => {
         this.dataSource.data = res;
+        this.selection = new SelectionModel<TestCaseModel>(true, []);
       },
       (err) => {
         this.snackbarService.openSnackBar('Error loading testcases');
@@ -157,6 +163,7 @@ export class TestcaseComponent implements OnInit {
       .subscribe(
         (res) => {
           this.dataSource.data = res;
+          this.selection = new SelectionModel<TestCaseModel>(true, []);
         },
         (err) => {
           this.snackbarService.openSnackBar('Error loading testcases');

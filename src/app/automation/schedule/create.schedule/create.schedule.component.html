@@ -1,0 +1,60 @@
+<div class="container-layout">
+  <mat-card [formGroup]="scheduleFormControl">
+    <mat-card-title>Test Plan: {{ testPlanModel?.name }} </mat-card-title>
+    <mat-card-content>
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+        <div fxFlex="25%">
+          <mat-form-field appearance="fill" fxFill>
+            <mat-label>Schedule environment</mat-label>
+            <mat-select formControlName="environmenId" required>
+              <mat-option>--</mat-option>
+              <mat-option
+                *ngFor="let envionment of environmentDetails"
+                [value]="envionment.id"
+              >
+                {{ envionment.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                scheduleFormControl.get('environmenId')?.hasError('required')
+              "
+              >Please choose an environment</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+        <div fxFlex="10%">
+          <mat-checkbox formControlName="recordVideo"
+            >Record Video</mat-checkbox
+          >
+        </div>
+        <div fxFlex="10%">
+          <mat-checkbox formControlName="disableScreenshot"
+            >Disable screenshot</mat-checkbox
+          >
+        </div>
+        <div fxFlex="10%">
+          <mat-checkbox formControlName="captureNetworkTraffic"
+            >Capture Network Traffic</mat-checkbox
+          >
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-button mat-dialog-close routerLink="/schedules">
+        Cancel
+      </button>
+      <button
+        mat-raised-button
+        cdkFocusInitial
+        color="primary"
+        (click)="createSchedule()"
+        [disabled]="!scheduleFormControl.valid"
+      >
+        Save
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

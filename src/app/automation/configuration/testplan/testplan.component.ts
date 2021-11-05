@@ -85,10 +85,6 @@ export class TestplanComponent implements OnInit {
     });
   }
 
-  scheduleTestPlan(): void {
-    var modelRef = this.dialog.open(ScheduleComponent);
-  }
-
   createTestCase(): void {
     if (this.selection.selected.length !== 1) {
       this.snackbarService.openSnackBar('please select one test plan');

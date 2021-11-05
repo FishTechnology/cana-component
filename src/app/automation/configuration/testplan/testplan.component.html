@@ -42,7 +42,11 @@
           </button>
           <button
             mat-menu-item
-            (click)="scheduleTestPlan()"
+            [routerLink]="[
+              '/testplans',
+              this.selection.selected[0]?.id,
+              'schedules'
+            ]"
             [disabled]="this.selection.selected.length !== 1"
           >
             Schedule

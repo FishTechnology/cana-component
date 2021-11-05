@@ -32,6 +32,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserComponent } from './automation/configuration/action/createaction/types/uicontrol/browser/browser.component';
 import { BrowserReadonlyComponent } from './automation/configuration/action/createaction/types/uicontrol/browser/browserreadonly/browser.readonly.component';
 import { UiControlReadonlyComponent } from './automation/configuration/action/createaction/types/uicontrol/uicontrol.readonly/uicontrol.readonly.component';
+import { CreateScheduleComponent } from './automation/schedule/create.schedule/create.schedule.component';
+import { ScheduleIterationComponent } from './automation/schedule/scheduleiteration/scheduleiteration.component';
+import { ReplaceNullWithTextPipe } from './commons/pipes/replacenullwithtext/replacenullwithtext.pipe';
+import { ScheduleIterationHistoryComponent } from './automation/schedule/scheduleiteration/scheduleiterationhistory/scheduleiterationhistory.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +63,10 @@ import { UiControlReadonlyComponent } from './automation/configuration/action/cr
     BrowserComponent,
     BrowserReadonlyComponent,
     UiControlReadonlyComponent,
+    CreateScheduleComponent,
+    ScheduleIterationComponent,
+    ReplaceNullWithTextPipe,
+    ScheduleIterationHistoryComponent,
   ],
   imports: [
     BrowserModule,

@@ -23,6 +23,26 @@
             >
           </mat-form-field>
         </div>
+        <div fxFlex="25%">
+          <mat-form-field appearance="fill" fxFill>
+            <mat-label>Browser type</mat-label>
+            <mat-select formControlName="browserType" required>
+              <mat-option>--</mat-option>
+              <mat-option
+                *ngFor="let browser of supportedBrowserTypes"
+                [value]="browser.value"
+              >
+                {{ browser.text }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                scheduleFormControl.get('browserType')?.hasError('required')
+              "
+              >Please choose an browser type</mat-error
+            >
+          </mat-form-field>
+        </div>
       </div>
       <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
         <div fxFlex="10%">

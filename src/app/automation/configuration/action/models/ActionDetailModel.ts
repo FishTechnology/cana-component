@@ -14,8 +14,9 @@ export interface ActionDetailModel {
   createdBy: string;
   modifiedBy: string;
   browserActionType: string;
-  url: string;
+  browserValue: string;
   isActive: boolean;
   uiActionType: string;
+  isAssertVerification: boolean;
   actionOptionModels: ActionOptionModel[];
 }

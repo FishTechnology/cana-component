@@ -27,6 +27,7 @@ export class CreateActionComponent implements OnInit {
   ) {
     this.actionform = new FormGroup({
       actionType: new FormControl(ActionType.UI_Action, Validators.required),
+      isAssertVerification: new FormControl(false, Validators.required),
     });
 
     this.customerService.getUserDetail().subscribe((res) => {
@@ -54,6 +55,7 @@ export class CreateActionComponent implements OnInit {
       },
     ];
   }
+
   navigateToTestCase(): void {
     if (this.testPlanId) {
       this.router.navigate([
@@ -63,7 +65,10 @@ export class CreateActionComponent implements OnInit {
     }
     this.router.navigate([`configuration/testcases`]);
   }
+
   createAction(): void {
     this.childUiControl.emit('save');
   }
+
+  assertClicked(): void {}
 }

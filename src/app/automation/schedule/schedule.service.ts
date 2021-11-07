@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ScheduleIterationModel } from './models/ScheduleIterationModel';
 import { ResultModel } from 'src/app/commons/models/ResultModel';
 import { CreateScheduleModel } from './models/CreateScheduleModel';
+import { ScheduleIterationResultModel } from './scheduleiteration/scheduleiterationhistory/models/ScheduleIterationResultModel';
 
 @Injectable({
   providedIn: 'root',
@@ -32,5 +33,15 @@ export class ScheduleService {
     const url =
       environment.canaApiUrl + `/api/testPlans/${testPlanId}/schedules`;
     return this.httpClient.post<ResultModel>(url, createScheduleModel);
+  }
+
+  getScheduleResult(
+    scheduleId: number,
+    scheduleIterationId: number
+  ): Observable<ScheduleIterationResultModel> {
+    const url =
+      environment.canaApiUrl +
+      `/api/schedules/${scheduleId}/scheduleIterations/${scheduleIterationId}/result`;
+    return this.httpClient.get<ScheduleIterationResultModel>(url);
   }
 }

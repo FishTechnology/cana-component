@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class DatabaseComponent implements OnInit {
   @Input() actionType: string | undefined;
+  @Input() isAssertVerification!: boolean;
 
   constructor() {}
 

@@ -3,9 +3,9 @@
     <mat-card>
       <mat-card-title> Action Creation </mat-card-title>
       <mat-card-content>
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="gappx">
-          <div fxFlex="25%">
-            <form [formGroup]="actionform">
+        <form [formGroup]="actionform">
+          <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="gappx">
+            <div fxFlex="25%">
               <div
                 fxLayout="row"
                 fxLayoutAlign="start start"
@@ -22,40 +22,56 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-            </form>
+            </div>
+            <div fxFlex="20%" align="center">
+              <mat-slide-toggle
+                (click)="assertClicked()"
+                formControlName="isAssertVerification"
+                >Is Assert Verification</mat-slide-toggle
+              >
+            </div>
           </div>
-        </div>
-        <div
-          fxLayout="row"
-          fxLayoutAlign="start start"
-          *ngIf="actionform.controls['actionType'].value === 'UI_ACTION'"
-        >
-          <app-uicontrol
-            [actionType]="actionform.controls['actionType'].value"
-            [saveEvent]="childUiControl"
-            fxFill
-          ></app-uicontrol>
-        </div>
-        <div
-          fxLayout="row"
-          fxLayoutAlign="start start"
-          *ngIf="actionform.controls['actionType'].value === 'api'"
-        >
-          <app-api
-            [actionType]="actionform.controls['actionType'].value"
-            fxFill
-          ></app-api>
-        </div>
-        <div
-          fxLayout="row"
-          fxLayoutAlign="start start"
-          *ngIf="actionform.controls['actionType'].value === 'database'"
-        >
-          <app-database
-            [actionType]="actionform.controls['actionType'].value"
-            fxFill
-          ></app-database>
-        </div>
+          <div
+            fxLayout="row"
+            fxLayoutAlign="start start"
+            *ngIf="actionform.controls['actionType'].value === 'UI_ACTION'"
+          >
+            <app-uicontrol
+              [isAssertVerification]="
+                actionform.controls['isAssertVerification'].value
+              "
+              [actionType]="actionform.controls['actionType'].value"
+              [saveEvent]="childUiControl"
+              fxFill
+            ></app-uicontrol>
+          </div>
+          <div
+            fxLayout="row"
+            fxLayoutAlign="start start"
+            *ngIf="actionform.controls['actionType'].value === 'api'"
+          >
+            <app-api
+              [isAssertVerification]="
+                actionform.controls['isAssertVerification'].value
+              "
+              [actionType]="actionform.controls['actionType'].value"
+              fxFill
+            ></app-api>
+          </div>
+          <div
+            fxLayout="row"
+            fxLayoutAlign="start start"
+            *ngIf="actionform.controls['actionType'].value === 'database'"
+          >
+            <app-database
+              [isAssertVerification]="
+                actionform.controls['isAssertVerification'].value
+              "
+              [actionType]="actionform.controls['actionType'].value"
+              fxFill
+            ></app-database>
+          </div>
+        </form>
       </mat-card-content>
       <mat-card-actions align="end">
         <button mat-button mat-dialog-close (click)="navigateToTestCase()">

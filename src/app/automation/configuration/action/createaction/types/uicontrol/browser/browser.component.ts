@@ -1,29 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ControlContainer,
-  FormControl,
-  FormGroup,
-  FormGroupDirective,
-  NgForm,
-} from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { ControlContainer, FormGroup } from '@angular/forms';
+import { MyErrorStateMatcher } from 'src/app/commons/error/MyErrorStateMatcher';
 import { SelectModel } from 'src/app/commons/SelectModel';
 import { BrowserActionType } from './models/BrowserActionType';
-
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
-  }
-}
 
 @Component({
   selector: 'app-browser',
@@ -44,5 +23,21 @@ export class BrowserComponent implements OnInit {
   ngOnInit(): void {
     this.uiControlForm = this.controlContainer.control as FormGroup;
     this.browserForm = this.uiControlForm.get('browserDetail') as FormGroup;
+
+    this.uiControlForm
+      .get('isAssertVerification')
+      ?.valueChanges.subscribe((data) => {
+        if (this.uiControlForm.get('isAssertVerification')?.value) {
+          this.browserActionTypes = [
+            { text: 'Title', value: BrowserActionType.Title },
+            { text: 'Url', value: BrowserActionType.Url },
+          ];
+        } else {
+          this.browserActionTypes = [
+            { text: 'Open', value: BrowserActionType.Open },
+            { text: 'Close', value: BrowserActionType.Close },
+          ];
+        }
+      });
   }
 }

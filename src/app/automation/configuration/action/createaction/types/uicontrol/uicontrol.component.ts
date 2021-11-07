@@ -3,24 +3,18 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import {
-  FormArray,
-  FormControl,
-  FormGroup,
-  FormGroupDirective,
-  NgForm,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SelectModel } from 'src/app/commons/SelectModel';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Observable, of } from 'rxjs';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Observable } from 'rxjs';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { map, startWith } from 'rxjs/operators';
 import { UiControlService } from './uicontrol.service';
 import { CreateActionModel } from './models/CreateActionModel';
@@ -32,29 +26,16 @@ import { UiControlOptoinType } from './models/UiControlOptoinType';
 import { CreateActionOptionModel } from './models/CreateActionOptionModel';
 import { UIControlType } from './models/UIControlType';
 import { CreateActionBrowserModel } from './models/CreateActionBrowserModel';
-
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
-  }
-}
+import { MyErrorStateMatcher } from 'src/app/commons/error/MyErrorStateMatcher';
 
 @Component({
   selector: 'app-uicontrol',
   templateUrl: './uicontrol.component.html',
   styleUrls: ['./uicontrol.component.scss'],
 })
-export class UicontrolComponent implements OnInit {
+export class UicontrolComponent implements OnInit, OnChanges {
   @Input() saveEvent!: EventEmitter<string>;
+  @Input() isAssertVerification!: boolean;
   @ViewChild('ctlOptionInput') ctlOptionInput!: ElementRef<HTMLInputElement>;
   @Input() actionType!: string;
   selectable = true;
@@ -67,12 +48,14 @@ export class UicontrolComponent implements OnInit {
   allCtlOptions: SelectModel[] = [
     { text: 'Wait', value: UiControlOptoinType.WAIT },
     { text: 'Wait For Visible', value: UiControlOptoinType.WAIT_FOR_VISIBLE },
+    { text: 'Optional', value: UiControlOptoinType.OPTIONAL },
   ];
   uiCtlActionTypes: SelectModel[];
   matcher = new MyErrorStateMatcher();
   uiControlOptions: SelectModel[] = [
     { text: 'Wait', value: UiControlOptoinType.WAIT },
     { text: 'Wait For Visible', value: UiControlOptoinType.WAIT_FOR_VISIBLE },
+    { text: 'Optional', value: UiControlOptoinType.OPTIONAL },
   ];
   testCaseId!: number;
   testPlanId!: number;
@@ -90,9 +73,10 @@ export class UicontrolComponent implements OnInit {
       value: new FormControl(''),
       eventOption: new FormControl(''),
       comments: new FormControl(''),
+      isAssertVerification: new FormControl('false'),
       browserDetail: new FormGroup({
         actionType: new FormControl('', Validators.required),
-        url: new FormControl(''),
+        value: new FormControl(''),
         comments: new FormControl(''),
       }),
       uiControlFormOptions: new FormArray([]),
@@ -102,6 +86,10 @@ export class UicontrolComponent implements OnInit {
       { text: 'Click', value: UIControlType.CLICK },
       { text: 'Browser', value: UIControlType.BROWSER },
     ];
+
+    this.uiControlForm
+      .get('isAssertVerification')
+      ?.setValue(this.isAssertVerification);
 
     this.filteredCtlOptions = this.uiControlForm
       .get('eventOption')!
@@ -141,11 +129,12 @@ export class UicontrolComponent implements OnInit {
     this.uiControlForm.get('eventOption')!.setValue(null);
   }
 
-  remove(ctlOption: SelectModel): void {
-    const index = this.ctlOptions.indexOf(ctlOption);
+  remove(ctlOption: SelectModel, indexOfElement: number): void {
+    // const index = this.ctlOptions.indexOf(ctlOption);
+    this.uiControlFormOption().removeAt(indexOfElement);
 
-    if (index >= 0) {
-      this.ctlOptions.splice(index, 1);
+    if (indexOfElement >= 0) {
+      this.ctlOptions.splice(indexOfElement, 1);
     }
   }
 
@@ -186,6 +175,31 @@ export class UicontrolComponent implements OnInit {
     );
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes.isAssertVerification &&
+      changes.isAssertVerification.currentValue !==
+        changes.isAssertVerification.previousValue
+    ) {
+      if (changes.isAssertVerification.currentValue) {
+        this.uiCtlActionTypes = [
+          { text: 'Input', value: UIControlType.INPUT },
+          { text: 'Browser', value: UIControlType.BROWSER },
+        ];
+      } else {
+        this.uiCtlActionTypes = [
+          { text: 'Input', value: UIControlType.INPUT },
+          { text: 'Click', value: UIControlType.CLICK },
+          { text: 'Browser', value: UIControlType.BROWSER },
+        ];
+      }
+
+      this.uiControlForm
+        .get('isAssertVerification')
+        ?.setValue(this.isAssertVerification);
+    }
+  }
+
   createUIAction(): void {
     let createActionModel: CreateActionModel = {
       key: this.uiControlForm.get('key')?.value,
@@ -194,6 +208,8 @@ export class UicontrolComponent implements OnInit {
       value: this.uiControlForm.get('value')?.value,
       userId: this.customerDetail.userId,
       uiActionType: this.uiControlForm.get('uiactionType')?.value,
+      isAssertVerification: this.uiControlForm.get('isAssertVerification')
+        ?.value,
     };
 
     if (this.uiControlFormOption().length >= 1) {
@@ -228,7 +244,7 @@ export class UicontrolComponent implements OnInit {
   getBrowserOptions(): CreateActionBrowserModel {
     let createActionBrowserModel: CreateActionBrowserModel = {
       actionType: this.browserForm().get('actionType')?.value,
-      url: this.browserForm().get('url')?.value,
+      value: this.browserForm().get('value')?.value,
       comments: this.browserForm().get('comments')?.value,
     };
     return createActionBrowserModel;

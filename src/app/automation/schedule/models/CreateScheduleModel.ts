@@ -4,4 +4,5 @@ export interface CreateScheduleModel {
   isRecordVideoEnabled: boolean;
   isDisableScreenshot: boolean;
   isCaptureNetworkTraffic: boolean;
+  browserType: string;
 }

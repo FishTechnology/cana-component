@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from 'src/app/commons/customer/customer.service';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
+import { BrowserType } from 'src/app/commons/models/BrowserTypeEnums';
+import { SelectModel } from 'src/app/commons/SelectModel';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { EnvironmentService } from '../../configuration/environment/environment.service';
 import { EnvironmentModel } from '../../configuration/environment/models/EnvironmentModel';
@@ -21,11 +23,38 @@ export class CreateScheduleComponent implements OnInit {
   testPlanModel!: TestPlanModel;
   customerDetail!: CustomerDetail;
   environmentDetails!: EnvironmentModel[];
+  supportedBrowserTypes: SelectModel[] = [
+    {
+      text: 'Google Chrome',
+      value: BrowserType.Google_Chrome,
+    },
+    {
+      text: 'Internet Explorer',
+      value: BrowserType.Internet_Explorer,
+    },
+    {
+      text: 'Mozilla Firefox',
+      value: BrowserType.Mozilla_Firefox,
+    },
+    {
+      text: 'Opera',
+      value: BrowserType.Opera,
+    },
+    {
+      text: 'Safari',
+      value: BrowserType.Safari,
+    },
+  ];
+
   scheduleFormControl = new FormGroup({
     environmenId: new FormControl('', Validators.required),
     recordVideo: new FormControl(true),
     disableScreenshot: new FormControl(false),
     captureNetworkTraffic: new FormControl(false),
+    browserType: new FormControl(
+      BrowserType.Google_Chrome,
+      Validators.required
+    ),
   });
   constructor(
     private testPlanService: TestplanService,
@@ -81,6 +110,7 @@ export class CreateScheduleComponent implements OnInit {
       isDisableScreenshot:
         this.scheduleFormControl.get('disableScreenshot')?.value,
       isRecordVideoEnabled: this.scheduleFormControl.get('recordVideo')?.value,
+      browserType: this.scheduleFormControl.get('browserType')?.value,
     };
 
     this.scheduleService

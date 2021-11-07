@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ApiComponent implements OnInit {
   @Input() actionType: string | undefined;
+  @Input() isAssertVerification!: string;
 
   constructor() {}
 

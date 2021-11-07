@@ -1,6 +1,6 @@
 <div [formGroup]="browserForm">
   <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
-    <div fxFlex="50%">
+    <div fxFlex="25%">
       <mat-form-field appearance="fill" fxFill>
         <mat-label>Browser Action Type</mat-label>
         <mat-select formControlName="actionType">
@@ -13,15 +13,15 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div fxFlex="50%" fxFill>
+    <div fxFlex="75%" fxFill>
       <mat-form-field appearance="fill" fxFill>
-        <mat-label>Url</mat-label>
+        <mat-label>Value</mat-label>
         <input
           type="text"
           matInput
-          formControlName="url"
+          formControlName="value"
           [errorStateMatcher]="matcher"
-          placeholder="Ex. google.com"
+          placeholder="Ex. google.com or title"
           autocomplete="off"
         />
         <mat-error
@@ -29,7 +29,7 @@
             browserForm.hasError('value') && !browserForm.hasError('required')
           "
         >
-          Please enter a valid url address
+          Please enter a valid value
         </mat-error>
         <mat-error *ngIf="browserForm.hasError('required')">
           Email is <strong>required</strong>

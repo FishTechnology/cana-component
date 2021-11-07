@@ -74,10 +74,13 @@
               cdkDropListOrientation="horizontal"
             >
               <mat-chip
-                *ngFor="let ctlOptions of ctlOptions"
+                *ngFor="
+                  let ctlOptions of ctlOptions;
+                  let indexOfElement = index
+                "
                 [selectable]="selectable"
                 [removable]="removable"
-                (removed)="remove(ctlOptions)"
+                (removed)="remove(ctlOptions, indexOfElement)"
               >
                 {{ ctlOptions.text }}
                 <button matChipRemove *ngIf="removable">
@@ -166,7 +169,7 @@
               </mat-card>
             </div>
             <div
-              *ngIf="ctlOption.value === 'WAIT_FOR_VISIBLE'"
+              *ngIf="ctlOption.value !== 'WAIT'"
               fxLayout="row wrap"
               fxLayoutAlign="start start"
               fxLayoutGap="10px"

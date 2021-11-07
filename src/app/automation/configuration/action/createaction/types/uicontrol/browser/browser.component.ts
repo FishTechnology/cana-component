@@ -23,21 +23,26 @@ export class BrowserComponent implements OnInit {
   ngOnInit(): void {
     this.uiControlForm = this.controlContainer.control as FormGroup;
     this.browserForm = this.uiControlForm.get('browserDetail') as FormGroup;
+    this.setBrowserActionTypes();
 
     this.uiControlForm
       .get('isAssertVerification')
       ?.valueChanges.subscribe((data) => {
-        if (this.uiControlForm.get('isAssertVerification')?.value) {
-          this.browserActionTypes = [
-            { text: 'Title', value: BrowserActionType.Title },
-            { text: 'Url', value: BrowserActionType.Url },
-          ];
-        } else {
-          this.browserActionTypes = [
-            { text: 'Open', value: BrowserActionType.Open },
-            { text: 'Close', value: BrowserActionType.Close },
-          ];
-        }
+        this.setBrowserActionTypes();
       });
+  }
+
+  setBrowserActionTypes(): void {
+    if (this.uiControlForm.get('isAssertVerification')?.value) {
+      this.browserActionTypes = [
+        { text: 'Title', value: BrowserActionType.Title },
+        { text: 'Url', value: BrowserActionType.Url },
+      ];
+    } else {
+      this.browserActionTypes = [
+        { text: 'Open', value: BrowserActionType.Open },
+        { text: 'Close', value: BrowserActionType.Close },
+      ];
+    }
   }
 }

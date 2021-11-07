@@ -21,7 +21,9 @@
       *ngIf="uiControlForm.get('uiactionType')?.value === 'BROWSER'"
       fxFill
     >
-      <app-browser [formGroup]="uiControlForm" fxFill></app-browser>
+      <div fxFlex="100%">
+        <app-browser [formGroup]="uiControlForm" fxFill></app-browser>
+      </div>
     </div>
     <div *ngIf="uiControlForm.get('uiactionType')?.value !== 'BROWSER'">
       <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
@@ -64,136 +66,10 @@
         </div>
       </div>
       <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
-        <div fxFill>
-          <mat-form-field class="example-chip-list" appearance="fill">
-            <mat-label>Control Options</mat-label>
-            <mat-chip-list
-              class="example-chip"
-              #chipList
-              aria-label="Control Option selection"
-              cdkDropListOrientation="horizontal"
-            >
-              <mat-chip
-                *ngFor="
-                  let ctlOptions of ctlOptions;
-                  let indexOfElement = index
-                "
-                [selectable]="selectable"
-                [removable]="removable"
-                (removed)="remove(ctlOptions, indexOfElement)"
-              >
-                {{ ctlOptions.text }}
-                <button matChipRemove *ngIf="removable">
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </mat-chip>
-              <input
-                placeholder="New option..."
-                #ctlOptionInput
-                formControlName="eventOption"
-                [matAutocomplete]="auto"
-                [matChipInputFor]="chipList"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="add($event)"
-              />
-            </mat-chip-list>
-            <mat-autocomplete
-              #auto="matAutocomplete"
-              (optionSelected)="selected($event)"
-            >
-              <mat-option
-                *ngFor="let ctlOption of filteredCtlOptions | async"
-                [value]="ctlOption"
-              >
-                {{ ctlOption.text }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-      </div>
-      <div
-        id="option_layout"
-        class="option-list"
-        cdkDropList
-        (cdkDropListDropped)="drop($event)"
-      >
-        <div
-          formArrayName="uiControlFormOptions"
-          fxLayout="row wrap"
-          fxLayoutAlign="center center"
-          fxLayoutGap="10px"
-          *ngFor="let ctlOption of ctlOptions; index as i"
-          cdkDrag
-          class="margin-bottom"
-        >
-          <div id="optionsRow" fxFill [formGroupName]="i">
-            <div
-              fxLayout="row wrap"
-              fxLayoutAlign="start start"
-              fxLayoutGap="10px"
-              class="mat-elevation-z2"
-              *ngIf="ctlOption.value === 'WAIT'"
-            >
-              <mat-card class="full-width">
-                <mat-card-content>
-                  <div fxFlex="20%">{{ ctlOption.text }}</div>
-                  <div fxFlex="70%">
-                    <mat-form-field
-                      class="example-form-field"
-                      appearance="fill"
-                      fxFill
-                    >
-                      <mat-label>Wait in seconds</mat-label>
-                      <input
-                        matInput
-                        type="text"
-                        autocomplete="off"
-                        formControlName="waitinseconds"
-                      />
-                      <button matSuffix mat-icon-button aria-label="Clear">
-                        <mat-icon>close</mat-icon>
-                      </button>
-                    </mat-form-field>
-                  </div>
-                  <div fxFlex="10%" align="center">
-                    <button
-                      mat-mini-fab
-                      color="primary"
-                      aria-label="delete for ui control options"
-                      (click)="deleteControlOption(ctlOption, i)"
-                    >
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                  </div>
-                </mat-card-content>
-              </mat-card>
-            </div>
-            <div
-              *ngIf="ctlOption.value !== 'WAIT'"
-              fxLayout="row wrap"
-              fxLayoutAlign="start start"
-              fxLayoutGap="10px"
-              class="mat-elevation-z2"
-            >
-              <mat-card class="full-width">
-                <mat-card-content>
-                  <div fxFlex="20%">{{ ctlOption.text }}</div>
-                  <div fxFlex="70%"></div>
-                  <div fxFlex="10%" align="center">
-                    <button
-                      mat-mini-fab
-                      color="primary"
-                      aria-label="delete for ui control options"
-                      (click)="deleteControlOption(ctlOption, i)"
-                    >
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                  </div>
-                </mat-card-content>
-              </mat-card>
-            </div>
-          </div>
-        </div>
+        <app-ctloptionsautocomplete
+          [formGroup]="uiControlForm"
+          fxFill
+        ></app-ctloptionsautocomplete>
       </div>
       <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
         <div fxFlex="100%">

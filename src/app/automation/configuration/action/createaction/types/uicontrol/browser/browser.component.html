@@ -38,6 +38,12 @@
     </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+    <app-ctloptionsautocomplete
+      [formGroup]="uiControlForm"
+      fxFill
+    ></app-ctloptionsautocomplete>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
     <mat-form-field appearance="fill" fxFill>
       <mat-label>Leave a comment</mat-label>
       <textarea

@@ -36,6 +36,7 @@ import { CreateScheduleComponent } from './automation/schedule/create.schedule/c
 import { ScheduleIterationComponent } from './automation/schedule/scheduleiteration/scheduleiteration.component';
 import { ReplaceNullWithTextPipe } from './commons/pipes/replacenullwithtext/replacenullwithtext.pipe';
 import { ScheduleIterationHistoryComponent } from './automation/schedule/scheduleiteration/scheduleiterationhistory/scheduleiterationhistory.component';
+import { CtlOptionsAutocompleteComponent } from './commons/ctloptionsautocomplete/ctloptionsautocomplete.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { ScheduleIterationHistoryComponent } from './automation/schedule/schedul
     ScheduleIterationComponent,
     ReplaceNullWithTextPipe,
     ScheduleIterationHistoryComponent,
+    CtlOptionsAutocompleteComponent,
   ],
   imports: [
     BrowserModule,

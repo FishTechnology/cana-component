@@ -16,6 +16,7 @@ import { ScheduleComponent } from '../../schedule/schedule.component';
 import { TestPlanModel } from './models/TestPlanModel';
 import { CreateTestcaseComponent } from '../testcase/createtestcase/createtestcase.component';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
+import { UpdateTestplanStatusModel } from './models/UpdateTestplanStatusModel';
 
 @Component({
   selector: 'app-testplan',
@@ -136,6 +137,31 @@ export class TestplanComponent implements OnInit {
         },
         (error) => {
           this.snackbarService.openSnackBar('error in loading test plan');
+        }
+      );
+  }
+
+  updateTestPlanStatus(status: string): void {
+    let updateTestplanStatusModel: UpdateTestplanStatusModel = {
+      userId: this.customerDetail.userId,
+      status: status,
+    };
+    this.testplanService
+      .updateTestPlanStatus(
+        this.selection.selected[0].id,
+        updateTestplanStatusModel
+      )
+      .subscribe(
+        (res) => {
+          this.snackbarService.openSnackBar(
+            'successfully updated test plan status'
+          );
+          this.getTestplanByUserId();
+        },
+        (err) => {
+          this.snackbarService.openSnackBar(
+            'error while updating test plan status'
+          );
         }
       );
   }

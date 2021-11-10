@@ -1,4 +1,4 @@
 export interface UpdateTestplanStatusModel {
-  userId: number;
+  userId: string;
   status: string;
 }

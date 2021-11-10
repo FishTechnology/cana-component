@@ -47,7 +47,7 @@ export class TestplanService {
     updateTestplanStatusModel: UpdateTestplanStatusModel
   ): Observable<ErrorMessageModel[]> {
     return this.httpClient.put<ErrorMessageModel[]>(
-      environment.canaApiUrl + '/api/testPlans/' + testPlanId,
+      environment.canaApiUrl + '/api/testPlans/' + testPlanId + '/status',
       updateTestplanStatusModel
     );
   }

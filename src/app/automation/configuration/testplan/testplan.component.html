@@ -36,6 +36,13 @@
           <button
             mat-menu-item
             [disabled]="this.selection.selected.length !== 1"
+            [matMenuTriggerFor]="testplanstatus"
+          >
+            Update Status
+          </button>
+          <button
+            mat-menu-item
+            [disabled]="this.selection.selected.length !== 1"
             [matMenuTriggerFor]="testcases"
           >
             Test Case
@@ -63,6 +70,14 @@
             ]"
           >
             View
+          </button>
+        </mat-menu>
+        <mat-menu #testplanstatus="matMenu">
+          <button mat-menu-item (click)="updateTestPlanStatus('READY')">
+            Ready
+          </button>
+          <button mat-menu-item (click)="updateTestPlanStatus('PAUSE')">
+            Pause
           </button>
         </mat-menu>
       </mat-toolbar>

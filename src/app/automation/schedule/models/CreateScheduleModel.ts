@@ -1,3 +1,5 @@
+import { CreateNotificationModel } from './CreateNotificationModel';
+
 export interface CreateScheduleModel {
   environmentId: number;
   userId: string;
@@ -5,4 +7,5 @@ export interface CreateScheduleModel {
   isDisableScreenshot: boolean;
   isCaptureNetworkTraffic: boolean;
   browserType: string;
+  notification?: CreateNotificationModel;
 }

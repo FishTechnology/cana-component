@@ -3,6 +3,7 @@ import { ControlContainer, FormGroup } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/commons/error/MyErrorStateMatcher';
 import { SelectModel } from 'src/app/commons/SelectModel';
 import { BrowserActionType } from './models/BrowserActionType';
+import { conditionType } from './models/ConditionType';
 
 @Component({
   selector: 'app-browser',
@@ -16,6 +17,13 @@ export class BrowserComponent implements OnInit {
   browserActionTypes: SelectModel[] = [
     { text: 'Open', value: BrowserActionType.Open },
     { text: 'Close', value: BrowserActionType.Close },
+  ];
+  conditionTypes: SelectModel[] = [
+    { text: 'Equal', value: conditionType.Equal },
+    { text: 'Not Equal', value: conditionType.Not_Equal },
+    { text: 'Contains', value: conditionType.Contains },
+    { text: 'Start With', value: conditionType.Start_With },
+    { text: 'End With', value: conditionType.End_With },
   ];
 
   constructor(private controlContainer: ControlContainer) {}

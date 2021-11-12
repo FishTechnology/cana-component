@@ -10,6 +10,7 @@ import { EnvironmentService } from '../../configuration/environment/environment.
 import { EnvironmentModel } from '../../configuration/environment/models/EnvironmentModel';
 import { TestPlanModel } from '../../configuration/testplan/models/TestPlanModel';
 import { TestplanService } from '../../configuration/testplan/testplan.service';
+import { CreateNotificationModel } from '../models/CreateNotificationModel';
 import { CreateScheduleModel } from '../models/CreateScheduleModel';
 import { ScheduleService } from '../schedule.service';
 
@@ -51,6 +52,7 @@ export class CreateScheduleComponent implements OnInit {
     recordVideo: new FormControl(true),
     disableScreenshot: new FormControl(false),
     captureNetworkTraffic: new FormControl(false),
+    emailAddresses: new FormControl(''),
     browserType: new FormControl(
       BrowserType.Google_Chrome,
       Validators.required
@@ -113,6 +115,12 @@ export class CreateScheduleComponent implements OnInit {
       browserType: this.scheduleFormControl.get('browserType')?.value,
     };
 
+    if (this.scheduleFormControl.get('emailAddresses')?.value) {
+      let notificationModel: CreateNotificationModel = {
+        emailAddress: this.scheduleFormControl.get('emailAddresses')?.value,
+      };
+      createScheduleModel.notification = notificationModel;
+    }
     this.scheduleService
       .createSchedule(this.testPlanId, createScheduleModel)
       .subscribe(

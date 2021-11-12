@@ -27,6 +27,7 @@ import { CreateActionOptionModel } from './models/CreateActionOptionModel';
 import { UIControlType } from './models/UIControlType';
 import { CreateActionBrowserModel } from './models/CreateActionBrowserModel';
 import { MyErrorStateMatcher } from 'src/app/commons/error/MyErrorStateMatcher';
+import { UIControlKeyType } from './models/UIControlKeyType';
 
 @Component({
   selector: 'app-uicontrol',
@@ -44,6 +45,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   uiControlForm: FormGroup;
   filteredCtlOptions: Observable<SelectModel[]>;
+  uiActionKeyType: SelectModel[] = [];
   ctlOptions: SelectModel[] = [];
   allCtlOptions: SelectModel[] = [
     { text: 'Wait', value: UiControlOptoinType.WAIT },
@@ -69,6 +71,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
   ) {
     this.uiControlForm = new FormGroup({
       uiactionType: new FormControl(UIControlType.INPUT, Validators.required),
+      keyType: new FormControl(UIControlKeyType.Xpath, Validators.required),
       key: new FormControl('', Validators.required),
       value: new FormControl(''),
       eventOption: new FormControl(''),
@@ -78,9 +81,17 @@ export class UicontrolComponent implements OnInit, OnChanges {
         actionType: new FormControl('', Validators.required),
         value: new FormControl(''),
         comments: new FormControl(''),
+        conditionType: new FormControl(''),
       }),
       uiControlFormOptions: new FormArray([]),
     });
+
+    this.uiActionKeyType = [
+      { text: 'Id', value: UIControlKeyType.Id },
+      { text: 'Css', value: UIControlKeyType.Css },
+      { text: 'Xpath', value: UIControlKeyType.Xpath },
+    ];
+
     this.uiCtlActionTypes = [
       { text: 'Input', value: UIControlType.INPUT },
       { text: 'Click', value: UIControlType.CLICK },
@@ -202,7 +213,10 @@ export class UicontrolComponent implements OnInit, OnChanges {
 
   createUIAction(): void {
     let createActionModel: CreateActionModel = {
-      key: this.uiControlForm.get('key')?.value,
+      key:
+        this.uiControlForm.get('keyType')?.value +
+        ':' +
+        this.uiControlForm.get('key')?.value,
       type: this.actionType,
       comments: this.uiControlForm.get('comments')?.value,
       value: this.uiControlForm.get('value')?.value,
@@ -246,6 +260,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
       actionType: this.browserForm().get('actionType')?.value,
       value: this.browserForm().get('value')?.value,
       comments: this.browserForm().get('comments')?.value,
+      conditionType: this.browserForm().get('conditionType')?.value,
     };
     return createActionBrowserModel;
   }

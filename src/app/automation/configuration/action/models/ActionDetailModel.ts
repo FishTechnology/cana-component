@@ -18,5 +18,6 @@ export interface ActionDetailModel {
   isActive: boolean;
   uiActionType: string;
   isAssertVerification: boolean;
+  conditionType: string;
   actionOptionModels: ActionOptionModel[];
 }

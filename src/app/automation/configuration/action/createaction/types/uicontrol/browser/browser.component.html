@@ -13,7 +13,21 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div fxFlex="75%" fxFill>
+    <div fxFlex="15%" fxFill>
+      <mat-form-field appearance="fill" fxFill>
+        <mat-label>Condition Type</mat-label>
+        <mat-select formControlName="conditionType">
+          <mat-option>None</mat-option>
+          <mat-option
+            *ngFor="let conditionType of conditionTypes"
+            [value]="conditionType.value"
+          >
+            {{ conditionType.text }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="60%" fxFill>
       <mat-form-field appearance="fill" fxFill>
         <mat-label>Value</mat-label>
         <input

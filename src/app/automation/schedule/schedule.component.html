@@ -8,6 +8,7 @@
         color="primary"
         class="margin-right"
         aria-label="Example icon button with a delete icon"
+        (click)="refresh()"
       >
         <mat-icon>refresh</mat-icon>
       </button>
@@ -16,7 +17,28 @@
         <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #actions="matMenu">
-        <button mat-menu-item (click)="openBottomSheet()">History</button>
+        <button
+          mat-menu-item
+          (click)="openBottomSheet()"
+          [disabled]="this.selection.selected.length !== 1"
+        >
+          History
+        </button>
+        <button
+          mat-menu-item
+          [matMenuTriggerFor]="updatescheduleStatus"
+          [disabled]="this.selection.selected.length !== 1"
+        >
+          Update Status
+        </button>
+      </mat-menu>
+      <mat-menu #updatescheduleStatus="matMenu">
+        <button mat-menu-item (click)="updateScheduleStatus('CANCELLED')">
+          Cancel
+        </button>
+        <button mat-menu-item (click)="updateScheduleStatus('PAUSE')">
+          Pause
+        </button>
       </mat-menu>
     </mat-toolbar>
   </div>

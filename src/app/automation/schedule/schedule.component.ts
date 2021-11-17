@@ -9,6 +9,7 @@ import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { ScheduleItemModel } from './models/ScheduleItemModel';
 import { ScheduleIterationModel } from './models/ScheduleIterationModel';
 import { ScheduleModel } from './models/ScheduleModel';
+import { UpdateScheduleStatusModel } from './models/UpdateScheduleStatusModel';
 import { ScheduleService } from './schedule.service';
 import { ScheduleIterationComponent } from './scheduleiteration/scheduleiteration.component';
 
@@ -113,6 +114,31 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
       data: {
         scheduleId: this.selection.selected[0].scheduleId,
       },
+      panelClass: 'bottom-sheet-cus-width',
     });
+  }
+
+  updateScheduleStatus(scheduleStatus: string): void {
+    let updateScheduleStatusModel: UpdateScheduleStatusModel = {
+      status: scheduleStatus,
+    };
+    this.scheduleService
+      .updateScheduleStatus(
+        this.selection.selected[0].scheduleId,
+        updateScheduleStatusModel
+      )
+      .subscribe(
+        (res) => {
+          this.snackbarService.openSnackBar('successfully updated status');
+          this.getScheduleByUserId();
+        },
+        (err) => {
+          this.snackbarService.openSnackBar('error while update status');
+        }
+      );
+  }
+
+  refresh(): void {
+    this.getScheduleByUserId();
   }
 }

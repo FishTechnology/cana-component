@@ -30,6 +30,8 @@ export class CtlOptionsAutocompleteComponent implements OnInit {
     { text: 'Wait', value: UiControlOptoinType.WAIT },
     { text: 'Wait For Visible', value: UiControlOptoinType.WAIT_FOR_VISIBLE },
     { text: 'Optional', value: UiControlOptoinType.OPTIONAL },
+    { text: 'Contains', value: UiControlOptoinType.CONTAINS },
+    { text: 'Size', value: UiControlOptoinType.SIZE },
   ];
   filteredCtlOptions!: Observable<SelectModel[]>;
 

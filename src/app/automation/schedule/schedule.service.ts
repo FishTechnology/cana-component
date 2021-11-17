@@ -7,6 +7,8 @@ import { ScheduleIterationModel } from './models/ScheduleIterationModel';
 import { ResultModel } from 'src/app/commons/models/ResultModel';
 import { CreateScheduleModel } from './models/CreateScheduleModel';
 import { ScheduleIterationResultModel } from './scheduleiteration/scheduleiterationhistory/models/ScheduleIterationResultModel';
+import { ErrorMessageModel } from 'src/app/commons/models/ErrorMessageModel';
+import { UpdateScheduleStatusModel } from './models/UpdateScheduleStatusModel';
 
 @Injectable({
   providedIn: 'root',
@@ -43,5 +45,16 @@ export class ScheduleService {
       environment.canaApiUrl +
       `/api/schedules/${scheduleId}/scheduleIterations/${scheduleIterationId}/result`;
     return this.httpClient.get<ScheduleIterationResultModel>(url);
+  }
+
+  updateScheduleStatus(
+    scheduleId: number,
+    updateScheduleStatusModel: UpdateScheduleStatusModel
+  ): Observable<ErrorMessageModel[]> {
+    const url = environment.canaApiUrl + `/api/schedules/${scheduleId}/status`;
+    return this.httpClient.put<ErrorMessageModel[]>(
+      url,
+      updateScheduleStatusModel
+    );
   }
 }

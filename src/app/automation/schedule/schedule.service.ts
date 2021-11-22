@@ -9,6 +9,7 @@ import { CreateScheduleModel } from './models/CreateScheduleModel';
 import { ScheduleIterationResultModel } from './scheduleiteration/scheduleiterationhistory/models/ScheduleIterationResultModel';
 import { ErrorMessageModel } from 'src/app/commons/models/ErrorMessageModel';
 import { UpdateScheduleStatusModel } from './models/UpdateScheduleStatusModel';
+import { ReScheduleStatusModel } from './models/ReScheduleStatusModel';
 
 @Injectable({
   providedIn: 'root',
@@ -56,5 +57,14 @@ export class ScheduleService {
       url,
       updateScheduleStatusModel
     );
+  }
+
+  reSchedule(
+    scheduleId: number,
+    reScheduleStatusModel: ReScheduleStatusModel
+  ): Observable<ErrorMessageModel[]> {
+    const url =
+      environment.canaApiUrl + `/api/schedules/${scheduleId}/reschedule`;
+    return this.httpClient.put<ErrorMessageModel[]>(url, reScheduleStatusModel);
   }
 }

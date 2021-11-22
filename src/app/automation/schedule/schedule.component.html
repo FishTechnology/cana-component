@@ -26,6 +26,13 @@
         </button>
         <button
           mat-menu-item
+          (click)="reSchedule()"
+          [disabled]="this.selection.selected.length !== 1"
+        >
+          ReSchedule
+        </button>
+        <button
+          mat-menu-item
           [matMenuTriggerFor]="updatescheduleStatus"
           [disabled]="this.selection.selected.length !== 1"
         >

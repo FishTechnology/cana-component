@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CustomerService } from 'src/app/commons/customer/customer.service';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
+import { ReScheduleStatusModel } from './models/ReScheduleStatusModel';
 import { ScheduleItemModel } from './models/ScheduleItemModel';
 import { ScheduleIterationModel } from './models/ScheduleIterationModel';
 import { ScheduleModel } from './models/ScheduleModel';
@@ -116,6 +117,23 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
       },
       panelClass: 'bottom-sheet-cus-width',
     });
+  }
+
+  reSchedule(): void {
+    let reScheduleStatusModel: ReScheduleStatusModel = {
+      userId: this.customerDetail.userId,
+    };
+    this.scheduleService
+      .reSchedule(this.selection.selected[0].scheduleId, reScheduleStatusModel)
+      .subscribe(
+        (res) => {
+          this.snackbarService.openSnackBar('successfully reschedule status');
+          this.getScheduleByUserId();
+        },
+        (err) => {
+          this.snackbarService.openSnackBar('error while reschedule ');
+        }
+      );
   }
 
   updateScheduleStatus(scheduleStatus: string): void {

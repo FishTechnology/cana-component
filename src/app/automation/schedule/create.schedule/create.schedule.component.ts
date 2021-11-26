@@ -126,7 +126,7 @@ export class CreateScheduleComponent implements OnInit {
       .subscribe(
         (res) => {
           this.snackbarService.openSnackBar('successfully created schedule');
-          this.router.navigate(['/schedules']);
+          this.router.navigate(['/configuration/schedules']);
         },
         (err) => {
           this.snackbarService.openSnackBar('error while creating schedule');

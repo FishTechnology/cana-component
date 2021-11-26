@@ -12,7 +12,6 @@ import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { TestplanService } from './testplan.service';
 import { GlobalVariableModel } from '../globalvariable/models/GlobalVariableModel';
 import { CreateTestplanComponent } from './createtestplan/createtestplan.component';
-import { ScheduleComponent } from '../../schedule/schedule.component';
 import { TestPlanModel } from './models/TestPlanModel';
 import { CreateTestcaseComponent } from '../testcase/createtestcase/createtestcase.component';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';

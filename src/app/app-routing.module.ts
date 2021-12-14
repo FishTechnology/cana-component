@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ActionComponent } from './automation/configuration/action/action.component';
 import { CreateActionComponent } from './automation/configuration/action/createaction/createaction.component';
+import { ApplicationComponent } from './automation/configuration/application/application.component';
 import { EnvironmentComponent } from './automation/configuration/environment/environment.component';
 import { EnvironmentVariableComponent } from './automation/configuration/environmentvariable/environmentvariable.component';
 import { GlobalvariableComponent } from './automation/configuration/globalvariable/globalvariable.component';
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: 'environments',
         component: EnvironmentComponent,
+      },
+      {
+        path: 'application',
+        component: ApplicationComponent,
       },
       {
         path: 'environments/:environmentid/environmentvariables',

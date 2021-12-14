@@ -159,4 +159,25 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
   refresh(): void {
     this.getScheduleByUserId();
   }
+
+  chipColor(status: string): string {
+    switch (status.toUpperCase()) {
+      case 'READY':
+        return 'undefined';
+      case 'ERROR':
+        return 'warn';
+      case 'COMPLETED':
+        return 'primary';
+      case 'CANCELLED':
+        return 'accent';
+      case 'INPROGRESS':
+        return 'primary';
+      case 'PAUSE':
+        return 'accent';
+      case 'RE_SCHEDULE':
+        return 'undefined';
+      default:
+        return 'primary';
+    }
+  }
 }

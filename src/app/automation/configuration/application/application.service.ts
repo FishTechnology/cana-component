@@ -39,7 +39,7 @@ export class ApplicationService {
     );
   }
 
-  deleteApplication(applicationId: bigint): Observable<ErrorMessageModel[]> {
+  deleteApplication(applicationId: string): Observable<ErrorMessageModel[]> {
     return this.httpClient.delete<ErrorMessageModel[]>(
       environment.canaApiUrl + '/api/applications/' + applicationId
     );

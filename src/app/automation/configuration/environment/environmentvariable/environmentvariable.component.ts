@@ -1,7 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import {
-  MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
@@ -14,9 +13,13 @@ import { CustomerService } from 'src/app/commons/customer/customer.service';
 import { EnvironmentVariableService } from './environmentvariable.service';
 import { CreateEnvironmentVariableComponent } from './createenvironmentvariable/createenvironmentvariable.component';
 import { ActivatedRoute } from '@angular/router';
-import { EnvironmentService } from '../environment/environment.service';
-import { EnvironmentModel } from '../environment/models/EnvironmentModel';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
+import { ConfigKeyValueService } from '../../config/config-key-value/config-key-value.service';
+import { EnvironmentModel } from '../models/EnvironmentModel';
+import { ConfigService } from '../../config/config.service';
+import ConfigKeyValueModel from '../../config/models/config-key-value-model';
+import ConfigModel from '../../config/models/config-model';
+import { ConfigType } from '../../config/models/config-type';
 
 @Component({
   selector: 'app-environmentvariable',
@@ -25,23 +28,24 @@ import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 })
 export class EnvironmentVariableComponent implements OnInit {
   displayedColumns: string[] = ['select', 'key', 'value', 'type', 'createdon'];
-  dataSource = new MatTableDataSource<EnvironmentVariableModel>();
-  selection = new SelectionModel<EnvironmentVariableModel>(true, []);
+  dataSource = new MatTableDataSource<ConfigKeyValueModel>();
+  selection = new SelectionModel<ConfigKeyValueModel>(true, []);
   moment = moment;
   customerDetail!: CustomerDetail;
-  environmentVariableModels!: EnvironmentVariableModel[];
+  environmentVariableModels!: ConfigKeyValueModel[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  environmentId!: number;
-  environmentModel!: EnvironmentModel;
+  environmentId!: string;
+  environmentModel!: ConfigModel;
 
   constructor(
     public dialog: MatDialog,
     public environmentVariableService: EnvironmentVariableService,
     public customerService: CustomerService,
     private route: ActivatedRoute,
-    private environmentService: EnvironmentService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private configKeyValueService: ConfigKeyValueService,
+    private configService: ConfigService
   ) {
     this.route.params.subscribe((params) => {
       this.environmentId = params.environmentid;
@@ -54,11 +58,16 @@ export class EnvironmentVariableComponent implements OnInit {
   }
 
   getEnvironmentById() {
-    this.environmentService
-      .getEnvironmentById(this.environmentId)
+    this.configService
+      .getConfigById(this.environmentId, ConfigType.EnvironmentVariable)
       .subscribe((res) => {
         this.environmentModel = res;
       });
+    // this.environmentService
+    //   .getEnvironmentById(this.environmentId)
+    //   .subscribe((res) => {
+    //     this.environmentModel = res;
+    //   });
   }
 
   ngOnInit(): void {}
@@ -80,7 +89,7 @@ export class EnvironmentVariableComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: EnvironmentVariableModel): string {
+  checkboxLabel(row?: ConfigKeyValueModel): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -106,25 +115,25 @@ export class EnvironmentVariableComponent implements OnInit {
   }
 
   delete() {
-    this.environmentVariableService
-      .deleteEnvVariable(
-        this.environmentId,
-        this.selection.selected[0].id,
-        this.customerDetail.userId
-      )
-      .subscribe(
-        (res) => {
-          this.snackbarService.openSnackBar(
-            'successfully  delete environment variable'
-          );
-          this.getEnvVariablesByEnvironmentId();
-        },
-        (err) => {
-          this.snackbarService.openSnackBar(
-            'error while delete environment variable'
-          );
-        }
-      );
+    // this.environmentVariableService
+    //   .deleteEnvVariable(
+    //     this.environmentId,
+    //     this.selection.selected[0].id,
+    //     this.customerDetail.userId
+    //   )
+    //   .subscribe(
+    //     (res) => {
+    //       this.snackbarService.openSnackBar(
+    //         'successfully  delete environment variable'
+    //       );
+    //       this.getEnvVariablesByEnvironmentId();
+    //     },
+    //     (err) => {
+    //       this.snackbarService.openSnackBar(
+    //         'error while delete environment variable'
+    //       );
+    //     }
+    //   );
   }
 
   update() {
@@ -141,21 +150,32 @@ export class EnvironmentVariableComponent implements OnInit {
   }
 
   getEnvVariablesByEnvironmentId() {
-    this.environmentVariableService
-      .getEnvVariablesByEnvId(this.environmentId)
-      .subscribe(
-        (res) => {
-          this.dataSource.data = res;
-          this.selection = new SelectionModel<EnvironmentVariableModel>(
-            true,
-            []
-          );
-        },
-        (err) => {
-          this.snackbarService.openSnackBar(
-            'Error while loading environment variables'
-          );
-        }
-      );
+    this.configKeyValueService.getConfigKeyValue(this.environmentId).subscribe(
+      (res) => {
+        this.dataSource.data = res;
+        this.selection = new SelectionModel<ConfigKeyValueModel>(true, []);
+      },
+      (err) => {
+        this.snackbarService.openSnackBar(
+          'Error while loading environment variables'
+        );
+      }
+    );
+    // this.environmentVariableService
+    //   .getEnvVariablesByEnvId(this.environmentId)
+    //   .subscribe(
+    //     (res) => {
+    //       this.dataSource.data = res;
+    //       this.selection = new SelectionModel<EnvironmentVariableModel>(
+    //         true,
+    //         []
+    //       );
+    //     },
+    //     (err) => {
+    //       this.snackbarService.openSnackBar(
+    //         'Error while loading environment variables'
+    //       );
+    //     }
+    //   );
   }
 }

@@ -10,6 +10,10 @@ import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { UploadService } from 'src/app/commons/upload/upload.service';
 import { SelectModel } from '../../../../commons/SelectModel';
+import { ConfigKeyValueService } from '../../config/config-key-value/config-key-value.service';
+import CreateConfigKeyValueModel from '../../config/config-key-value/models/create-config-key-value-model';
+import { ConfigService } from '../../config/config.service';
+import { ConfigType } from '../../config/models/config-type';
 import { GlobalvariableService } from '../globalvariable.service';
 import { CreateGlobalVariableModel } from '../models/CreateGlobalVariableModel';
 import { GlobalVariableType } from '../models/GlobalVariableType';
@@ -33,11 +37,16 @@ export class CreateGlobalVariableComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { customerDetail: CustomerDetail; globalVariableId: number },
+    public data: {
+      customerDetail: CustomerDetail;
+      globalVariableId: string;
+      configId: string;
+    },
     private globalVariableService: GlobalvariableService,
     private dialogRef: MatDialogRef<CreateGlobalVariableComponent>,
     private snackbarService: SnackbarService,
-    private uploadService: UploadService
+    private uploadService: UploadService,
+    private configKeyValueService: ConfigKeyValueService
   ) {
     this.globalvariableform = new FormGroup({
       key: new FormControl('', Validators.required),
@@ -45,6 +54,7 @@ export class CreateGlobalVariableComponent implements OnInit {
       valueType: new FormControl(GlobalVariableType.Text.toString()),
       comments: new FormControl(''),
     });
+
     if (this.data.globalVariableId) {
       this.globalVariableService
         .getGlobalVariableById(this.data.globalVariableId)
@@ -83,24 +93,25 @@ export class CreateGlobalVariableComponent implements OnInit {
       return this.updateLoadFile();
     }
 
-    this.createGlobalVariable(0);
+    this.createGlobalVariable();
   }
 
-  createGlobalVariable(fileId: number): void {
-    let createGlobalVariable: CreateGlobalVariableModel = {
+  createGlobalVariable(fileId?: string): void {
+    let createConfigKeyValueModel: CreateConfigKeyValueModel = {
+      comments: this.globalvariableform.get('comments')?.value,
       key: this.globalvariableform.get('key')?.value,
       value: this.globalvariableform.get('value')?.value,
-      valueType: this.globalvariableform.get('valueType')?.value,
-      comments: this.globalvariableform.get('comments')?.value,
+      type: this.globalvariableform.get('valueType')?.value,
       userId: this.data.customerDetail.userId,
+      fileId: fileId,
     };
 
-    if (fileId !== 0) {
-      createGlobalVariable.fileId = fileId;
-    }
-
-    this.globalVariableService
-      .createGlobalVariable(createGlobalVariable)
+    this.configKeyValueService
+      .createConfigKeyValue(
+        ConfigType.GlobalVariable,
+        this.data.configId,
+        createConfigKeyValueModel
+      )
       .subscribe(
         (res) => {
           this.snackbarService.openSnackBar(
@@ -109,12 +120,41 @@ export class CreateGlobalVariableComponent implements OnInit {
           this.globalVariableEvent.emit('success');
           this.dialogRef.close();
         },
-        (err) => {
+        (error) => {
           this.snackbarService.openSnackBar(
             'error while creating global variable'
           );
         }
       );
+
+    // let createGlobalVariable: CreateGlobalVariableModel = {
+    //   key: this.globalvariableform.get('key')?.value,
+    //   value: this.globalvariableform.get('value')?.value,
+    //   valueType: this.globalvariableform.get('valueType')?.value,
+    //   comments: this.globalvariableform.get('comments')?.value,
+    //   userId: this.data.customerDetail.userId,
+    // };
+
+    // if (fileId !== 0) {
+    //   createGlobalVariable.fileId = fileId;
+    // }
+
+    // this.globalVariableService
+    //   .createGlobalVariable(createGlobalVariable)
+    //   .subscribe(
+    //     () => {
+    //       this.snackbarService.openSnackBar(
+    //         'successfully created global variable'
+    //       );
+    //       this.globalVariableEvent.emit('success');
+    //       this.dialogRef.close();
+    //     },
+    //     () => {
+    //       this.snackbarService.openSnackBar(
+    //         'error while creating global variable'
+    //       );
+    //     }
+    //   );
   }
 
   updateLoadFile(): void {
@@ -127,10 +167,9 @@ export class CreateGlobalVariableComponent implements OnInit {
 
     this.uploadService.uploadFile(formData).subscribe(
       (res) => {
-        let upload = res;
-        this.createGlobalVariable(parseInt(res.id));
+        this.createGlobalVariable(res.id);
       },
-      (err) => {
+      () => {
         this.snackbarService.openSnackBar('Error while uploading file');
       }
     );
@@ -157,14 +196,14 @@ export class CreateGlobalVariableComponent implements OnInit {
         updateGlobalVariableModel
       )
       .subscribe(
-        (res) => {
+        () => {
           this.snackbarService.openSnackBar(
             'successfully updated global variable'
           );
           this.globalVariableEvent.emit('success');
           this.dialogRef.close();
         },
-        (err) => {
+        () => {
           this.snackbarService.openSnackBar(
             'error while update global variable'
           );

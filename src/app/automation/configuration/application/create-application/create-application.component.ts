@@ -8,8 +8,6 @@ import {
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { SelectModel } from 'src/app/commons/SelectModel';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
-import { CreateEnvironmentComponent } from '../../environment/createenvironment/createenvironment.component';
-import { EnvironmentService } from '../../environment/environment.service';
 import { ApplicationService } from '../application.service';
 import { CreateApplicationModel } from '../models/CreateApplicationModel';
 import { UpdateApplicationModel } from '../models/UpdateApplicationModel';
@@ -32,7 +30,7 @@ export class CreateApplicationComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: { customerDetail: CustomerDetail; applicationId: bigint },
     private applicationService: ApplicationService,
-    private dialogRef: MatDialogRef<CreateEnvironmentComponent>,
+    private dialogRef: MatDialogRef<CreateApplicationComponent>,
     private snackbarService: SnackbarService
   ) {
     this.applicationForm = new FormGroup({

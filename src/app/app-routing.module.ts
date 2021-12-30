@@ -3,8 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { ActionComponent } from './automation/configuration/action/action.component';
 import { CreateActionComponent } from './automation/configuration/action/createaction/createaction.component';
 import { ApplicationComponent } from './automation/configuration/application/application.component';
+import { ApplicationconfigComponent } from './automation/configuration/application/applicationconfig/applicationconfig.component';
 import { EnvironmentComponent } from './automation/configuration/environment/environment.component';
-import { EnvironmentVariableComponent } from './automation/configuration/environmentvariable/environmentvariable.component';
+import { EnvironmentVariableComponent } from './automation/configuration/environment/environmentvariable/environmentvariable.component';
 import { GlobalvariableComponent } from './automation/configuration/globalvariable/globalvariable.component';
 import { HomeComponent } from './automation/configuration/home/home.component';
 import { TestcaseComponent } from './automation/configuration/testcase/testcase.component';
@@ -29,8 +30,12 @@ const routes: Routes = [
         component: EnvironmentComponent,
       },
       {
-        path: 'application',
+        path: 'applications',
         component: ApplicationComponent,
+      },
+      {
+        path: 'applications/:applicationid/applicationconfigs',
+        component: ApplicationconfigComponent,
       },
       {
         path: 'environments/:environmentid/environmentvariables',

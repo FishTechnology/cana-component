@@ -21,7 +21,7 @@ export class EnvironmentService {
     );
   }
 
-  getEnvironmentById(environmentId: number): Observable<EnvironmentModel> {
+  getEnvironmentById(environmentId: string): Observable<EnvironmentModel> {
     return this.httpClient.get<EnvironmentModel>(
       environment.canaApiUrl + '/api/environments/' + environmentId
     );
@@ -44,7 +44,7 @@ export class EnvironmentService {
     );
   }
 
-  deleteEnvironment(environmentId: number): Observable<ErrorMessageModel[]> {
+  deleteEnvironment(environmentId: string): Observable<ErrorMessageModel[]> {
     return this.httpClient.delete<ErrorMessageModel[]>(
       environment.canaApiUrl + '/api/environments/' + environmentId
     );
@@ -52,7 +52,7 @@ export class EnvironmentService {
 
   updateEnvironment(
     updateEnvironmentModel: UpdateEnvironmentModel,
-    environmentId: number
+    environmentId: string
   ): Observable<ErrorMessageModel[]> {
     return this.httpClient.put<ErrorMessageModel[]>(
       environment.canaApiUrl + '/api/environments/' + environmentId,

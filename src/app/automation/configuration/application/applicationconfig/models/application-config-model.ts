@@ -1,6 +1,7 @@
-export interface ApplicationModel {
+export interface ApplicationConfigModel {
   id: string;
   userId: string;
+  applicationId: string;
   name: string;
   comments: string;
   createdOn: string;

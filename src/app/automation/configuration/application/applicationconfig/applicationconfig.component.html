@@ -1,1 +1,102 @@
-<p>applicationconfig works!</p>
+<div class="configuration-container">
+  <mat-card>
+    <div>
+      <mat-toolbar>
+        <span>Application</span>
+        <span class="global-spacer"></span>
+        <button
+          mat-mini-fab
+          color="primary"
+          class="margin-right"
+          aria-label="Example icon button with a delete icon"
+          (click)="refresh()"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="actions">
+          Actions
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #actions="matMenu">
+          <button mat-menu-item (click)="createApplicationConfig()">Add</button>
+          <button mat-menu-item (click)="deleteApplicationConfig()">
+            Delete
+          </button>
+          <button
+            mat-menu-item
+            [disabled]="this.selection.selected.length != 1"
+            (click)="editApplicationConfig()"
+          >
+            Edit
+          </button>
+          <button
+            mat-menu-item
+            [disabled]="this.selection.selected.length != 1"
+            [matMenuTriggerFor]="applicationvariables"
+          >
+            Application Configs
+          </button>
+        </mat-menu>
+        <mat-menu #applicationvariables="matMenu">
+          <button mat-menu-item>Add</button>
+          <button mat-menu-item (click)="navigateApplicationConfigView()">
+            View
+          </button>
+        </mat-menu>
+      </mat-toolbar>
+    </div>
+    <div>
+      <div class="application-table">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox
+                (change)="$event ? masterToggle() : null"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+              >
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(row) : null"
+                [checked]="selection.isSelected(row)"
+              >
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="createdon">
+            <th mat-header-cell *matHeaderCellDef>Created On</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.createdOn }}
+            </td>
+          </ng-container>
+
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            (click)="selection.toggle(row)"
+          ></tr>
+          <!-- Row shown when there is no matching data that will be provided to the wrapper table. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </mat-card>
+</div>

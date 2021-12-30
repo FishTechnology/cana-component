@@ -13,7 +13,11 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
-import { UploadService } from 'src/app/commons/upload/upload.service';
+import { ConfigService } from '../config/config.service';
+import { CreateConfigModel } from '../config/models/create-config-model';
+import { ConfigType } from '../config/models/config-type';
+import ConfigKeyValueModel from '../config/models/config-key-value-model';
+import ConfigModel from '../config/models/config-model';
 
 @Component({
   selector: 'app-globalvariable',
@@ -22,19 +26,21 @@ import { UploadService } from 'src/app/commons/upload/upload.service';
 })
 export class GlobalvariableComponent implements OnInit {
   displayedColumns: string[] = ['select', 'key', 'value', 'type', 'createdon'];
-  dataSource = new MatTableDataSource<GlobalVariableModel>();
-  selection = new SelectionModel<GlobalVariableModel>(true, []);
+  dataSource = new MatTableDataSource<ConfigKeyValueModel>();
+  selection = new SelectionModel<ConfigKeyValueModel>(true, []);
   moment = moment;
   customerDetail: CustomerDetail | undefined;
-  globalVariableModels: GlobalVariableModel[] = [];
+  globalVariableModels: ConfigKeyValueModel[] = [];
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
+  configModel?: ConfigModel;
 
   constructor(
     public dialog: MatDialog,
     public globalvariableService: GlobalvariableService,
     public customerService: CustomerService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private configService: ConfigService
   ) {
     this.customerService.getUserDetail().subscribe((res) => {
       this.customerDetail = res;
@@ -76,6 +82,7 @@ export class GlobalvariableComponent implements OnInit {
     var modelRef = this.dialog.open(CreateGlobalVariableComponent, {
       data: {
         customerDetail: this.customerDetail,
+        configId: this.configModel?.id,
       },
     });
     modelRef.componentInstance.globalVariableEvent.subscribe((res) => {
@@ -114,15 +121,53 @@ export class GlobalvariableComponent implements OnInit {
   }
 
   getGlobalVariables(): void {
-    this.globalvariableService
-      .getGlobalVariable(this.customerDetail!.userId)
+    this.configService
+      .getConfigByUserId(this.customerDetail!.userId, ConfigType.GlobalVariable)
       .subscribe(
         (res) => {
-          this.dataSource.data = res;
-          this.selection = new SelectionModel<GlobalVariableModel>(true, []);
+          if (!res) {
+            this.createConfigComponent();
+            return;
+          }
+          this.configModel = res[0];
+          if (res[0].configKeyValues && res[0].configKeyValues.length >= 1) {
+            this.dataSource.data = res[0].configKeyValues;
+            this.selection = new SelectionModel<ConfigKeyValueModel>(true, []);
+          }
         },
         (err) => {
-          this.snackbarService.openSnackBar('error loading global variables');
+          this.snackbarService.openSnackBar('error loading global config');
+        }
+      );
+
+    // this.globalvariableService
+    //   .getGlobalVariable(this.customerDetail!.userId)
+    //   .subscribe(
+    //     (res) => {
+    //       this.dataSource.data = res;
+    //       this.selection = new SelectionModel<GlobalVariableModel>(true, []);
+    //     },
+    //     (err) => {
+    //       this.snackbarService.openSnackBar('error loading global config');
+    //     }
+    //   );
+  }
+
+  createConfigComponent(): void {
+    let createConfigModel: CreateConfigModel = {
+      name: 'Global Variable',
+      type: ConfigType.GlobalVariable,
+      userId: this.customerDetail!.userId,
+    };
+
+    this.configService
+      .createConfig(ConfigType.GlobalVariable, createConfigModel)
+      .subscribe(
+        (res) => {
+          this.getGlobalVariables();
+        },
+        (err) => {
+          console.log(err);
         }
       );
   }

@@ -28,7 +28,7 @@ export class GlobalvariableService {
   }
 
   deleteGlobalVariable(
-    globalVariableId: number,
+    globalVariableId: string,
     userId: string
   ): Observable<ErrorMessageModel[]> {
     const url =
@@ -37,7 +37,7 @@ export class GlobalvariableService {
   }
 
   updateGlobalVariable(
-    globalVariableId: number,
+    globalVariableId: string,
     updateGlobalVariable: UpdateGlobalVariableModel
   ): Observable<ErrorMessageModel[]> {
     const url =
@@ -46,7 +46,7 @@ export class GlobalvariableService {
   }
 
   getGlobalVariableById(
-    globalVariableId: number
+    globalVariableId: string
   ): Observable<GlobalVariableModel> {
     const url =
       environment.canaApiUrl + '/api/globalVariables/' + globalVariableId;

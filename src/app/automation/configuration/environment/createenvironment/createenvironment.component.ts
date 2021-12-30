@@ -7,10 +7,12 @@ import {
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { SelectModel } from 'src/app/commons/SelectModel';
 import { EnvironmentService } from '../environment.service';
-import { CreateEnvironmentModel } from '../models/CreateEnvironmentModel';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UpdateEnvironmentModel } from '../models/UpdateEnvironmentModel';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
+import { ConfigType } from '../../config/models/config-type';
+import { CreateConfigModel } from '../../config/models/create-config-model';
+import { ConfigService } from '../../config/config.service';
 
 @Component({
   selector: 'app-createenvironment',
@@ -27,10 +29,15 @@ export class CreateEnvironmentComponent implements OnInit {
   customerDetail!: CustomerDetail;
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { customerDetail: CustomerDetail; environmentId: number },
+    public data: {
+      customerDetail: CustomerDetail;
+      environmentId: string;
+      configId: string;
+    },
     private environmentService: EnvironmentService,
     private dialogRef: MatDialogRef<CreateEnvironmentComponent>,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private configService: ConfigService
   ) {
     this.environmentform = new FormGroup({
       id: new FormControl(''),
@@ -42,13 +49,13 @@ export class CreateEnvironmentComponent implements OnInit {
   ngOnInit(): void {
     this.customerDetail = this.data.customerDetail;
     if (this.data.environmentId) {
-      this.environmentService
-        .getEnvironmentById(this.data.environmentId)
-        .subscribe((res) => {
-          this.environmentform.get('id')!.setValue(res.id);
-          this.environmentform.get('name')!.setValue(res.name);
-          this.environmentform.get('comments')!.setValue(res.comments);
-        });
+      // this.environmentService
+      //   .getEnvironmentById(this.data.environmentId)
+      //   .subscribe((res) => {
+      //     this.environmentform.get('id')!.setValue(res.id);
+      //     this.environmentform.get('name')!.setValue(res.name);
+      //     this.environmentform.get('comments')!.setValue(res.comments);
+      //   });
     }
     this.environmentValueTypes = [
       { text: 'Key And Value', value: 'keyandvalue' },
@@ -70,21 +77,42 @@ export class CreateEnvironmentComponent implements OnInit {
     if (this.environmentform.get('id')?.value) {
       return this.updateEnvironment();
     }
-    let createEnvironment: CreateEnvironmentModel = {
+
+    let createConfigModel: CreateConfigModel = {
       name: this.environmentform.get('name')?.value,
-      comments: this.environmentform.get('comments')?.value,
-      userId: this.customerDetail.userId.toString(),
+      type: ConfigType.EnvironmentVariable,
+      userId: this.customerDetail!.userId,
     };
-    this.environmentService.createEnvironment(createEnvironment).subscribe(
-      (res) => {
-        this.snackbarService.openSnackBar('successfully created environment');
-        this.dialogRef.close();
-        this.environmentEvent.emit('success');
-      },
-      (err) => {
-        this.snackbarService.openSnackBar('Error in creating environment');
-      }
-    );
+
+    this.configService
+      .createConfig(ConfigType.EnvironmentVariable, createConfigModel)
+      .subscribe(
+        (res) => {
+          this.snackbarService.openSnackBar('successfully created environment');
+          this.dialogRef.close();
+          this.environmentEvent.emit('success');
+        },
+        (err) => {
+          this.snackbarService.openSnackBar('Error in creating environment');
+          console.log(err);
+        }
+      );
+
+    // let createEnvironment: CreateEnvironmentModel = {
+    //   name: this.environmentform.get('name')?.value,
+    //   comments: this.environmentform.get('comments')?.value,
+    //   userId: this.customerDetail.userId.toString(),
+    // };
+    // this.environmentService.createEnvironment(createEnvironment).subscribe(
+    //   (res) => {
+    //     this.snackbarService.openSnackBar('successfully created environment');
+    //     this.dialogRef.close();
+    //     this.environmentEvent.emit('success');
+    //   },
+    //   (err) => {
+    //     this.snackbarService.openSnackBar('Error in creating environment');
+    //   }
+    // );
   }
 
   updateEnvironment(): void {

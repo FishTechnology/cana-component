@@ -15,7 +15,7 @@ export class EnvironmentVariableService {
   constructor(private httpClient: HttpClient) {}
 
   getEnvVariablesByEnvId(
-    environmentId: number
+    environmentId: string
   ): Observable<EnvironmentVariableModel[]> {
     const url =
       environment.canaApiUrl +
@@ -26,8 +26,8 @@ export class EnvironmentVariableService {
   }
 
   getEnvVariablesById(
-    environmentId: number,
-    envVariableId: number
+    environmentId: string,
+    envVariableId: string
   ): Observable<EnvironmentVariableModel> {
     const url =
       environment.canaApiUrl +
@@ -39,7 +39,7 @@ export class EnvironmentVariableService {
   }
 
   createEnvVariable(
-    environmentId: number,
+    environmentId: string,
     createEnvVariableModel: CreateEnvVariableModel
   ): Observable<ResultModel> {
     const url =
@@ -51,8 +51,8 @@ export class EnvironmentVariableService {
   }
 
   updateEnvVariable(
-    environmentId: number,
-    envVariableId: number,
+    environmentId: string,
+    envVariableId: string,
     updateEnvVariableModel: UpdateEnvVariableModel
   ) {
     const url =
@@ -68,8 +68,8 @@ export class EnvironmentVariableService {
   }
 
   deleteEnvVariable(
-    environmentId: number,
-    envVariableId: number,
+    environmentId: string,
+    envVariableId: string,
     userid: string
   ) {
     const url =

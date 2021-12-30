@@ -19,8 +19,8 @@ import { CreateTestplanComponent } from './automation/configuration/testplan/cre
 import { TestplanComponent } from './automation/configuration/testplan/testplan.component';
 import { CreateTestcaseComponent } from './automation/configuration/testcase/createtestcase/createtestcase.component';
 import { TestcaseComponent } from './automation/configuration/testcase/testcase.component';
-import { CreateEnvironmentVariableComponent } from './automation/configuration/environmentvariable/createenvironmentvariable/createenvironmentvariable.component';
-import { EnvironmentVariableComponent } from './automation/configuration/environmentvariable/environmentvariable.component';
+import { CreateEnvironmentVariableComponent } from './automation/configuration/environment/environmentvariable/createenvironmentvariable/createenvironmentvariable.component';
+import { EnvironmentVariableComponent } from './automation/configuration/environment/environmentvariable/environmentvariable.component';
 import { ActionComponent } from './automation/configuration/action/action.component';
 import { CreateActionComponent } from './automation/configuration/action/createaction/createaction.component';
 import { ApiComponent } from './automation/configuration/action/createaction/types/api/api.component';
@@ -41,6 +41,10 @@ import { ApplicationComponent } from './automation/configuration/application/app
 import { ApplicationconfigComponent } from './automation/configuration/application/applicationconfig/applicationconfig.component';
 import { CreateApplicationComponent } from './automation/configuration/application/create-application/create-application.component';
 import { CreateApplicationConfigComponent } from './automation/configuration/application/applicationconfig/create-application-config/create-application-config.component';
+import { ConfigComponent } from './automation/configuration/config/config.component';
+import { ConfigKeyValueComponent } from './automation/configuration/config/config-key-value/config-key-value.component';
+import { CreateConfigComponent } from './automation/configuration/config/create-config/create-config.component';
+import { CreateConfigKeyValueComponent } from './automation/configuration/config/config-key-value/create-config-key-value/create-config-key-value.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +81,10 @@ import { CreateApplicationConfigComponent } from './automation/configuration/app
     ApplicationconfigComponent,
     CreateApplicationComponent,
     CreateApplicationConfigComponent,
+    ConfigComponent,
+    ConfigKeyValueComponent,
+    CreateConfigComponent,
+    CreateConfigKeyValueComponent,
   ],
   imports: [
     BrowserModule,

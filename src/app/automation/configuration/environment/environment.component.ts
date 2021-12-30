@@ -6,15 +6,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomerService } from '../../../commons/customer/customer.service';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import {
-  MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { CreateEnvironmentComponent } from './createenvironment/createenvironment.component';
 import { EnvironmentService } from './environment.service';
-import { EnvironmentModel } from './models/EnvironmentModel';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
+import { ConfigService } from '../config/config.service';
+import { ConfigType } from '../config/models/config-type';
+import ConfigModel from '../config/models/config-model';
 
 @Component({
   selector: 'app-environment',
@@ -23,20 +24,21 @@ import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 })
 export class EnvironmentComponent implements OnInit {
   displayedColumns: string[] = ['select', 'name', 'createdon'];
-  dataSource = new MatTableDataSource<EnvironmentModel>();
-  selection = new SelectionModel<EnvironmentModel>(true, []);
+  dataSource = new MatTableDataSource<ConfigModel>();
+  selection = new SelectionModel<ConfigModel>(true, []);
   moment = moment;
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   customerDetail!: CustomerDetail;
-  environmentModels!: EnvironmentModel[];
+  environmentModels!: ConfigModel[];
 
   constructor(
     public dialog: MatDialog,
     public customerService: CustomerService,
     private environmentService: EnvironmentService,
     private router: Router,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private configService: ConfigService
   ) {
     this.customerService.getUserDetail().subscribe((res) => {
       this.customerDetail = res;
@@ -120,13 +122,16 @@ export class EnvironmentComponent implements OnInit {
   }
 
   getEnvironmentByUserId(): void {
-    this.environmentService
-      .getEnvironment(this.customerDetail.userId)
+    this.configService
+      .getConfigByUserId(
+        this.customerDetail.userId,
+        ConfigType.EnvironmentVariable
+      )
       .subscribe(
         (res) => {
           this.environmentModels = res;
           this.dataSource.data = this.environmentModels;
-          this.selection = new SelectionModel<EnvironmentModel>(true, []);
+          this.selection = new SelectionModel<ConfigModel>(true, []);
         },
         (err) => {
           this.snackbarService.openSnackBar('error while loading environment');

@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ActionComponent } from './automation/configuration/action/action.component';
 import { CreateActionComponent } from './automation/configuration/action/createaction/createaction.component';
-import { ApplicationComponent } from './automation/configuration/application/application.component';
-import { ApplicationconfigComponent } from './automation/configuration/application/applicationconfig/applicationconfig.component';
+import { ApplicationComponent } from './automation/configuration/system/application.component';
+import { ApplicationconfigComponent } from './automation/configuration/system/applicationconfig/applicationconfig.component';
 import { EnvironmentComponent } from './automation/configuration/environment/environment.component';
 import { EnvironmentVariableComponent } from './automation/configuration/environment/environmentvariable/environmentvariable.component';
 import { GlobalvariableComponent } from './automation/configuration/globalvariable/globalvariable.component';
@@ -14,6 +14,8 @@ import { CreateScheduleComponent } from './automation/schedule/create.schedule/c
 import { ScheduleComponent } from './automation/schedule/schedule.component';
 import { ScheduleIterationHistoryComponent } from './automation/schedule/scheduleiteration/scheduleiterationhistory/scheduleiterationhistory.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ConditionListComponent } from './automation/configuration/condition/condition-list/condition-list.component';
+import { ConditionCreateComponent } from './automation/configuration/condition/condition-create/condition-create.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -68,6 +70,14 @@ const routes: Routes = [
       {
         path: 'schedules',
         component: ScheduleComponent,
+      },
+      {
+        path: 'testcases/:testcaseid/conditions',
+        component: ConditionListComponent,
+      },
+      {
+        path: 'testcases/:testcaseid/conditions/create',
+        component: ConditionCreateComponent,
       },
     ],
   },

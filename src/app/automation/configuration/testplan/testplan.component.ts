@@ -16,6 +16,11 @@ import { TestPlanModel } from './models/TestPlanModel';
 import { CreateTestcaseComponent } from '../testcase/createtestcase/createtestcase.component';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { UpdateTestplanStatusModel } from './models/UpdateTestplanStatusModel';
+import { ConfigService } from '../config/config.service';
+import { ConfigType } from '../config/models/config-type';
+import { CreateConfigModel } from '../config/models/create-config-model';
+import ConfigModel from '../config/models/config-model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-testplan',
@@ -32,11 +37,16 @@ export class TestplanComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   isShowDeleteBtn: boolean = false;
+  configId: string | undefined;
+  configDetail!: ConfigModel;
+
   constructor(
     public dialog: MatDialog,
     private testplanService: TestplanService,
     public customerService: CustomerService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private configService: ConfigService,
+    private route: Router
   ) {
     this.customerService.getUserDetail().subscribe((res) => {
       this.customerDetail = res;
@@ -160,6 +170,65 @@ export class TestplanComponent implements OnInit {
         (err) => {
           this.snackbarService.openSnackBar(
             'error while updating test plan status'
+          );
+        }
+      );
+  }
+
+  createEnvironmentVariable(): void {}
+
+  navigateEnvironmentVariable(): void {
+    this.getConfig();
+  }
+
+  createConfig(): void {
+    let createConfigModel: CreateConfigModel = {
+      name: ConfigType.TestPlan,
+      userId: this.customerDetail!.userId,
+      identifier: this.selection.selected[0].id.toString(),
+    };
+    this.configService
+      .createConfig(ConfigType.TestPlan, createConfigModel)
+      .subscribe(
+        (res) => {
+          this.configId = res.id;
+          this.route.navigate([
+            '/configuration/environments',
+            this.configId,
+            'environmentvariables',
+          ]);
+        },
+        (err) => {
+          // this.snackbarService.openSnackBar(
+          //   'error while updating test plan config'
+          // );
+        }
+      );
+  }
+  getConfig() {
+    this.configService
+      .getConfigByUserId(
+        this.customerDetail!.userId,
+        ConfigType.TestPlan,
+        this.selection.selected[0].id.toString()
+      )
+      .subscribe(
+        (res) => {
+          if (res && res.length > 0) {
+            this.configId = res[0].id;
+            this.route.navigate([
+              '/configuration/environments',
+              this.configId,
+              'environmentvariables',
+            ]);
+            return;
+          }
+
+          this.createConfig();
+        },
+        (err) => {
+          this.snackbarService.openSnackBar(
+            'error while getting test plan config'
           );
         }
       );

@@ -33,13 +33,39 @@
           >
             Delete
           </button>
-          <button mat-menu-item [matMenuTriggerFor]="actionsMenu">
+          <button
+            mat-menu-item
+            [matMenuTriggerFor]="variableMenu"
+            [disabled]="selection.selected.length !== 1"
+          >
+            Variable
+          </button>
+          <button
+            mat-menu-item
+            [matMenuTriggerFor]="actionsMenu"
+            [disabled]="selection.selected.length !== 1"
+          >
             Action
           </button>
+          <button
+            mat-menu-item
+            [matMenuTriggerFor]="conditionMenu"
+            [disabled]="selection.selected.length !== 1"
+          >
+            Condition
+          </button>
+        </mat-menu>
+        <mat-menu #conditionMenu="matMenu">
+          <button mat-menu-item (click)="navigateAddNewCondition()">Add</button>
+          <button mat-menu-item (click)="navigateViewCondition()">View</button>
         </mat-menu>
         <mat-menu #actionsMenu="matMenu">
           <button mat-menu-item (click)="navigateAddNewAction()">Add</button>
           <button mat-menu-item (click)="navigateViewAction()">View</button>
+        </mat-menu>
+        <mat-menu #variableMenu="matMenu">
+          <button mat-menu-item (click)="navigateAddNewEnv()">Add</button>
+          <button mat-menu-item (click)="navigateViewEnv()">View</button>
         </mat-menu>
       </mat-toolbar>
     </div>

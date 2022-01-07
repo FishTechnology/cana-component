@@ -1,0 +1,77 @@
+<div class="configuration-container mat-elevation-z8">
+  <mat-card>
+    <div>
+      <mat-toolbar>
+        <span>Condition Creation</span>
+        <span class="global-spacer"></span>
+      </mat-toolbar>
+    </div>
+    <div class="mt-3">
+      <form [formGroup]="conditionForm">
+        <div>
+          <div fxLayout="row">
+            <div fxFlex="20%" class="mr-2">
+              <mat-form-field appearance="fill" fxFill>
+                <mat-label>Select an action type</mat-label>
+                <mat-select formControlName="variableType">
+                  <mat-option
+                    [value]="variableTypeModel.value"
+                    *ngFor="let variableTypeModel of variableTypeModels"
+                    >{{ variableTypeModel.text }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxFlex="20%" class="mr-2">
+              <mat-form-field appearance="fill" fxFill>
+                <mat-label>Select an name</mat-label>
+                <mat-select formControlName="variableType">
+                  <mat-option
+                    [value]="conditionNameModel.value"
+                    *ngFor="let conditionNameModel of conditionNameModels"
+                    >{{ conditionNameModel.text }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxFlex="20%" class="mr-2">
+              <mat-form-field appearance="fill" fxFill>
+                <mat-label>Select an condition</mat-label>
+                <mat-select formControlName="variableType" (selectionChange)="">
+                  <mat-option
+                    [value]="conditionTypeModel.value"
+                    *ngFor="let conditionTypeModel of conditionTypeModels"
+                    >{{ conditionTypeModel.text }}</mat-option
+                  >
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxFlex="25%" class="mr-2">
+              <mat-form-field
+                class="example-full-width"
+                appearance="fill"
+                fxFill
+              >
+                <mat-label>value</mat-label>
+                <input
+                  [disabled]="isDisableValue"
+                  type="text"
+                  matInput
+                  formControlName="value"
+                  placeholder="value..."
+                  autocomplete="off"
+                />
+              </mat-form-field>
+            </div>
+            <div fxFlex="10%">
+              <mat-button-toggle-group value="bold">
+                <mat-button-toggle value="bold">AND</mat-button-toggle>
+                <mat-button-toggle value="italic">OR</mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </mat-card>
+</div>

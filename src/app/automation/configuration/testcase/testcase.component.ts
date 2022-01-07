@@ -111,6 +111,17 @@ export class TestcaseComponent implements OnInit {
     this.router.navigate([url]);
   }
 
+  navigateViewEnv(): void {
+    let url = `/configuration/environments/${this.selection.selected[0].id}/`;
+
+    url = `/configuration/testplans/${this.testPlanId}`;
+
+    url += `/testcases/${this.selection.selected[0].id}/actions`;
+    this.router.navigate([url]);
+  }
+
+  navigateAddNewEnv(): void {}
+
   refresh() {
     this.getTestCases();
   }
@@ -169,5 +180,22 @@ export class TestcaseComponent implements OnInit {
           this.snackbarService.openSnackBar('Error loading testcases');
         }
       );
+  }
+
+  navigateAddNewCondition(): void {
+    this.router.navigate([
+      '/configuration/testcases/',
+      this.selection.selected[0].id,
+      'conditions',
+      'create',
+    ]);
+  }
+
+  navigateViewCondition(): void {
+    this.router.navigate([
+      '/configuration/testcases/',
+      this.selection.selected[0].id,
+      'conditions',
+    ]);
   }
 }

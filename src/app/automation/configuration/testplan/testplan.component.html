@@ -58,6 +58,19 @@
           >
             Schedule
           </button>
+
+          <button
+            mat-menu-item
+            [routerLink]="[
+              '/testplans',
+              this.selection.selected[0]?.id,
+              'schedules'
+            ]"
+            [disabled]="this.selection.selected.length !== 1"
+            [matMenuTriggerFor]="variablemenu"
+          >
+            Variable
+          </button>
         </mat-menu>
         <mat-menu #testcases="matMenu">
           <button mat-menu-item (click)="createTestCase()">Add</button>
@@ -78,6 +91,14 @@
           </button>
           <button mat-menu-item (click)="updateTestPlanStatus('PAUSE')">
             Pause
+          </button>
+        </mat-menu>
+        <mat-menu #variablemenu="matMenu">
+          <button mat-menu-item (click)="createEnvironmentVariable()">
+            Add
+          </button>
+          <button mat-menu-item (click)="navigateEnvironmentVariable()">
+            View
           </button>
         </mat-menu>
       </mat-toolbar>

@@ -80,7 +80,6 @@ export class CreateEnvironmentComponent implements OnInit {
 
     let createConfigModel: CreateConfigModel = {
       name: this.environmentform.get('name')?.value,
-      type: ConfigType.EnvironmentVariable,
       userId: this.customerDetail!.userId,
     };
 

@@ -37,14 +37,16 @@ import { ScheduleIterationComponent } from './automation/schedule/scheduleiterat
 import { ReplaceNullWithTextPipe } from './commons/pipes/replacenullwithtext/replacenullwithtext.pipe';
 import { ScheduleIterationHistoryComponent } from './automation/schedule/scheduleiteration/scheduleiterationhistory/scheduleiterationhistory.component';
 import { CtlOptionsAutocompleteComponent } from './commons/ctloptionsautocomplete/ctloptionsautocomplete.component';
-import { ApplicationComponent } from './automation/configuration/application/application.component';
-import { ApplicationconfigComponent } from './automation/configuration/application/applicationconfig/applicationconfig.component';
-import { CreateApplicationComponent } from './automation/configuration/application/create-application/create-application.component';
-import { CreateApplicationConfigComponent } from './automation/configuration/application/applicationconfig/create-application-config/create-application-config.component';
+import { ApplicationComponent } from './automation/configuration/system/application.component';
+import { ApplicationconfigComponent } from './automation/configuration/system/applicationconfig/applicationconfig.component';
+import { CreateApplicationComponent } from './automation/configuration/system/create-application/create-application.component';
+import { CreateApplicationConfigComponent } from './automation/configuration/system/applicationconfig/create-application-config/create-application-config.component';
 import { ConfigComponent } from './automation/configuration/config/config.component';
 import { ConfigKeyValueComponent } from './automation/configuration/config/config-key-value/config-key-value.component';
 import { CreateConfigComponent } from './automation/configuration/config/create-config/create-config.component';
 import { CreateConfigKeyValueComponent } from './automation/configuration/config/config-key-value/create-config-key-value/create-config-key-value.component';
+import { ConditionCreateComponent } from './automation/configuration/condition/condition-create/condition-create.component';
+import { ConditionListComponent } from './automation/configuration/condition/condition-list/condition-list.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +87,8 @@ import { CreateConfigKeyValueComponent } from './automation/configuration/config
     ConfigKeyValueComponent,
     CreateConfigComponent,
     CreateConfigKeyValueComponent,
+    ConditionCreateComponent,
+    ConditionListComponent,
   ],
   imports: [
     BrowserModule,

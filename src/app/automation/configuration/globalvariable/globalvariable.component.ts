@@ -156,7 +156,6 @@ export class GlobalvariableComponent implements OnInit {
   createConfigComponent(): void {
     let createConfigModel: CreateConfigModel = {
       name: 'Global Variable',
-      type: ConfigType.GlobalVariable,
       userId: this.customerDetail!.userId,
     };
 

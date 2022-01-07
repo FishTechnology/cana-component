@@ -24,7 +24,8 @@ export class ConfigService {
 
   getConfigByUserId(
     userId: string,
-    configType: ConfigType
+    configType: ConfigType,
+    identifier?: string
   ): Observable<ConfigModel[]> {
     return this.http.get<ConfigModel[]>(
       environment.canaApiUrl + `/api/configs/${configType}?userId=${userId}`

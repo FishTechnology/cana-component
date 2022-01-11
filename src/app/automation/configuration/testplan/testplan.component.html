@@ -35,6 +35,13 @@
           </button>
           <button
             mat-menu-item
+            (click)="copyTestPlan()"
+            [disabled]="this.selection.selected.length !== 1"
+          >
+            Copy
+          </button>
+          <button
+            mat-menu-item
             [disabled]="this.selection.selected.length !== 1"
             [matMenuTriggerFor]="testplanstatus"
           >
@@ -83,6 +90,29 @@
             ]"
           >
             View
+          </button>
+          <button
+            mat-menu-item
+            [routerLink]="[
+              '/testplans',
+              selection.selected[0]?.id,
+              'testcases',
+              'mapping'
+            ]"
+          >
+            Mapping
+          </button>
+          <button
+            mat-menu-item
+            [routerLink]="[
+              '/testplans',
+              this.selection.selected[0]?.id,
+              'testcases',
+              'mapping'
+            ]"
+            [queryParams]="{ reorder: true }"
+          >
+            ReOrder
           </button>
         </mat-menu>
         <mat-menu #testplanstatus="matMenu">

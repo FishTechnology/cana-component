@@ -37,7 +37,7 @@
             <div fxFlex="20%" class="mr-2">
               <mat-form-field appearance="fill" fxFill>
                 <mat-label>Select an condition</mat-label>
-                <mat-select formControlName="variableType" (selectionChange)="">
+                <mat-select formControlName="variableType">
                   <mat-option
                     [value]="conditionTypeModel.value"
                     *ngFor="let conditionTypeModel of conditionTypeModels"

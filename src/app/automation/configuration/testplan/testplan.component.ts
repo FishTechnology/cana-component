@@ -205,7 +205,8 @@ export class TestplanComponent implements OnInit {
         }
       );
   }
-  getConfig() {
+
+  getConfig(): void {
     this.configService
       .getConfigByUserId(
         this.customerDetail!.userId,
@@ -232,5 +233,18 @@ export class TestplanComponent implements OnInit {
           );
         }
       );
+  }
+
+  copyTestPlan(): void {
+    var modelRef = this.dialog.open(CreateTestplanComponent, {
+      data: {
+        customerDetail: this.customerDetail,
+        isTestPlanCopy: true,
+        testPlanId: this.selection.selected[0].id,
+      },
+    });
+    modelRef.componentInstance.testPlanEvent.subscribe((event) => {
+      this.getTestplanByUserId();
+    });
   }
 }

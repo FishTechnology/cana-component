@@ -1,5 +1,5 @@
 export interface TestPlanModel {
-  id: number;
+  id: string;
   userId: string;
   name: string;
   comments: string;

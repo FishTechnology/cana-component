@@ -1,7 +1,8 @@
 export interface TestCaseModel {
-  id: number;
+  id: string;
   userId: string;
   name: string;
+  executionOrder: number;
   comments: string;
   createdOn: string;
   modifiedOn: string;

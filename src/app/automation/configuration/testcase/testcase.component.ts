@@ -30,7 +30,7 @@ export class TestcaseComponent implements OnInit {
   testcaseModels!: TestCaseModel[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  testPlanId!: number;
+  testPlanId!: string;
   constructor(
     public dialog: MatDialog,
     public testcaseService: TestCaseService,

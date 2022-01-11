@@ -20,7 +20,7 @@ import { ScheduleService } from '../schedule.service';
   styleUrls: ['./create.schedule.component.scss'],
 })
 export class CreateScheduleComponent implements OnInit {
-  testPlanId!: number;
+  testPlanId!: string;
   testPlanModel!: TestPlanModel;
   customerDetail!: CustomerDetail;
   environmentDetails!: EnvironmentModel[];

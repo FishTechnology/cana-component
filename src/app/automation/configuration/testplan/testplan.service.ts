@@ -8,12 +8,23 @@ import { TestPlanModel } from './models/TestPlanModel';
 import { ErrorMessageModel } from 'src/app/commons/models/ErrorMessageModel';
 import { UpdateTestplanStatusModel } from './models/UpdateTestplanStatusModel';
 import { UpdateTestplanModel } from './models/UpdateTestplanModel';
+import { CopyTestPlanModel } from './models/CopyTestPlanModel';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TestplanService {
   constructor(private httpClient: HttpClient) {}
+
+  copyTestPlan(
+    testPlanId: string,
+    copyTestPlanModel: CopyTestPlanModel
+  ): Observable<ResultModel> {
+    return this.httpClient.post<ResultModel>(
+      environment.canaApiUrl + `/api/testPlans/${testPlanId}/copy`,
+      copyTestPlanModel
+    );
+  }
 
   createTestplan(
     createTestplanModel: CreateTestplanModel
@@ -30,20 +41,20 @@ export class TestplanService {
     );
   }
 
-  getTestPlanById(testPlanId: number): Observable<TestPlanModel> {
+  getTestPlanById(testPlanId: string): Observable<TestPlanModel> {
     return this.httpClient.get<TestPlanModel>(
       environment.canaApiUrl + '/api/testPlans/' + testPlanId
     );
   }
 
-  deleteTestPlanById(testPlanId: number): Observable<ErrorMessageModel[]> {
+  deleteTestPlanById(testPlanId: string): Observable<ErrorMessageModel[]> {
     return this.httpClient.delete<ErrorMessageModel[]>(
       environment.canaApiUrl + '/api/testPlans/' + testPlanId
     );
   }
 
   updateTestPlanStatus(
-    testPlanId: number,
+    testPlanId: string,
     updateTestplanStatusModel: UpdateTestplanStatusModel
   ): Observable<ErrorMessageModel[]> {
     return this.httpClient.put<ErrorMessageModel[]>(
@@ -53,7 +64,7 @@ export class TestplanService {
   }
 
   updateTestPlan(
-    testPlanId: number,
+    testPlanId: string,
     updateTestplanModel: UpdateTestplanModel
   ): Observable<ErrorMessageModel[]> {
     return this.httpClient.put<ErrorMessageModel[]>(

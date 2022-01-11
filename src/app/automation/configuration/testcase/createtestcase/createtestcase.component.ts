@@ -32,8 +32,8 @@ export class CreateTestcaseComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       customerDetail: CustomerDetail;
-      testPlanId: number;
-      testCaseId: number;
+      testPlanId: string;
+      testCaseId: string;
     },
     private _testCaseService: TestCaseService,
     private _testPlanService: TestplanService,

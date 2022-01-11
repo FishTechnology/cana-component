@@ -47,6 +47,7 @@ import { CreateConfigComponent } from './automation/configuration/config/create-
 import { CreateConfigKeyValueComponent } from './automation/configuration/config/config-key-value/create-config-key-value/create-config-key-value.component';
 import { ConditionCreateComponent } from './automation/configuration/condition/condition-create/condition-create.component';
 import { ConditionListComponent } from './automation/configuration/condition/condition-list/condition-list.component';
+import { TestcaseMappingComponent } from './automation/configuration/testcase/testcase-mapping/testcase-mapping.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { ConditionListComponent } from './automation/configuration/condition/con
     CreateConfigKeyValueComponent,
     ConditionCreateComponent,
     ConditionListComponent,
+    TestcaseMappingComponent,
   ],
   imports: [
     BrowserModule,

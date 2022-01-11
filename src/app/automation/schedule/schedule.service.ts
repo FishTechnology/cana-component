@@ -30,7 +30,7 @@ export class ScheduleService {
   }
 
   createSchedule(
-    testPlanId: number,
+    testPlanId: string,
     createScheduleModel: CreateScheduleModel
   ): Observable<ResultModel> {
     const url =

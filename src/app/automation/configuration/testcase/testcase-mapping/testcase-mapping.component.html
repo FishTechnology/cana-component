@@ -1,0 +1,82 @@
+<div class="configuration-container mat-elevation-z8">
+  <mat-card>
+    <div>
+      <mat-toolbar>
+        <span>TestCase Mapping</span>
+        <span class="global-spacer"></span>
+        <button
+          mat-mini-fab
+          color="primary"
+          class="margin-right"
+          aria-label="Example icon button with a delete icon"
+          (click)="refresh()"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="actions">
+          Actions
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #actions="matMenu">
+          <button mat-menu-item (click)="saveTestCase()">Save</button>
+        </mat-menu>
+      </mat-toolbar>
+    </div>
+    <div>
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+        <span class="font-bold">TestPlan Name:</span>
+        <span> {{ testPlanModel?.name }}</span>
+      </div>
+    </div>
+    <div>
+      <div
+        fxLayout="row"
+        fxLayoutAlign="start start"
+        fxLayoutGap="10px"
+        cdkDropListGroup
+      >
+        <div
+          [fxFlex]="isReOrderTestCase === true ? '48%' : '98%'"
+          class="testcase-mapper-container"
+        >
+          <h2>Test Cases</h2>
+          <div
+            cdkDropList
+            [cdkDropListData]="testcaseModels"
+            class="testcase-mapper-list"
+            (cdkDropListDropped)="drop($event)"
+          >
+            <div
+              class="testcase-mapper-box"
+              *ngFor="let testcase of testcaseModels"
+              cdkDrag
+            >
+              {{ testcase.name }}
+            </div>
+          </div>
+        </div>
+        <div
+          fxFlex="48%"
+          class="testcase-mapper-container"
+          *ngIf="isReOrderTestCase"
+        >
+          <h2>Selected Test Cases</h2>
+          <div
+            cdkDropList
+            [cdkDropListData]="selectedTestcaseModels"
+            class="testcase-mapper-list"
+            (cdkDropListDropped)="drop($event)"
+          >
+            <div
+              class="testcase-mapper-box"
+              *ngFor="let selectedTestcaseModel of selectedTestcaseModels"
+              cdkDrag
+            >
+              {{ selectedTestcaseModel.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

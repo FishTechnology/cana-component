@@ -7,6 +7,7 @@ import {
 } from '@angular/material/snack-bar';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
+import { CopyTestPlanModel } from '../models/CopyTestPlanModel';
 import { CreateTestplanModel } from '../models/CreateTestplanModel';
 import { UpdateTestplanModel } from '../models/UpdateTestplanModel';
 import { TestplanService } from '../testplan.service';
@@ -21,9 +22,14 @@ export class CreateTestplanComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   testplanform: FormGroup;
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { customerDetail: CustomerDetail; testPlanId: number },
+    public data: {
+      customerDetail: CustomerDetail;
+      testPlanId: string;
+      isTestPlanCopy: boolean;
+    },
     private testplanService: TestplanService,
     private dialogRef: MatDialogRef<CreateTestplanComponent>,
     private snackbarService: SnackbarService
@@ -36,8 +42,13 @@ export class CreateTestplanComponent implements OnInit {
       this.testplanService
         .getTestPlanById(this.data.testPlanId)
         .subscribe((res) => {
-          this.testplanform.get('name')!.setValue(res.name);
-          this.testplanform.get('comments')!.setValue(res.comments);
+          let testPlanName = res.name;
+          if (this.data.isTestPlanCopy) {
+            testPlanName = 'Copy - ' + testPlanName;
+          } else {
+            this.testplanform.get('comments')!.setValue(res.comments);
+          }
+          this.testplanform.get('name')!.setValue(testPlanName);
         });
     }
   }
@@ -45,9 +56,14 @@ export class CreateTestplanComponent implements OnInit {
   ngOnInit(): void {}
 
   createTestplan(): void {
+    if (this.data?.isTestPlanCopy) {
+      return this.copyTestplan();
+    }
+
     if (this.data?.testPlanId) {
       return this.updateTestplan();
     }
+
     var createTestplanModel: CreateTestplanModel = {
       name: this.testplanform.get('name')!.value,
       comments: this.testplanform.get('comments')!.value,
@@ -64,6 +80,28 @@ export class CreateTestplanComponent implements OnInit {
       }
     );
   }
+
+  copyTestplan(): void {
+    var copyTestPlanModel: CopyTestPlanModel = {
+      name: this.testplanform.get('name')!.value,
+      comments: this.testplanform.get('comments')!.value,
+      userId: this.data.customerDetail.userId,
+    };
+
+    this.testplanService
+      .copyTestPlan(this.data.testPlanId, copyTestPlanModel)
+      .subscribe(
+        (res) => {
+          this.snackbarService.openSnackBar('successfull copied test plan');
+          this.dialogRef.close();
+          this.testPlanEvent.emit('success');
+        },
+        (error) => {
+          this.snackbarService.openSnackBar('error in copy test plan');
+        }
+      );
+  }
+
   updateTestplan(): void {
     var updateTestplanModel: UpdateTestplanModel = {
       name: this.testplanform.get('name')!.value,

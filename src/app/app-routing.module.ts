@@ -16,6 +16,7 @@ import { ScheduleIterationHistoryComponent } from './automation/schedule/schedul
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ConditionListComponent } from './automation/configuration/condition/condition-list/condition-list.component';
 import { ConditionCreateComponent } from './automation/configuration/condition/condition-create/condition-create.component';
+import { TestcaseMappingComponent } from './automation/configuration/testcase/testcase-mapping/testcase-mapping.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -88,6 +89,10 @@ const routes: Routes = [
   {
     path: 'configuration/testplans/:testplanid/testcases/:testcaseid/actions/create',
     component: CreateActionComponent,
+  },
+  {
+    path: 'testplans/:testplanid/testcases/mapping',
+    component: TestcaseMappingComponent,
   },
   {
     path: 'testplans/:testplanid/schedules',

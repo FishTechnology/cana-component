@@ -61,6 +61,19 @@ export class CreateEnvironmentVariableComponent implements OnInit {
       //     }
       //   );
     }
+
+    this.environmentVariableForm
+      .get('valueType')
+      ?.valueChanges.subscribe((value) => {
+        if (value === 'file') {
+          this.environmentVariableForm.get('value')?.clearValidators();
+        } else {
+          this.environmentVariableForm
+            .get('value')
+            ?.setValidators(Validators.required);
+        }
+        this.environmentVariableForm.get('value')?.updateValueAndValidity();
+      });
   }
 
   ngOnInit(): void {
@@ -167,4 +180,6 @@ export class CreateEnvironmentVariableComponent implements OnInit {
     //     }
     //   );
   }
+
+  valueTypeChange($event: any) {}
 }

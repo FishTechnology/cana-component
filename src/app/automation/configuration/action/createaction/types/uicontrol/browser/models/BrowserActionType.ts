@@ -3,4 +3,5 @@ export enum BrowserActionType {
   Close = 'CLOSE',
   Title = 'TITLE',
   Url = 'URL',
+  Navigation = 'NAVIGATION',
 }

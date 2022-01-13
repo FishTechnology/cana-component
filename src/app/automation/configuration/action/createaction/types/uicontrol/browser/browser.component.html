@@ -13,7 +13,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div fxFlex="15%" fxFill>
+    <div fxFlex="15%" fxFill *ngIf="isAssertVerification">
       <mat-form-field appearance="fill" fxFill>
         <mat-label>Condition Type</mat-label>
         <mat-select formControlName="conditionType">

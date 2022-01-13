@@ -14,9 +14,11 @@ export class BrowserComponent implements OnInit {
   uiControlForm!: FormGroup;
   browserForm!: FormGroup;
   matcher = new MyErrorStateMatcher();
+  isAssertVerification: boolean = false;
   browserActionTypes: SelectModel[] = [
     { text: 'Open', value: BrowserActionType.Open },
     { text: 'Close', value: BrowserActionType.Close },
+    { text: 'Navigation', value: BrowserActionType.Navigation },
   ];
   conditionTypes: SelectModel[] = [
     { text: 'Equal', value: conditionType.Equal },
@@ -31,17 +33,19 @@ export class BrowserComponent implements OnInit {
   ngOnInit(): void {
     this.uiControlForm = this.controlContainer.control as FormGroup;
     this.browserForm = this.uiControlForm.get('browserDetail') as FormGroup;
+
     this.setBrowserActionTypes();
 
     this.uiControlForm
       .get('isAssertVerification')
-      ?.valueChanges.subscribe((data) => {
+      ?.valueChanges.subscribe((data: boolean) => {
+        this.isAssertVerification = data;
         this.setBrowserActionTypes();
       });
   }
 
   setBrowserActionTypes(): void {
-    if (this.uiControlForm.get('isAssertVerification')?.value) {
+    if (this.isAssertVerification) {
       this.browserActionTypes = [
         { text: 'Title', value: BrowserActionType.Title },
         { text: 'Url', value: BrowserActionType.Url },
@@ -50,6 +54,7 @@ export class BrowserComponent implements OnInit {
       this.browserActionTypes = [
         { text: 'Open', value: BrowserActionType.Open },
         { text: 'Close', value: BrowserActionType.Close },
+        { text: 'Navigation', value: BrowserActionType.Navigation },
       ];
     }
   }

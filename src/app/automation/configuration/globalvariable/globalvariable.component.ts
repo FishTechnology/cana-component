@@ -129,6 +129,9 @@ export class GlobalvariableComponent implements OnInit {
             this.createConfigComponent();
             return;
           }
+          if (res.length === 0) {
+            return;
+          }
           this.configModel = res[0];
           if (res[0].configKeyValues && res[0].configKeyValues.length >= 1) {
             this.dataSource.data = res[0].configKeyValues;
@@ -139,18 +142,6 @@ export class GlobalvariableComponent implements OnInit {
           this.snackbarService.openSnackBar('error loading global config');
         }
       );
-
-    // this.globalvariableService
-    //   .getGlobalVariable(this.customerDetail!.userId)
-    //   .subscribe(
-    //     (res) => {
-    //       this.dataSource.data = res;
-    //       this.selection = new SelectionModel<GlobalVariableModel>(true, []);
-    //     },
-    //     (err) => {
-    //       this.snackbarService.openSnackBar('error loading global config');
-    //     }
-    //   );
   }
 
   createConfigComponent(): void {

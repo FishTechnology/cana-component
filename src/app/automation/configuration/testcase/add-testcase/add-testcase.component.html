@@ -1,0 +1,68 @@
+<div class="configuration-container mat-elevation-z8">
+  <mat-card>
+    <div>
+      <mat-toolbar>
+        <span>Add Test Case</span>
+        <span class="global-spacer"></span>
+        <button
+          mat-mini-fab
+          color="primary"
+          class="margin-right"
+          aria-label="Example icon button with a delete icon"
+          (click)="refresh()"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="actions">
+          Actions
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #actions="matMenu"> </mat-menu>
+      </mat-toolbar>
+    </div>
+    <div>
+      <div class="addtestcase-table">
+        <div
+          fxLayout="row"
+          fxLayoutAlign="start start"
+          fxLayoutGap="10px"
+          class="mat-elevation-z8"
+        >
+          <div fxFlex="50%" fxFlexFill>
+            <h2>Test Plan</h2>
+            <mat-selection-list role="list" [multiple]="false">
+              <mat-list-option
+                role="listitem"
+                *ngFor="let testPlanModel of testPlanModels"
+              >
+                {{ testPlanModel.name }}
+                <mat-divider></mat-divider>
+              </mat-list-option>
+              <mat-divider></mat-divider>
+            </mat-selection-list>
+          </div>
+          <div fxFlex="50%" fxFlexFill>
+            <h2>Test Case</h2>
+            <div
+              cdkDropList
+              class="example-list"
+              (cdkDropListDropped)="drop($event)"
+            >
+              <div
+                class="example-box"
+                *ngFor="let testCaseModel of testCaseModels"
+                cdkDrag
+              >
+                <div
+                  class="example-custom-placeholder"
+                  *cdkDragPlaceholder
+                ></div>
+                {{ testCaseModel.name }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

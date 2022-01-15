@@ -35,6 +35,25 @@
           </button>
           <button
             mat-menu-item
+            [routerLink]="['/testplans', testPlanId, 'testcases', 'mapping']"
+            [queryParams]="{ reorder: true }"
+            [disabled]="!testPlanId"
+          >
+            Reorder
+          </button>
+          <button
+            mat-menu-item
+            [routerLink]="[
+              '/testplans/testcases/',
+              selection.selected[0]?.id,
+              'addtestcase'
+            ]"
+            [disabled]="selection.selected.length !== 1"
+          >
+            Add To TestPlan
+          </button>
+          <button
+            mat-menu-item
             [matMenuTriggerFor]="variableMenu"
             [disabled]="selection.selected.length !== 1"
           >

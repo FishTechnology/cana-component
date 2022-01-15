@@ -48,6 +48,7 @@ import { CreateConfigKeyValueComponent } from './automation/configuration/config
 import { ConditionCreateComponent } from './automation/configuration/condition/condition-create/condition-create.component';
 import { ConditionListComponent } from './automation/configuration/condition/condition-list/condition-list.component';
 import { TestcaseMappingComponent } from './automation/configuration/testcase/testcase-mapping/testcase-mapping.component';
+import { AddTestcaseComponent } from './automation/configuration/testcase/add-testcase/add-testcase.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { TestcaseMappingComponent } from './automation/configuration/testcase/te
     ConditionCreateComponent,
     ConditionListComponent,
     TestcaseMappingComponent,
+    AddTestcaseComponent,
   ],
   imports: [
     BrowserModule,

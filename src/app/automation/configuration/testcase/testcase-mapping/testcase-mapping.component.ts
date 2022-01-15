@@ -27,6 +27,7 @@ export class TestcaseMappingComponent implements OnInit {
   isReOrderTestCase: boolean = false;
   testPlanId!: string;
   testPlanModel!: TestPlanModel;
+  testCaseId!: string;
 
   constructor(
     private testCaseService: TestCaseService,
@@ -44,9 +45,27 @@ export class TestcaseMappingComponent implements OnInit {
     });
     this.router.params.subscribe((params) => {
       this.testPlanId = params['testplanid'];
-      this.getTestCaseByTestPlanId();
-      this.getTestPlanById();
+      this.testCaseId = params['testcaseid'];
+      if (this.testPlanId) {
+        this.getTestPlanById();
+        this.getTestCaseByTestPlanId();
+      } else {
+        this.getTestPlanByUserId();
+      }
     });
+  }
+
+  getTestPlanByUserId(): void {
+    this.testplanService
+      .getTestPlansByUserId(this.customerDetail.userId)
+      .subscribe(
+        (res) => {
+          // this.testPlanModels = res;
+        },
+        (err) => {
+          this.snackbarService.openSnackBar('error while getting test Plan ');
+        }
+      );
   }
 
   ngOnInit(): void {}

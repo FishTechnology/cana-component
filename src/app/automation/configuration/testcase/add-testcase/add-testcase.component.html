@@ -17,7 +17,16 @@
           Actions
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
-        <mat-menu #actions="matMenu"> </mat-menu>
+        <mat-menu #actions="matMenu">
+          <button mat-menu-item (click)="addTestCase()">Add</button>
+          <button
+            mat-menu-item
+            (click)="saveTestCase()"
+            [disabled]="!isShowSaveAction"
+          >
+            Save
+          </button>
+        </mat-menu>
       </mat-toolbar>
     </div>
     <div>
@@ -34,27 +43,30 @@
               <mat-list-option
                 role="listitem"
                 *ngFor="let testPlanModel of testPlanModels"
+                (click)="testPlanClick(testPlanModel)"
               >
                 {{ testPlanModel.name }}
                 <mat-divider></mat-divider>
               </mat-list-option>
-              <mat-divider></mat-divider>
             </mat-selection-list>
           </div>
           <div fxFlex="50%" fxFlexFill>
             <h2>Test Case</h2>
             <div
               cdkDropList
-              class="example-list"
+              class="addtestcase-list"
               (cdkDropListDropped)="drop($event)"
             >
+              <h4 *ngIf="!testCaseModels || testCaseModels?.length === 0">
+                no data found
+              </h4>
               <div
-                class="example-box"
+                class="addtestcase-box"
                 *ngFor="let testCaseModel of testCaseModels"
                 cdkDrag
               >
                 <div
-                  class="example-custom-placeholder"
+                  class="addtestcase-custom-placeholder"
                   *cdkDragPlaceholder
                 ></div>
                 {{ testCaseModel.name }}

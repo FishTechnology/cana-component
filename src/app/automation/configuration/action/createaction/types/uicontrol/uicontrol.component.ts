@@ -9,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SelectModel } from 'src/app/commons/SelectModel';
+import { SelectModel } from 'src/app/commons/models/SelectModel';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';

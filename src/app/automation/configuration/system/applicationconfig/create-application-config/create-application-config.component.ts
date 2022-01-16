@@ -6,7 +6,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
-import { SelectModel } from 'src/app/commons/SelectModel';
+import { SelectModel } from 'src/app/commons/models/SelectModel';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { ApplicationConfigService } from '../application-config.service';
 import { CreateApplicationConfigModel } from '../models/create-application-config-model';

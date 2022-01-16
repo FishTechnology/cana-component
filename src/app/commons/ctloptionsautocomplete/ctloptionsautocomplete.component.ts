@@ -11,8 +11,9 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { UiControlOptoinType } from 'src/app/automation/configuration/action/createaction/types/uicontrol/models/UiControlOptoinType';
-import { SelectModel } from '../SelectModel';
+
 import { map, startWith } from 'rxjs/operators';
+import { SelectModel } from '../models/SelectModel';
 
 @Component({
   selector: 'app-ctloptionsautocomplete',

@@ -9,7 +9,7 @@ import {
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { UploadService } from 'src/app/commons/upload/upload.service';
-import { SelectModel } from '../../../../commons/SelectModel';
+import { SelectModel } from '../../../../commons/models/SelectModel';
 import { ConfigKeyValueService } from '../../config/config-key-value/config-key-value.service';
 import CreateConfigKeyValueModel from '../../config/config-key-value/models/create-config-key-value-model';
 import { ConfigService } from '../../config/config.service';

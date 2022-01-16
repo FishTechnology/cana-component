@@ -18,6 +18,7 @@ import { ConditionListComponent } from './automation/configuration/condition/con
 import { ConditionCreateComponent } from './automation/configuration/condition/condition-create/condition-create.component';
 import { TestcaseMappingComponent } from './automation/configuration/testcase/testcase-mapping/testcase-mapping.component';
 import { AddTestcaseComponent } from './automation/configuration/testcase/add-testcase/add-testcase.component';
+import { HtmlEditorComponent } from './commons/html-editor/html-editor.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -107,10 +108,13 @@ const routes: Routes = [
     path: 'schedules/:scheduleid/scheduleiterations/:scheduleiterationid/histories',
     component: ScheduleIterationHistoryComponent,
   },
-
   {
     path: 'schedules',
     component: ScheduleComponent,
+  },
+  {
+    path: 'htmleditor',
+    component: HtmlEditorComponent,
   },
 ];
 

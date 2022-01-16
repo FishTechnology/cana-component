@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from 'src/app/commons/customer/customer.service';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { BrowserType } from 'src/app/commons/models/BrowserTypeEnums';
-import { SelectModel } from 'src/app/commons/SelectModel';
+import { SelectModel } from 'src/app/commons/models/SelectModel';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { EnvironmentService } from '../../configuration/environment/environment.service';
 import { EnvironmentModel } from '../../configuration/environment/models/EnvironmentModel';

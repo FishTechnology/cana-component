@@ -5,7 +5,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
-import { SelectModel } from 'src/app/commons/SelectModel';
+import { SelectModel } from 'src/app/commons/models/SelectModel';
 import { EnvironmentService } from '../environment.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UpdateEnvironmentModel } from '../models/UpdateEnvironmentModel';

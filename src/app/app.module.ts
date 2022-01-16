@@ -49,6 +49,7 @@ import { ConditionCreateComponent } from './automation/configuration/condition/c
 import { ConditionListComponent } from './automation/configuration/condition/condition-list/condition-list.component';
 import { TestcaseMappingComponent } from './automation/configuration/testcase/testcase-mapping/testcase-mapping.component';
 import { AddTestcaseComponent } from './automation/configuration/testcase/add-testcase/add-testcase.component';
+import { HtmlEditorComponent } from './commons/html-editor/html-editor.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { AddTestcaseComponent } from './automation/configuration/testcase/add-te
     ConditionListComponent,
     TestcaseMappingComponent,
     AddTestcaseComponent,
+    HtmlEditorComponent,
   ],
   imports: [
     BrowserModule,

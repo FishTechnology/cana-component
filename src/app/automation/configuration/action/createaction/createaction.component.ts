@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from 'src/app/commons/customer/customer.service';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
-import { SelectModel } from 'src/app/commons/SelectModel';
+import { SelectModel } from 'src/app/commons/models/SelectModel';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { ActionType } from '../models/ActionType';
 

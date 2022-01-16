@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ControlContainer, FormGroup } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/commons/error/MyErrorStateMatcher';
-import { SelectModel } from 'src/app/commons/SelectModel';
+import { SelectModel } from 'src/app/commons/models/SelectModel';
 import { BrowserActionType } from './models/BrowserActionType';
 import { conditionType } from './models/ConditionType';
 

@@ -123,8 +123,8 @@ export class EnvironmentComponent implements OnInit {
 
   getEnvironmentByUserId(): void {
     this.configService
-      .getConfigByUserId(
-        this.customerDetail.userId,
+      .getConfigByAppId(
+        this.customerDetail.applicationId,
         ConfigType.EnvironmentVariable
       )
       .subscribe(

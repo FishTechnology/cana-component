@@ -6,6 +6,9 @@ import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { BrowserType } from 'src/app/commons/models/BrowserTypeEnums';
 import { SelectModel } from 'src/app/commons/models/SelectModel';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
+import { ConfigService } from '../../configuration/config/config.service';
+import ConfigModel from '../../configuration/config/models/config-model';
+import { ConfigType } from '../../configuration/config/models/config-type';
 import { EnvironmentService } from '../../configuration/environment/environment.service';
 import { EnvironmentModel } from '../../configuration/environment/models/EnvironmentModel';
 import { TestPlanModel } from '../../configuration/testplan/models/TestPlanModel';
@@ -23,7 +26,7 @@ export class CreateScheduleComponent implements OnInit {
   testPlanId!: string;
   testPlanModel!: TestPlanModel;
   customerDetail!: CustomerDetail;
-  environmentDetails!: EnvironmentModel[];
+  environmentDetails!: ConfigModel[];
   supportedBrowserTypes: SelectModel[] = [
     {
       text: 'Google Chrome',
@@ -58,6 +61,7 @@ export class CreateScheduleComponent implements OnInit {
       Validators.required
     ),
   });
+
   constructor(
     private testPlanService: TestplanService,
     private environmentService: EnvironmentService,
@@ -65,7 +69,8 @@ export class CreateScheduleComponent implements OnInit {
     private router: Router,
     private snackbarService: SnackbarService,
     private customerService: CustomerService,
-    private scheduleService: ScheduleService
+    private scheduleService: ScheduleService,
+    private configService: ConfigService
   ) {
     route.params.subscribe((params) => {
       this.testPlanId = params.testplanid;
@@ -80,26 +85,41 @@ export class CreateScheduleComponent implements OnInit {
   ngOnInit(): void {}
 
   getTestPlanDetail(): void {
-    this.testPlanService.getTestPlanById(this.testPlanId).subscribe(
-      (res) => {
-        this.testPlanModel = res;
-      },
-      (err) => {
-        this.snackbarService.openSnackBar('error loading test plans');
-      }
-    );
-  }
-  getEnvironmentByUserId(): void {
-    this.environmentService
-      .getEnvironment(this.customerDetail.userId)
+    this.testPlanService
+      .getTestPlanById(this.customerDetail.applicationId, this.testPlanId)
       .subscribe(
         (res) => {
-          this.environmentDetails = res;
+          this.testPlanModel = res;
         },
         (err) => {
-          this.snackbarService.openSnackBar('error while loading environment');
+          this.snackbarService.openSnackBar('error loading test plans');
         }
       );
+  }
+  getEnvironmentByUserId(): void {
+    this.configService
+      .getConfigByAppId(
+        this.customerDetail.applicationId,
+        ConfigType.EnvironmentVariable
+      )
+      .subscribe({
+        next: (res) => {
+          this.environmentDetails = res;
+        },
+        error: (err) => {
+          this.snackbarService.openSnackBar('error while loading environment');
+        },
+      });
+    // this.environmentService
+    //   .getEnvironment(this.customerDetail.userId)
+    //   .subscribe(
+    //     (res) => {
+    //       this.environmentDetails = res;
+    //     },
+    //     (err) => {
+    //       this.snackbarService.openSnackBar('error while loading environment');
+    //     }
+    //   );
   }
 
   createSchedule(): void {

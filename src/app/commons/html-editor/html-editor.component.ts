@@ -6,7 +6,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import * as ace from 'ace-builds';
+import * as jsbeauty from 'js-beautify';
 import { SelectGroupModel } from '../models/SelectGroupModel';
 import { SelectModel } from '../models/SelectModel';
 
@@ -17,6 +19,7 @@ import { SelectModel } from '../models/SelectModel';
 })
 export class HtmlEditorComponent implements OnInit, AfterViewInit {
   htmlEditorControl = new FormControl();
+  iframe!: HTMLElement;
   @ViewChild('editor') private editor!: ElementRef<HTMLElement>;
   aceEditor!: ace.Ace.Editor;
   selectGroupModels: SelectGroupModel[] = [
@@ -76,8 +79,9 @@ export class HtmlEditorComponent implements OnInit, AfterViewInit {
       ],
     },
   ];
+  previewHtml!: SafeHtml;
 
-  constructor() {
+  constructor(protected sanitizer: DomSanitizer) {
     // editor.setTheme('ace/theme/monokai');
     // editor.session.setMode('ace/mode/javascript');
   }
@@ -112,14 +116,50 @@ export class HtmlEditorComponent implements OnInit, AfterViewInit {
     );
     this.aceEditor.session.setMode('ace/mode/html');
     this.aceEditor.session.setUseWrapMode(true);
-    this.aceEditor.resize();
-    var beautify = ace.require('ace/ext/beautify');
-    beautify.beautify(this.aceEditor.session);
   }
 
   ngOnInit(): void {}
 
   themeChange(selectModel: SelectModel): void {
     this.aceEditor.setTheme(selectModel.value);
+  }
+
+  formatContent(): void {
+    var formatHtml = jsbeauty.html_beautify(this.aceEditor.getValue());
+    this.aceEditor.setValue(formatHtml);
+  }
+
+  updatePreview(): void {
+    if (this.aceEditorHasError()) {
+      return;
+    }
+    this.previewHtml = this.sanitizer.bypassSecurityTrustHtml(
+      this.aceEditor.getValue()
+    );
+  }
+
+  aceEditorHasError(): boolean {
+    const annotations = this.aceEditor.getSession().getAnnotations();
+    if (annotations.length === 0) {
+      return false;
+    }
+    return true;
+  }
+
+  undo(): void {
+    this.aceEditor
+      .getSession()
+      .getUndoManager()
+      .undo(this.aceEditor.getSession());
+  }
+  redo(): void {
+    this.aceEditor
+      .getSession()
+      .getUndoManager()
+      .redo(this.aceEditor.getSession());
+  }
+
+  clear(): void {
+    this.aceEditor.getSession().setValue('');
   }
 }

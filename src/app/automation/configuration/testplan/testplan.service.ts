@@ -27,48 +27,71 @@ export class TestplanService {
   }
 
   createTestplan(
+    applicationId: string,
     createTestplanModel: CreateTestplanModel
   ): Observable<ResultModel> {
     return this.httpClient.post<ResultModel>(
-      environment.canaApiUrl + '/api/testPlans',
+      environment.canaApiUrl + `/api/applications/${applicationId}/testPlans`,
       createTestplanModel
     );
   }
 
-  getTestPlansByUserId(userId: string): Observable<TestPlanModel[]> {
+  getTestPlansByUserId(
+    applicationId: string,
+    userId: string
+  ): Observable<TestPlanModel[]> {
     return this.httpClient.get<TestPlanModel[]>(
-      environment.canaApiUrl + '/api/testplans?userId=' + userId
+      environment.canaApiUrl +
+        `/api/applications/${applicationId}/testplans?userId=` +
+        userId
     );
   }
 
-  getTestPlanById(testPlanId: string): Observable<TestPlanModel> {
+  getTestPlanById(
+    applicationId: string,
+    testPlanId: string
+  ): Observable<TestPlanModel> {
     return this.httpClient.get<TestPlanModel>(
-      environment.canaApiUrl + '/api/testPlans/' + testPlanId
+      environment.canaApiUrl +
+        `/api/applications/${applicationId}/testPlans/` +
+        testPlanId
     );
   }
 
-  deleteTestPlanById(testPlanId: string): Observable<ErrorMessageModel[]> {
+  deleteTestPlanById(
+    applicationId: string,
+    testPlanId: string
+  ): Observable<ErrorMessageModel[]> {
     return this.httpClient.delete<ErrorMessageModel[]>(
-      environment.canaApiUrl + '/api/testPlans/' + testPlanId
+      environment.canaApiUrl +
+        `/api/applications/${applicationId}/testPlans/` +
+        testPlanId
     );
   }
 
   updateTestPlanStatus(
+    applicationId: string,
     testPlanId: string,
     updateTestplanStatusModel: UpdateTestplanStatusModel
   ): Observable<ErrorMessageModel[]> {
     return this.httpClient.put<ErrorMessageModel[]>(
-      environment.canaApiUrl + '/api/testPlans/' + testPlanId + '/status',
+      environment.canaApiUrl +
+        `/api/applications/${applicationId}/testPlans/` +
+        testPlanId +
+        '/status',
       updateTestplanStatusModel
     );
   }
 
   updateTestPlan(
+    applicationId: string,
     testPlanId: string,
     updateTestplanModel: UpdateTestplanModel
   ): Observable<ErrorMessageModel[]> {
     return this.httpClient.put<ErrorMessageModel[]>(
-      environment.canaApiUrl + '/api/testPlans/' + testPlanId,
+      environment.canaApiUrl +
+        `/api/applications/${applicationId}/testPlans/` +
+        testPlanId,
       updateTestplanModel
     );
   }

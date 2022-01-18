@@ -9,6 +9,32 @@
     </button>
     <span>My App</span>
     <span class="header-spacer"></span>
+    <mat-form-field appearance="fill">
+      <mat-label>Application</mat-label>
+      <mat-select
+        [formControl]="applicationSelect"
+        [errorStateMatcher]="matcher"
+      >
+        <mat-option
+          (click)="applicationChange(application)"
+          *ngFor="let application of applications"
+          [value]="application.id"
+        >
+          {{ application.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="applicationSelect.hasError('required')"
+        >You must make a selection</mat-error
+      >
+      <mat-error
+        *ngIf="
+          applicationSelect.hasError('pattern') &&
+          !applicationSelect.hasError('required')
+        "
+      >
+        Your selection is invalid
+      </mat-error>
+    </mat-form-field>
     <button
       mat-icon-button
       class="example-icon favorite-icon"

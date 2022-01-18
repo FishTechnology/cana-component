@@ -40,7 +40,10 @@ export class CreateTestplanComponent implements OnInit {
     });
     if (this.data.testPlanId) {
       this.testplanService
-        .getTestPlanById(this.data.testPlanId)
+        .getTestPlanById(
+          this.data.customerDetail.applicationId,
+          this.data.testPlanId
+        )
         .subscribe((res) => {
           let testPlanName = res.name;
           if (this.data.isTestPlanCopy) {
@@ -69,16 +72,21 @@ export class CreateTestplanComponent implements OnInit {
       comments: this.testplanform.get('comments')!.value,
       userId: this.data.customerDetail.userId,
     };
-    this.testplanService.createTestplan(createTestplanModel).subscribe(
-      (res) => {
-        this.snackbarService.openSnackBar('successfull created test plan');
-        this.dialogRef.close();
-        this.testPlanEvent.emit('success');
-      },
-      (error) => {
-        this.snackbarService.openSnackBar('error in created test plan');
-      }
-    );
+    this.testplanService
+      .createTestplan(
+        this.data.customerDetail.applicationId,
+        createTestplanModel
+      )
+      .subscribe(
+        (res) => {
+          this.snackbarService.openSnackBar('successfull created test plan');
+          this.dialogRef.close();
+          this.testPlanEvent.emit('success');
+        },
+        (error) => {
+          this.snackbarService.openSnackBar('error in created test plan');
+        }
+      );
   }
 
   copyTestplan(): void {
@@ -109,7 +117,11 @@ export class CreateTestplanComponent implements OnInit {
       userId: this.data.customerDetail.userId,
     };
     this.testplanService
-      .updateTestPlan(this.data.testPlanId, updateTestplanModel)
+      .updateTestPlan(
+        this.data.customerDetail.applicationId,
+        this.data.testPlanId,
+        updateTestplanModel
+      )
       .subscribe(
         (res) => {
           this.snackbarService.openSnackBar('successfull updated test plan');

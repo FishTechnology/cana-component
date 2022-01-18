@@ -3,4 +3,5 @@ export interface CreateConfigModel {
   userId: string;
   comments?: string;
   identifier?: string;
+  applicationId: string;
 }

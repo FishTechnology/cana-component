@@ -20,6 +20,7 @@ import { ConfigService } from '../../config/config.service';
 import ConfigKeyValueModel from '../../config/models/config-key-value-model';
 import ConfigModel from '../../config/models/config-model';
 import { ConfigType } from '../../config/models/config-type';
+import { forkJoin, map, mergeMap } from 'rxjs';
 
 @Component({
   selector: 'app-environmentvariable',
@@ -47,19 +48,23 @@ export class EnvironmentVariableComponent implements OnInit {
     private configKeyValueService: ConfigKeyValueService,
     private configService: ConfigService
   ) {
-    this.route.params.subscribe((params) => {
-      this.environmentId = params.environmentid;
-      this.getEnvVariablesByEnvironmentId();
-      this.getEnvironmentById();
-    });
     this.customerService.getUserDetail().subscribe((res) => {
       this.customerDetail = res;
+      this.route.params.subscribe((params) => {
+        this.environmentId = params.environmentid;
+        this.getEnvVariablesByEnvironmentId();
+        this.getEnvironmentById();
+      });
     });
   }
 
   getEnvironmentById() {
     this.configService
-      .getConfigById(this.environmentId, ConfigType.EnvironmentVariable)
+      .getConfigById(
+        this.customerDetail.applicationId,
+        this.environmentId,
+        ConfigType.EnvironmentVariable
+      )
       .subscribe((res) => {
         this.environmentModel = res;
       });
@@ -150,17 +155,19 @@ export class EnvironmentVariableComponent implements OnInit {
   }
 
   getEnvVariablesByEnvironmentId() {
-    this.configKeyValueService.getConfigKeyValue(this.environmentId).subscribe(
-      (res) => {
-        this.dataSource.data = res;
-        this.selection = new SelectionModel<ConfigKeyValueModel>(true, []);
-      },
-      (err) => {
-        this.snackbarService.openSnackBar(
-          'Error while loading environment variables'
-        );
-      }
-    );
+    this.configKeyValueService
+      .getConfigKeyValue(this.customerDetail.applicationId, this.environmentId)
+      .subscribe(
+        (res) => {
+          this.dataSource.data = res;
+          this.selection = new SelectionModel<ConfigKeyValueModel>(true, []);
+        },
+        (err) => {
+          this.snackbarService.openSnackBar(
+            'Error while loading environment variables'
+          );
+        }
+      );
     // this.environmentVariableService
     //   .getEnvVariablesByEnvId(this.environmentId)
     //   .subscribe(

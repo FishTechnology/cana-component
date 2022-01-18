@@ -12,6 +12,7 @@ export class CustomerService {
     let customerDetail: CustomerDetail = {
       userName: 'sajan',
       userId: '2746306338916140033',
+      applicationId: '2753427059249251364',
     };
 
     return of(customerDetail);

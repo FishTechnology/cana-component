@@ -57,7 +57,10 @@ export class TestcaseMappingComponent implements OnInit {
 
   getTestPlanByUserId(): void {
     this.testplanService
-      .getTestPlansByUserId(this.customerDetail.userId)
+      .getTestPlansByUserId(
+        this.customerDetail.applicationId,
+        this.customerDetail.userId
+      )
       .subscribe(
         (res) => {
           // this.testPlanModels = res;
@@ -127,14 +130,16 @@ export class TestcaseMappingComponent implements OnInit {
   }
 
   getTestPlanById(): void {
-    this.testplanService.getTestPlanById(this.testPlanId).subscribe(
-      (res) => {
-        this.testPlanModel = res;
-      },
-      (err) => {
-        this.snackbarService.openSnackBar('error while getting test plan');
-      }
-    );
+    this.testplanService
+      .getTestPlanById(this.customerDetail.applicationId, this.testPlanId)
+      .subscribe(
+        (res) => {
+          this.testPlanModel = res;
+        },
+        (err) => {
+          this.snackbarService.openSnackBar('error while getting test plan');
+        }
+      );
   }
 
   refresh(): void {

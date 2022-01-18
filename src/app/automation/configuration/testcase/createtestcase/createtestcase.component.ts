@@ -46,16 +46,21 @@ export class CreateTestcaseComponent implements OnInit {
       comments: new FormControl(''),
     });
     if (this.data.testPlanId) {
-      this._testPlanService.getTestPlanById(this.data.testPlanId).subscribe(
-        (res) => {
-          this.testPlanModel = res;
-        },
-        (err) => {
-          this.snackbarService.openSnackBar(
-            'Error while fetching data from server'
-          );
-        }
-      );
+      this._testPlanService
+        .getTestPlanById(
+          this.data.customerDetail.applicationId,
+          this.data.testPlanId
+        )
+        .subscribe(
+          (res) => {
+            this.testPlanModel = res;
+          },
+          (err) => {
+            this.snackbarService.openSnackBar(
+              'Error while fetching data from server'
+            );
+          }
+        );
     }
 
     if (this.data.testCaseId) {

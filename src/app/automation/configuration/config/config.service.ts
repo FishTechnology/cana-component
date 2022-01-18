@@ -14,30 +14,35 @@ export class ConfigService {
   constructor(private readonly http: HttpClient) {}
 
   getConfigById(
+    appId: string,
     configId: string,
     configType: ConfigType
   ): Observable<ConfigModel> {
     return this.http.get<ConfigModel>(
-      environment.canaApiUrl + `/api/configs/${configType}/${configId}`
+      environment.canaApiUrl +
+        `/api/applications/${appId}/configs/${configType}/${configId}`
     );
   }
 
-  getConfigByUserId(
-    userId: string,
+  getConfigByAppId(
+    appId: string,
     configType: ConfigType,
     identifier?: string
   ): Observable<ConfigModel[]> {
     return this.http.get<ConfigModel[]>(
-      environment.canaApiUrl + `/api/configs/${configType}?userId=${userId}`
+      environment.canaApiUrl +
+        `/api/applications/${appId}/configs/${configType}`
     );
   }
 
   createConfig(
+    appId: string,
     configType: ConfigType,
     createConfigModel: CreateConfigModel
   ): Observable<ResultModel> {
     return this.http.post<ResultModel>(
-      environment.canaApiUrl + `/api/configs/${configType}`,
+      environment.canaApiUrl +
+        `/api/applications/${appId}/configs/${configType}`,
       createConfigModel
     );
   }

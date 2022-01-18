@@ -65,7 +65,10 @@ export class AddTestcaseComponent implements OnInit {
 
   getTestPlanByUserId(): void {
     this.testPlanService
-      .getTestPlansByUserId(this.customerDetail.userId)
+      .getTestPlansByUserId(
+        this.customerDetail.applicationId,
+        this.customerDetail.userId
+      )
       .subscribe({
         next: (res) => {
           this.testPlanModels = res;

@@ -115,7 +115,10 @@ export class TestplanComponent implements OnInit {
 
   deleteTestPlan() {
     this.testplanService
-      .deleteTestPlanById(this.selection.selected[0].id)
+      .deleteTestPlanById(
+        this.customerDetail.applicationId,
+        this.selection.selected[0].id
+      )
       .subscribe((res) => {
         this.snackbarService.openSnackBar(
           'successfully delete global variables'
@@ -138,7 +141,10 @@ export class TestplanComponent implements OnInit {
 
   getTestplanByUserId(): void {
     this.testplanService
-      .getTestPlansByUserId(this.customerDetail.userId)
+      .getTestPlansByUserId(
+        this.customerDetail.applicationId,
+        this.customerDetail.userId
+      )
       .subscribe(
         (res) => {
           this.dataSource.data = res;
@@ -157,6 +163,7 @@ export class TestplanComponent implements OnInit {
     };
     this.testplanService
       .updateTestPlanStatus(
+        this.customerDetail.applicationId,
         this.selection.selected[0].id,
         updateTestplanStatusModel
       )
@@ -186,9 +193,14 @@ export class TestplanComponent implements OnInit {
       name: ConfigType.TestPlan,
       userId: this.customerDetail!.userId,
       identifier: this.selection.selected[0].id.toString(),
+      applicationId: this.customerDetail.applicationId,
     };
     this.configService
-      .createConfig(ConfigType.TestPlan, createConfigModel)
+      .createConfig(
+        this.customerDetail.applicationId,
+        ConfigType.TestPlan,
+        createConfigModel
+      )
       .subscribe(
         (res) => {
           this.configId = res.id;
@@ -208,8 +220,8 @@ export class TestplanComponent implements OnInit {
 
   getConfig(): void {
     this.configService
-      .getConfigByUserId(
-        this.customerDetail!.userId,
+      .getConfigByAppId(
+        this.customerDetail!.applicationId,
         ConfigType.TestPlan,
         this.selection.selected[0].id.toString()
       )

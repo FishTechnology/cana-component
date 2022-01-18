@@ -108,6 +108,7 @@ export class CreateGlobalVariableComponent implements OnInit {
 
     this.configKeyValueService
       .createConfigKeyValue(
+        this.data.customerDetail.applicationId,
         ConfigType.GlobalVariable,
         this.data.configId,
         createConfigKeyValueModel

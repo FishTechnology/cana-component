@@ -37,10 +37,10 @@ import { ScheduleIterationComponent } from './automation/schedule/scheduleiterat
 import { ReplaceNullWithTextPipe } from './commons/pipes/replacenullwithtext/replacenullwithtext.pipe';
 import { ScheduleIterationHistoryComponent } from './automation/schedule/scheduleiteration/scheduleiterationhistory/scheduleiterationhistory.component';
 import { CtlOptionsAutocompleteComponent } from './commons/ctloptionsautocomplete/ctloptionsautocomplete.component';
-import { ApplicationComponent } from './automation/configuration/system/application.component';
-import { ApplicationconfigComponent } from './automation/configuration/system/applicationconfig/applicationconfig.component';
-import { CreateApplicationComponent } from './automation/configuration/system/create-application/create-application.component';
-import { CreateApplicationConfigComponent } from './automation/configuration/system/applicationconfig/create-application-config/create-application-config.component';
+import { ApplicationComponent } from './automation/configuration/application/application.component';
+import { ApplicationconfigComponent } from './automation/configuration/application/applicationconfig/applicationconfig.component';
+import { CreateApplicationComponent } from './automation/configuration/application/create-application/create-application.component';
+import { CreateApplicationConfigComponent } from './automation/configuration/application/applicationconfig/create-application-config/create-application-config.component';
 import { ConfigComponent } from './automation/configuration/config/config.component';
 import { ConfigKeyValueComponent } from './automation/configuration/config/config-key-value/config-key-value.component';
 import { CreateConfigComponent } from './automation/configuration/config/create-config/create-config.component';
@@ -50,6 +50,8 @@ import { ConditionListComponent } from './automation/configuration/condition/con
 import { TestcaseMappingComponent } from './automation/configuration/testcase/testcase-mapping/testcase-mapping.component';
 import { AddTestcaseComponent } from './automation/configuration/testcase/add-testcase/add-testcase.component';
 import { HtmlEditorComponent } from './commons/html-editor/html-editor.component';
+import { ViewSystemComponent } from './automation/configuration/system/view-system/view-system.component';
+import { CreateSystemComponent } from './automation/configuration/system/create-system/create-system.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +97,8 @@ import { HtmlEditorComponent } from './commons/html-editor/html-editor.component
     TestcaseMappingComponent,
     AddTestcaseComponent,
     HtmlEditorComponent,
+    ViewSystemComponent,
+    CreateSystemComponent,
   ],
   imports: [
     BrowserModule,

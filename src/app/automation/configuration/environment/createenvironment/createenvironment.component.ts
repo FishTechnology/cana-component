@@ -81,10 +81,15 @@ export class CreateEnvironmentComponent implements OnInit {
     let createConfigModel: CreateConfigModel = {
       name: this.environmentform.get('name')?.value,
       userId: this.customerDetail!.userId,
+      applicationId: this.customerDetail.applicationId,
     };
 
     this.configService
-      .createConfig(ConfigType.EnvironmentVariable, createConfigModel)
+      .createConfig(
+        this.customerDetail.applicationId,
+        ConfigType.EnvironmentVariable,
+        createConfigModel
+      )
       .subscribe(
         (res) => {
           this.snackbarService.openSnackBar('successfully created environment');

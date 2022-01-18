@@ -104,6 +104,7 @@ export class CreateEnvironmentVariableComponent implements OnInit {
 
     this.configKeyValueService
       .createConfigKeyValue(
+        this.data.customerDetail.applicationId,
         ConfigType.EnvironmentVariable,
         this.data.environmentId,
         createConfigKeyValueModel

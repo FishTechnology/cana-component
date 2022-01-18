@@ -13,20 +13,25 @@ import CreateConfigKeyValueModel from './models/create-config-key-value-model';
 export class ConfigKeyValueService {
   constructor(private readonly http: HttpClient) {}
 
-  getConfigKeyValue(environmentId: string): Observable<ConfigKeyValueModel[]> {
+  getConfigKeyValue(
+    applicationId: string,
+    environmentId: string
+  ): Observable<ConfigKeyValueModel[]> {
     return this.http.get<ConfigKeyValueModel[]>(
-      environment.canaApiUrl + `/api/configs/${environmentId}/keyValues`
+      environment.canaApiUrl +
+        `/api/applications/${applicationId}/configs/${environmentId}/keyValues`
     );
   }
 
   public createConfigKeyValue(
+    applicationId: string,
     configType: ConfigType,
     configId: string,
     createConfigKeyValueModel: CreateConfigKeyValueModel
   ): Observable<ResultModel> {
     return this.http.post<ResultModel>(
       environment.canaApiUrl +
-        `/api/configs/${configType}/${configId}/keyValues`,
+        `/api/applications/${applicationId}/configs/${configType}/${configId}/keyValues`,
       createConfigKeyValueModel
     );
   }

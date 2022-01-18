@@ -11,5 +11,6 @@ export default interface ConfigModel {
   modifiedBy: string;
   comments: string;
   isActive: boolean;
+  applicationId: string;
   configKeyValues: ConfigKeyValueModel[];
 }

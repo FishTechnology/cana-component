@@ -122,7 +122,10 @@ export class GlobalvariableComponent implements OnInit {
 
   getGlobalVariables(): void {
     this.configService
-      .getConfigByUserId(this.customerDetail!.userId, ConfigType.GlobalVariable)
+      .getConfigByAppId(
+        this.customerDetail!.applicationId,
+        ConfigType.GlobalVariable
+      )
       .subscribe(
         (res) => {
           if (!res) {
@@ -148,10 +151,15 @@ export class GlobalvariableComponent implements OnInit {
     let createConfigModel: CreateConfigModel = {
       name: 'Global Variable',
       userId: this.customerDetail!.userId,
+      applicationId: this.customerDetail!.applicationId,
     };
 
     this.configService
-      .createConfig(ConfigType.GlobalVariable, createConfigModel)
+      .createConfig(
+        this.customerDetail!.applicationId,
+        ConfigType.GlobalVariable,
+        createConfigModel
+      )
       .subscribe(
         (res) => {
           this.getGlobalVariables();

@@ -5,6 +5,8 @@ import {
 } from '@angular/material/bottom-sheet';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CustomerService } from 'src/app/commons/customer/customer.service';
+import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { ScheduleIterationModel } from '../models/ScheduleIterationModel';
 import { ScheduleService } from '../schedule.service';
@@ -19,6 +21,7 @@ export class ScheduleIterationComponent implements OnInit {
   dataSource = new MatTableDataSource<ScheduleIterationModel>();
 
   scheduleIterations!: ScheduleIterationModel[];
+  customerDetail!: CustomerDetail;
 
   constructor(
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: { scheduleId: number },
@@ -26,16 +29,25 @@ export class ScheduleIterationComponent implements OnInit {
     private scheduleService: ScheduleService,
     private snackbarService: SnackbarService,
     private router: ActivatedRoute,
-    private route: Router
+    private route: Router,
+    private customerService: CustomerService
   ) {
-    this.getScheduleIterationsBySchId();
+    this.customerService.getUserDetail().subscribe({
+      next: (res) => {
+        this.customerDetail = res;
+        this.getScheduleIterationsBySchId();
+      },
+    });
   }
 
   ngOnInit(): void {}
 
   getScheduleIterationsBySchId(): void {
     this.scheduleService
-      .getScheduleIterationByScheduleId(this.data.scheduleId)
+      .getScheduleIterationByScheduleId(
+        this.customerDetail.applicationId,
+        this.data.scheduleId
+      )
       .subscribe(
         (res) => {
           this.scheduleIterations = res;

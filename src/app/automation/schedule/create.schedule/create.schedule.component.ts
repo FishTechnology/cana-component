@@ -142,7 +142,11 @@ export class CreateScheduleComponent implements OnInit {
       createScheduleModel.notification = notificationModel;
     }
     this.scheduleService
-      .createSchedule(this.testPlanId, createScheduleModel)
+      .createSchedule(
+        this.customerDetail.applicationId,
+        this.testPlanId,
+        createScheduleModel
+      )
       .subscribe(
         (res) => {
           this.snackbarService.openSnackBar('successfully created schedule');

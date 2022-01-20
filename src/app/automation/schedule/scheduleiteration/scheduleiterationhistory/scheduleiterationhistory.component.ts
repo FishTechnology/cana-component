@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CustomerService } from 'src/app/commons/customer/customer.service';
+import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { ScheduleService } from '../../schedule.service';
 import { ActionResultModel } from './models/ActionResultModel';
@@ -16,17 +18,25 @@ export class ScheduleIterationHistoryComponent implements OnInit {
   scheduleIterationId!: number;
   scheduleIterationResultModel!: ScheduleIterationResultModel;
   actionResultModels!: ActionResultModel[];
+  customerDetail!: CustomerDetail;
 
   constructor(
     private router: ActivatedRoute,
     private route: Router,
     private scheduleService: ScheduleService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private customerService: CustomerService
   ) {
     this.router.params.subscribe((params) => {
       this.scheduleId = params.scheduleid;
       this.scheduleIterationId = params.scheduleiterationid;
-      this.getScheduleResult();
+      this.customerService.getUserDetail().subscribe({
+        next: (res) => {
+          this.customerDetail = res;
+          this.getScheduleResult();
+        },
+        error: () => {},
+      });
     });
   }
 
@@ -34,7 +44,11 @@ export class ScheduleIterationHistoryComponent implements OnInit {
 
   getScheduleResult(): void {
     this.scheduleService
-      .getScheduleResult(this.scheduleId, this.scheduleIterationId)
+      .getScheduleResult(
+        this.customerDetail.applicationId,
+        this.scheduleId,
+        this.scheduleIterationId
+      )
       .subscribe(
         (res) => {
           this.scheduleIterationResultModel = res;

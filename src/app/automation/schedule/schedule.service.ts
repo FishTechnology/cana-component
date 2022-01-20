@@ -17,42 +17,57 @@ import { ReScheduleStatusModel } from './models/ReScheduleStatusModel';
 export class ScheduleService {
   constructor(public httpClient: HttpClient) {}
 
-  getScheduleByUserId(userId: string): Observable<ScheduleModel> {
-    const url = environment.canaApiUrl + '/api/schedules?userId=' + userId;
+  getScheduleByUserId(
+    applicationId: string,
+    userId: string
+  ): Observable<ScheduleModel> {
+    const url =
+      environment.canaApiUrl +
+      `/api/applications/${applicationId}/schedules?userId=` +
+      userId;
     return this.httpClient.get<ScheduleModel>(url);
   }
 
   getScheduleIterationByScheduleId(
+    applicationId: string,
     scheduleId: number
   ): Observable<ScheduleIterationModel[]> {
-    const url = environment.canaApiUrl + `/api/schedules/${scheduleId}`;
+    const url =
+      environment.canaApiUrl +
+      `/api/applications/${applicationId}/schedules/${scheduleId}`;
     return this.httpClient.get<ScheduleIterationModel[]>(url);
   }
 
   createSchedule(
+    applicationId: string,
     testPlanId: string,
     createScheduleModel: CreateScheduleModel
   ): Observable<ResultModel> {
     const url =
-      environment.canaApiUrl + `/api/testPlans/${testPlanId}/schedules`;
+      environment.canaApiUrl +
+      `/api/applications/${applicationId}/testPlans/${testPlanId}/schedules`;
     return this.httpClient.post<ResultModel>(url, createScheduleModel);
   }
 
   getScheduleResult(
+    applicationId: string,
     scheduleId: number,
     scheduleIterationId: number
   ): Observable<ScheduleIterationResultModel> {
     const url =
       environment.canaApiUrl +
-      `/api/schedules/${scheduleId}/scheduleIterations/${scheduleIterationId}/result`;
+      `/api/applications/${applicationId}/schedules/${scheduleId}/scheduleIterations/${scheduleIterationId}/result`;
     return this.httpClient.get<ScheduleIterationResultModel>(url);
   }
 
   updateScheduleStatus(
+    applicationId: string,
     scheduleId: number,
     updateScheduleStatusModel: UpdateScheduleStatusModel
   ): Observable<ErrorMessageModel[]> {
-    const url = environment.canaApiUrl + `/api/schedules/${scheduleId}/status`;
+    const url =
+      environment.canaApiUrl +
+      `/api/applications/${applicationId}/schedules/${scheduleId}/status`;
     return this.httpClient.put<ErrorMessageModel[]>(
       url,
       updateScheduleStatusModel
@@ -60,11 +75,13 @@ export class ScheduleService {
   }
 
   reSchedule(
+    applicationId: string,
     scheduleId: number,
     reScheduleStatusModel: ReScheduleStatusModel
   ): Observable<ErrorMessageModel[]> {
     const url =
-      environment.canaApiUrl + `/api/schedules/${scheduleId}/reschedule`;
+      environment.canaApiUrl +
+      `/api/applications/${applicationId}/schedules/${scheduleId}/reschedule`;
     return this.httpClient.put<ErrorMessageModel[]>(url, reScheduleStatusModel);
   }
 }

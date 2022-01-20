@@ -54,7 +54,10 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
 
   getScheduleByUserId(): void {
     this.scheduleService
-      .getScheduleByUserId(this.customerDetail.userId)
+      .getScheduleByUserId(
+        this.customerDetail.applicationId,
+        this.customerDetail.userId
+      )
       .subscribe(
         (res) => {
           this.scheduleModel = res;
@@ -97,7 +100,10 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
 
   getScheduleIterationBySchId() {
     this.scheduleService
-      .getScheduleIterationByScheduleId(this.selection.selected[0].scheduleId)
+      .getScheduleIterationByScheduleId(
+        this.customerDetail.applicationId,
+        this.selection.selected[0].scheduleId
+      )
       .subscribe(
         (res) => {
           this.scheduleIterations = res;
@@ -124,7 +130,11 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
       userId: this.customerDetail.userId,
     };
     this.scheduleService
-      .reSchedule(this.selection.selected[0].scheduleId, reScheduleStatusModel)
+      .reSchedule(
+        this.customerDetail.applicationId,
+        this.selection.selected[0].scheduleId,
+        reScheduleStatusModel
+      )
       .subscribe(
         (res) => {
           this.snackbarService.openSnackBar('successfully reschedule status');
@@ -142,6 +152,7 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
     };
     this.scheduleService
       .updateScheduleStatus(
+        this.customerDetail.applicationId,
         this.selection.selected[0].scheduleId,
         updateScheduleStatusModel
       )

@@ -43,7 +43,7 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
   ) {
     this.customerService.getUserDetail().subscribe((res) => {
       this.customerDetail = res;
-      this.getScheduleByUserId();
+      this.getScheduleByAppId();
     });
   }
   ngAfterViewInit(): void {
@@ -52,9 +52,9 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {}
 
-  getScheduleByUserId(): void {
+  getScheduleByAppId(): void {
     this.scheduleService
-      .getScheduleByUserId(
+      .getScheduleByAppId(
         this.customerDetail.applicationId,
         this.customerDetail.userId
       )
@@ -138,7 +138,7 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
       .subscribe(
         (res) => {
           this.snackbarService.openSnackBar('successfully reschedule status');
-          this.getScheduleByUserId();
+          this.getScheduleByAppId();
         },
         (err) => {
           this.snackbarService.openSnackBar('error while reschedule ');
@@ -159,7 +159,7 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
       .subscribe(
         (res) => {
           this.snackbarService.openSnackBar('successfully updated status');
-          this.getScheduleByUserId();
+          this.getScheduleByAppId();
         },
         (err) => {
           this.snackbarService.openSnackBar('error while update status');
@@ -168,7 +168,7 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
   }
 
   refresh(): void {
-    this.getScheduleByUserId();
+    this.getScheduleByAppId();
   }
 
   chipColor(status: string): string {

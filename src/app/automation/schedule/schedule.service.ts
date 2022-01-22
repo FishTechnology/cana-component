@@ -17,14 +17,12 @@ import { ReScheduleStatusModel } from './models/ReScheduleStatusModel';
 export class ScheduleService {
   constructor(public httpClient: HttpClient) {}
 
-  getScheduleByUserId(
+  getScheduleByAppId(
     applicationId: string,
     userId: string
   ): Observable<ScheduleModel> {
     const url =
-      environment.canaApiUrl +
-      `/api/applications/${applicationId}/schedules?userId=` +
-      userId;
+      environment.canaApiUrl + `/api/applications/${applicationId}/schedules`;
     return this.httpClient.get<ScheduleModel>(url);
   }
 

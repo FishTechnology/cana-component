@@ -1,5 +1,5 @@
 export interface ScheduleItemModel {
-  scheduleId: number;
+  scheduleId: string;
   testplanName: string;
   environmentName: string;
   status: string;

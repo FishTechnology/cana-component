@@ -28,7 +28,7 @@ export class ScheduleService {
 
   getScheduleIterationByScheduleId(
     applicationId: string,
-    scheduleId: number
+    scheduleId: string
   ): Observable<ScheduleIterationModel[]> {
     const url =
       environment.canaApiUrl +
@@ -49,8 +49,8 @@ export class ScheduleService {
 
   getScheduleResult(
     applicationId: string,
-    scheduleId: number,
-    scheduleIterationId: number
+    scheduleId: string,
+    scheduleIterationId: string
   ): Observable<ScheduleIterationResultModel> {
     const url =
       environment.canaApiUrl +
@@ -60,7 +60,7 @@ export class ScheduleService {
 
   updateScheduleStatus(
     applicationId: string,
-    scheduleId: number,
+    scheduleId: string,
     updateScheduleStatusModel: UpdateScheduleStatusModel
   ): Observable<ErrorMessageModel[]> {
     const url =
@@ -74,7 +74,7 @@ export class ScheduleService {
 
   reSchedule(
     applicationId: string,
-    scheduleId: number,
+    scheduleId: string,
     reScheduleStatusModel: ReScheduleStatusModel
   ): Observable<ErrorMessageModel[]> {
     const url =

@@ -14,8 +14,8 @@ import { TestCaseResultModel } from './models/TestCaseResultModel';
   styleUrls: ['./scheduleiterationhistory.component.scss'],
 })
 export class ScheduleIterationHistoryComponent implements OnInit {
-  scheduleId!: number;
-  scheduleIterationId!: number;
+  scheduleId!: string;
+  scheduleIterationId!: string;
   scheduleIterationResultModel!: ScheduleIterationResultModel;
   actionResultModels!: ActionResultModel[];
   customerDetail!: CustomerDetail;

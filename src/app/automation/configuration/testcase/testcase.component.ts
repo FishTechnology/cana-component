@@ -157,20 +157,28 @@ export class TestcaseComponent implements OnInit {
     }
   }
   getTestCasesByTestPlanId() {
-    this.testcaseService.getTestCaseByTestPlanId(this.testPlanId).subscribe(
-      (res) => {
-        this.dataSource.data = res;
-        this.selection = new SelectionModel<TestCaseModel>(true, []);
-      },
-      (err) => {
-        this.snackbarService.openSnackBar('Error loading testcases');
-      }
-    );
+    this.testcaseService
+      .getTestCaseByTestPlanId(
+        this.customerDetail.applicationId,
+        this.testPlanId
+      )
+      .subscribe(
+        (res) => {
+          this.dataSource.data = res;
+          this.selection = new SelectionModel<TestCaseModel>(true, []);
+        },
+        (err) => {
+          this.snackbarService.openSnackBar('Error loading testcases');
+        }
+      );
   }
 
   getTestCaseByUserId(): void {
     this.testcaseService
-      .getTestCaseByUserId(this.customerDetail.userId)
+      .getTestCaseByUserId(
+        this.customerDetail.applicationId,
+        this.customerDetail.userId
+      )
       .subscribe(
         (res) => {
           this.dataSource.data = res;

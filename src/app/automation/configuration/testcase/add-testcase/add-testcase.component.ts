@@ -49,14 +49,16 @@ export class AddTestcaseComponent implements OnInit {
   }
 
   getTestCaseByTestCaseId(): void {
-    this.testCaseService.getTestCaseById(this.testCaseId).subscribe(
-      (res) => {
-        this.newTestCaseModel = res;
-      },
-      (err) => {
-        this.snackbarService.openSnackBar('Error loading test case by id');
-      }
-    );
+    this.testCaseService
+      .getTestCaseById(this.customerDetail.applicationId, this.testCaseId)
+      .subscribe(
+        (res) => {
+          this.newTestCaseModel = res;
+        },
+        (err) => {
+          this.snackbarService.openSnackBar('Error loading test case by id');
+        }
+      );
   }
 
   ngOnInit(): void {}
@@ -78,14 +80,16 @@ export class AddTestcaseComponent implements OnInit {
   }
 
   getTestCaseByTestPlanId(testPlanId: string): void {
-    this.testCaseService.getTestCaseByTestPlanId(testPlanId).subscribe(
-      (res) => {
-        this.testCaseModels = res;
-      },
-      (err) => {
-        this.snackbarService.openSnackBar('Error loading test case');
-      }
-    );
+    this.testCaseService
+      .getTestCaseByTestPlanId(this.customerDetail.applicationId, testPlanId)
+      .subscribe(
+        (res) => {
+          this.testCaseModels = res;
+        },
+        (err) => {
+          this.snackbarService.openSnackBar('Error loading test case');
+        }
+      );
   }
 
   drop(event: CdkDragDrop<TestCaseModel[]>) {
@@ -98,15 +102,20 @@ export class AddTestcaseComponent implements OnInit {
 
   testPlanClick(testPlanModel: TestPlanModel): void {
     this.selectedTestPlan = testPlanModel;
-    this.testCaseService.getTestCaseByTestPlanId(testPlanModel.id).subscribe(
-      (res) => {
-        this.testCaseModels = res;
-        this.isShowSaveAction = true;
-      },
-      (err) => {
-        this.snackbarService.openSnackBar('Error loading test plan');
-      }
-    );
+    this.testCaseService
+      .getTestCaseByTestPlanId(
+        this.customerDetail.applicationId,
+        testPlanModel.id
+      )
+      .subscribe(
+        (res) => {
+          this.testCaseModels = res;
+          this.isShowSaveAction = true;
+        },
+        (err) => {
+          this.snackbarService.openSnackBar('Error loading test plan');
+        }
+      );
   }
 
   addTestCase(): void {
@@ -131,7 +140,11 @@ export class AddTestcaseComponent implements OnInit {
     };
 
     this.testCaseService
-      .updateTestCaseOrder(this.selectedTestPlan.id, updateTestCaseOrderModel)
+      .updateTestCaseOrder(
+        this.customerDetail.applicationId,
+        this.selectedTestPlan.id,
+        updateTestCaseOrderModel
+      )
       .subscribe({
         next: (res) => {
           this.snackbarService.openSnackBar('Successfully updated order');

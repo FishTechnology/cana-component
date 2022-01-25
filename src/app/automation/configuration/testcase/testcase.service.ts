@@ -16,48 +16,71 @@ export class TestCaseService {
   constructor(private httpClient: HttpClient) {}
 
   createTestCaseByTestPlanId(
+    applicationId: string,
     testPlanId: string,
     createTestCaseByTestPlanIdModel: CreateTestCaseByTestPlanIdModel
   ): Observable<ResultModel> {
     return this.httpClient.post<ResultModel>(
-      environment.canaApiUrl + '/api/testPlans/' + testPlanId + '/testCases',
+      environment.canaApiUrl +
+        `/api/applications/${applicationId}/testPlans/` +
+        testPlanId +
+        '/testCases',
       createTestCaseByTestPlanIdModel
     );
   }
 
   createTestCase(
+    applicationId: string,
     createTestCaseModel: CreateTestCaseModel
   ): Observable<ResultModel> {
     return this.httpClient.post<ResultModel>(
-      environment.canaApiUrl + '/api/testCases',
+      environment.canaApiUrl + `/api/applications/${applicationId}/testCases`,
       createTestCaseModel
     );
   }
 
-  getTestCaseByUserId(userId: string): Observable<TestCaseModel[]> {
+  getTestCaseByUserId(
+    applicationId: string,
+    userId: string
+  ): Observable<TestCaseModel[]> {
     return this.httpClient.get<TestCaseModel[]>(
-      environment.canaApiUrl + '/api/testCases?userId=' + userId
+      environment.canaApiUrl +
+        `/api/applications/${applicationId}/testCases?userId=` +
+        userId
     );
   }
 
-  getTestCaseByTestPlanId(testPlanId: string): Observable<TestCaseModel[]> {
+  getTestCaseByTestPlanId(
+    applicationId: string,
+    testPlanId: string
+  ): Observable<TestCaseModel[]> {
     return this.httpClient.get<TestCaseModel[]>(
-      environment.canaApiUrl + '/api/testPlans/' + testPlanId + '/testCases'
+      environment.canaApiUrl +
+        `/api/applications/${applicationId}/testPlans/` +
+        testPlanId +
+        '/testCases'
     );
   }
 
-  getTestCaseById(testCaseId: string): Observable<TestCaseModel> {
+  getTestCaseById(
+    applicationId: string,
+    testCaseId: string
+  ): Observable<TestCaseModel> {
     return this.httpClient.get<TestCaseModel>(
-      environment.canaApiUrl + '/api/testCases/' + testCaseId
+      environment.canaApiUrl +
+        `/api/applications/${applicationId}/testCases/` +
+        testCaseId
     );
   }
 
   updateTestCaseOrder(
+    applicationId: string,
     testPlanId: string,
     updateTestCaseOrderModel: UpdateTestCaseOrderModel
   ): Observable<ErrorMessageModel[]> {
     return this.httpClient.put<ErrorMessageModel[]>(
-      environment.canaApiUrl + `/api/testPlans/${testPlanId}/testCases/order`,
+      environment.canaApiUrl +
+        `/api/applications/${applicationId}/testPlans/${testPlanId}/testCases/order`,
       updateTestCaseOrderModel
     );
   }

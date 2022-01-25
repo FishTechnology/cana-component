@@ -89,7 +89,11 @@ export class TestcaseMappingComponent implements OnInit {
     };
 
     this.testCaseService
-      .updateTestCaseOrder(this.testPlanId, updateTestCaseOrderModel)
+      .updateTestCaseOrder(
+        this.customerDetail.applicationId,
+        this.testPlanId,
+        updateTestCaseOrderModel
+      )
       .subscribe(
         (res) => {
           this.snackbarService.openSnackBar(
@@ -106,19 +110,27 @@ export class TestcaseMappingComponent implements OnInit {
   }
 
   getTestCaseByTestPlanId() {
-    this.testCaseService.getTestCaseByTestPlanId(this.testPlanId).subscribe(
-      (res) => {
-        this.testcaseModels = res;
-      },
-      (err) => {
-        this.snackbarService.openSnackBar('error while creating test case');
-      }
-    );
+    this.testCaseService
+      .getTestCaseByTestPlanId(
+        this.customerDetail.applicationId,
+        this.testPlanId
+      )
+      .subscribe(
+        (res) => {
+          this.testcaseModels = res;
+        },
+        (err) => {
+          this.snackbarService.openSnackBar('error while creating test case');
+        }
+      );
   }
 
   getTestCaseByUserId() {
     this.testCaseService
-      .getTestCaseByUserId(this.customerDetail.userId)
+      .getTestCaseByUserId(
+        this.customerDetail.applicationId,
+        this.customerDetail.userId
+      )
       .subscribe(
         (res) => {
           this.testcaseModels = res;

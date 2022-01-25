@@ -64,18 +64,23 @@ export class CreateTestcaseComponent implements OnInit {
     }
 
     if (this.data.testCaseId) {
-      this._testCaseService.getTestCaseById(this.data.testCaseId).subscribe(
-        (res) => {
-          this.testCaseModel = res;
-          this.testCaseform.get('name')!.setValue(res.name);
-          this.testCaseform.get('comments')!.setValue(res.comments);
-        },
-        (err) => {
-          this.snackbarService.openSnackBar(
-            'Error while fetching data from server'
-          );
-        }
-      );
+      this._testCaseService
+        .getTestCaseById(
+          this.data.customerDetail.applicationId,
+          this.data.testCaseId
+        )
+        .subscribe(
+          (res) => {
+            this.testCaseModel = res;
+            this.testCaseform.get('name')!.setValue(res.name);
+            this.testCaseform.get('comments')!.setValue(res.comments);
+          },
+          (err) => {
+            this.snackbarService.openSnackBar(
+              'Error while fetching data from server'
+            );
+          }
+        );
     }
   }
 
@@ -90,6 +95,7 @@ export class CreateTestcaseComponent implements OnInit {
       };
       this._testCaseService
         .createTestCaseByTestPlanId(
+          this.data.customerDetail.applicationId,
           this.data.testPlanId,
           createTestCaseByTestPlanIdModel
         )
@@ -114,15 +120,20 @@ export class CreateTestcaseComponent implements OnInit {
       comments: this.testCaseform.get('comments')!.value,
       userId: this.data.customerDetail.userId,
     };
-    this._testCaseService.createTestCase(createTestCaseModel).subscribe(
-      (res) => {
-        this.snackbarService.openSnackBar('successfully created test case');
-        this.dialogRef.close();
-        this.testCaseEvent.emit('success');
-      },
-      (err) => {
-        this.snackbarService.openSnackBar('error while creating test case');
-      }
-    );
+    this._testCaseService
+      .createTestCase(
+        this.data.customerDetail.applicationId,
+        createTestCaseModel
+      )
+      .subscribe(
+        (res) => {
+          this.snackbarService.openSnackBar('successfully created test case');
+          this.dialogRef.close();
+          this.testCaseEvent.emit('success');
+        },
+        (err) => {
+          this.snackbarService.openSnackBar('error while creating test case');
+        }
+      );
   }
 }

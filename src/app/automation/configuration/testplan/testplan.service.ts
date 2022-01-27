@@ -95,4 +95,10 @@ export class TestplanService {
       updateTestplanModel
     );
   }
+
+  getTestPlanByAppId(applicationId: string): Observable<TestPlanModel[]> {
+    return this.httpClient.get<TestPlanModel[]>(
+      environment.canaApiUrl + `/api/applications/${applicationId}/testplans`
+    );
+  }
 }

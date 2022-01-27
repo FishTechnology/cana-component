@@ -36,7 +36,9 @@
         cdkDropListGroup
       >
         <div
-          [fxFlex]="isReOrderTestCase === true ? '48%' : '98%'"
+          [fxFlex]="
+            isReOrderTestCase === true || isAddTestCase === true ? '48%' : '98%'
+          "
           class="testcase-mapper-container"
         >
           <h2>Test Cases</h2>
@@ -58,7 +60,7 @@
         <div
           fxFlex="48%"
           class="testcase-mapper-container"
-          *ngIf="isReOrderTestCase"
+          *ngIf="isReOrderTestCase || isAddTestCase"
         >
           <h2>Selected Test Cases</h2>
           <div

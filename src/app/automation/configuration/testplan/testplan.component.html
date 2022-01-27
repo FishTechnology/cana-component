@@ -80,7 +80,7 @@
           </button>
         </mat-menu>
         <mat-menu #testcases="matMenu">
-          <button mat-menu-item (click)="createTestCase()">Add</button>
+          <button mat-menu-item (click)="createTestCase()">Create</button>
           <button
             mat-menu-item
             [routerLink]="[
@@ -97,10 +97,10 @@
               '/testplans',
               selection.selected[0]?.id,
               'testcases',
-              'mapping'
+              'edit'
             ]"
           >
-            Mapping
+            Add
           </button>
           <button
             mat-menu-item

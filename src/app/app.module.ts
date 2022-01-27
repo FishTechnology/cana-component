@@ -52,6 +52,7 @@ import { AddTestcaseComponent } from './automation/configuration/testcase/add-te
 import { HtmlEditorComponent } from './commons/html-editor/html-editor.component';
 import { ViewSystemComponent } from './automation/configuration/system/view-system/view-system.component';
 import { CreateSystemComponent } from './automation/configuration/system/create-system/create-system.component';
+import { AddTestcasesComponent } from './automation/configuration/testplan/add-testcases/add-testcases.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { CreateSystemComponent } from './automation/configuration/system/create-
     HtmlEditorComponent,
     ViewSystemComponent,
     CreateSystemComponent,
+    AddTestcasesComponent,
   ],
   imports: [
     BrowserModule,

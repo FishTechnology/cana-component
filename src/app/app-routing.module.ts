@@ -19,6 +19,7 @@ import { ConditionCreateComponent } from './automation/configuration/condition/c
 import { TestcaseMappingComponent } from './automation/configuration/testcase/testcase-mapping/testcase-mapping.component';
 import { AddTestcaseComponent } from './automation/configuration/testcase/add-testcase/add-testcase.component';
 import { HtmlEditorComponent } from './commons/html-editor/html-editor.component';
+import { AddTestcasesComponent } from './automation/configuration/testplan/add-testcases/add-testcases.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -99,6 +100,10 @@ const routes: Routes = [
   {
     path: 'testplans/testcases/:testcaseid/addtestcase',
     component: AddTestcaseComponent,
+  },
+  {
+    path: 'testplans/:testplanid/testcases/edit',
+    component: AddTestcasesComponent,
   },
   {
     path: 'testplans/:testplanid/schedules',

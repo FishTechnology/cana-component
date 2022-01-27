@@ -28,6 +28,7 @@ export class TestcaseMappingComponent implements OnInit {
   testPlanId!: string;
   testPlanModel!: TestPlanModel;
   testCaseId!: string;
+  isAddTestCase: boolean = false;
 
   constructor(
     private testCaseService: TestCaseService,
@@ -39,6 +40,7 @@ export class TestcaseMappingComponent implements OnInit {
     this.selectedTestcaseModels = [];
     this.router.queryParams.subscribe((qparams) => {
       this.isReOrderTestCase = qparams['reorder'] === true;
+      this.isAddTestCase = qparams['addtestcase'] === true;
     });
     this.customerService.getUserDetail().subscribe((res) => {
       this.customerDetail = res;

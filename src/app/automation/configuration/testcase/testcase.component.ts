@@ -127,13 +127,18 @@ export class TestcaseComponent implements OnInit {
   }
 
   delete() {
-    // const globalVariableId = 10;
-    // const userId = 10;
-    // this.testcaseService
-    //   .deleteGlobalVariable(globalVariableId, userId)
-    //   .subscribe((res) => {
-    //     this.openSnackBar('successfully delete global variables');
-    //   });
+    this.testcaseService
+      .delete(this.customerDetail.applicationId, this.selection.selected[0].id)
+      .subscribe({
+        next: () => {
+          this.snackbarService.openSnackBar(
+            'successfully delete global variables'
+          );
+        },
+        error: () => {
+          this.snackbarService.openSnackBar('error while deleting test case');
+        },
+      });
   }
 
   edit() {

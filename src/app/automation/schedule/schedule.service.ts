@@ -82,4 +82,25 @@ export class ScheduleService {
       `/api/applications/${applicationId}/schedules/${scheduleId}/reschedule`;
     return this.httpClient.put<ErrorMessageModel[]>(url, reScheduleStatusModel);
   }
+
+  chipColor(status: string): string {
+    switch (status.toUpperCase()) {
+      case 'READY':
+        return 'undefined';
+      case 'ERROR':
+        return 'warn';
+      case 'COMPLETED':
+        return 'primary';
+      case 'CANCELLED':
+        return 'accent';
+      case 'INPROGRESS':
+        return 'primary';
+      case 'PAUSE':
+        return 'accent';
+      case 'RE_SCHEDULE':
+        return 'undefined';
+      default:
+        return 'primary';
+    }
+  }
 }

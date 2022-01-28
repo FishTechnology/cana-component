@@ -26,7 +26,7 @@ export class ScheduleIterationComponent implements OnInit {
   constructor(
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: { scheduleId: string },
     private _bottomSheetRef: MatBottomSheetRef<ScheduleIterationComponent>,
-    private scheduleService: ScheduleService,
+    public scheduleService: ScheduleService,
     private snackbarService: SnackbarService,
     private router: ActivatedRoute,
     private route: Router,

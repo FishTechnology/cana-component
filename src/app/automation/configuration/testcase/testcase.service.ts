@@ -84,4 +84,14 @@ export class TestCaseService {
       updateTestCaseOrderModel
     );
   }
+
+  delete(
+    applicationId: string,
+    testCaseId: string
+  ): Observable<ErrorMessageModel[]> {
+    return this.httpClient.get<ErrorMessageModel[]>(
+      environment.canaApiUrl +
+        `/api/applications/${applicationId}/testCases/${testCaseId}`
+    );
+  }
 }

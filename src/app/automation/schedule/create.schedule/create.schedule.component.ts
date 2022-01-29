@@ -10,7 +10,6 @@ import { ConfigService } from '../../configuration/config/config.service';
 import ConfigModel from '../../configuration/config/models/config-model';
 import { ConfigType } from '../../configuration/config/models/config-type';
 import { EnvironmentService } from '../../configuration/environment/environment.service';
-import { EnvironmentModel } from '../../configuration/environment/models/EnvironmentModel';
 import { TestPlanModel } from '../../configuration/testplan/models/TestPlanModel';
 import { TestplanService } from '../../configuration/testplan/testplan.service';
 import { CreateNotificationModel } from '../models/CreateNotificationModel';
@@ -74,11 +73,11 @@ export class CreateScheduleComponent implements OnInit {
   ) {
     route.params.subscribe((params) => {
       this.testPlanId = params.testplanid;
-      this.getTestPlanDetail();
-    });
-    this.customerService.getUserDetail().subscribe((res) => {
-      this.customerDetail = res;
-      this.getEnvironmentByUserId();
+      this.customerService.getUserDetail().subscribe((res) => {
+        this.customerDetail = res;
+        this.getEnvironmentByUserId();
+        this.getTestPlanDetail();
+      });
     });
   }
 

@@ -5,4 +5,5 @@ export default interface CreateConfigKeyValueModel {
   fileId?: string;
   comments: string;
   userId: string;
+  isApplicationVariable?: boolean;
 }

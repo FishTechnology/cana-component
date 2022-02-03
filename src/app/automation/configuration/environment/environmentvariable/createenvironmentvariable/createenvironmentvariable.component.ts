@@ -21,10 +21,13 @@ export class CreateEnvironmentVariableComponent implements OnInit {
   @Output() environmentVariableEvent = new EventEmitter<string>();
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
+  applicationVariables!: SelectModel[];
   environmentValueTypes!: SelectModel[];
   environmentVariableForm: FormGroup;
   files: File[] = [];
   customerDetail!: CustomerDetail;
+  isShowApplicationVariable: boolean = false;
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
@@ -38,9 +41,11 @@ export class CreateEnvironmentVariableComponent implements OnInit {
   ) {
     this.environmentVariableForm = new FormGroup({
       key: new FormControl('', Validators.required),
-      value: new FormControl('', Validators.required),
+      value: new FormControl(''),
       valueType: new FormControl('text', Validators.required),
       comments: new FormControl(''),
+      isApplicationVariable: new FormControl(''),
+      applicationVariable: new FormControl(''),
     });
     if (this.data.envVariableId) {
       // this.environmentVariableService
@@ -81,6 +86,9 @@ export class CreateEnvironmentVariableComponent implements OnInit {
       { text: 'Text', value: 'text' },
       { text: 'File', value: 'file' },
     ];
+    this.applicationVariables = [
+      { text: 'Accept Untrusted Certs', value: 'ACCEPT_UNTRUSTED_CERTS' },
+    ];
   }
 
   onSelect(event: any) {
@@ -100,7 +108,16 @@ export class CreateEnvironmentVariableComponent implements OnInit {
       type: this.environmentVariableForm.get('valueType')?.value,
       userId: this.data.customerDetail.userId,
       fileId: fileId,
+      isApplicationVariable: this.environmentVariableForm.get(
+        'isApplicationVariable'
+      )?.value,
     };
+
+    if (createConfigKeyValueModel.isApplicationVariable) {
+      createConfigKeyValueModel.key = this.environmentVariableForm.get(
+        'applicationVariable'
+      )?.value;
+    }
 
     this.configKeyValueService
       .createConfigKeyValue(
@@ -183,4 +200,18 @@ export class CreateEnvironmentVariableComponent implements OnInit {
   }
 
   valueTypeChange($event: any) {}
+
+  changeApplicationVariable(): void {
+    if (this.isShowApplicationVariable) {
+      this.environmentVariableForm
+        .get('key')
+        ?.setValidators(Validators.required);
+    } else {
+      this.environmentVariableForm
+        .get('key')
+        ?.removeValidators(Validators.required);
+    }
+    this.environmentVariableForm.get('key')?.updateValueAndValidity();
+    this.isShowApplicationVariable = !this.isShowApplicationVariable;
+  }
 }

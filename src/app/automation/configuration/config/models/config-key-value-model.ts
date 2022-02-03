@@ -8,4 +8,5 @@ export default interface ConfigKeyValueModel {
   content: string;
   comments: string;
   isActive: boolean;
+  isApplicationVariable?: boolean;
 }

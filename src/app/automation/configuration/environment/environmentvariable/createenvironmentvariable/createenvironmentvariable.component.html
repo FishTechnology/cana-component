@@ -4,7 +4,11 @@
       <mat-dialog-content>
         <div fxLayout="row" fxLayoutAlign="space-between">
           <div fxFlex="49%">
-            <mat-form-field appearance="fill" class="full-width">
+            <mat-form-field
+              appearance="fill"
+              class="full-width"
+              *ngIf="!isShowApplicationVariable"
+            >
               <mat-label>Environment Variable Key</mat-label>
               <input
                 matInput
@@ -23,8 +27,30 @@
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
+            <mat-form-field
+              appearance="fill"
+              class="full-width"
+              *ngIf="isShowApplicationVariable"
+            >
+              <mat-label>Value Type</mat-label>
+              <mat-select formControlName="applicationVariable">
+                <mat-option></mat-option>
+                <mat-option
+                  [value]="applicationVariable.value"
+                  *ngFor="let applicationVariable of applicationVariables"
+                  >{{ applicationVariable.text }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
           </div>
-          <div fxFlex="50%">
+          <div fxFlex="20%">
+            <mat-checkbox
+              formControlName="isApplicationVariable"
+              (click)="changeApplicationVariable()"
+              >isApplicationVariable</mat-checkbox
+            >
+          </div>
+          <div fxFlex="30%">
             <mat-form-field appearance="fill" class="full-width">
               <mat-label>Value Type</mat-label>
               <mat-select formControlName="valueType">

@@ -9,6 +9,7 @@ export interface CreateActionModel {
   comments?: string;
   userId: string;
   isAssertVerification: boolean;
+  isOptional?: boolean;
   uiControlOptions?: CreateActionOptionModel[];
   browserOptions?: CreateActionBrowserModel;
 }

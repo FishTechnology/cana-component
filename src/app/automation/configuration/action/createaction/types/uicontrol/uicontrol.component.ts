@@ -49,15 +49,13 @@ export class UicontrolComponent implements OnInit, OnChanges {
   ctlOptions: SelectModel[] = [];
   allCtlOptions: SelectModel[] = [
     { text: 'Wait', value: UiControlOptoinType.WAIT },
-    { text: 'Wait For Visible', value: UiControlOptoinType.WAIT_FOR_VISIBLE },
-    { text: 'Optional', value: UiControlOptoinType.OPTIONAL },
+    { text: 'Wait For Visible', value: UiControlOptoinType.WAIT_FOR },
   ];
   uiCtlActionTypes: SelectModel[];
   matcher = new MyErrorStateMatcher();
   uiControlOptions: SelectModel[] = [
     { text: 'Wait', value: UiControlOptoinType.WAIT },
-    { text: 'Wait For Visible', value: UiControlOptoinType.WAIT_FOR_VISIBLE },
-    { text: 'Optional', value: UiControlOptoinType.OPTIONAL },
+    { text: 'Wait For Visible', value: UiControlOptoinType.WAIT_FOR },
   ];
   testCaseId!: number;
   testPlanId!: number;
@@ -77,6 +75,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
       eventOption: new FormControl(''),
       comments: new FormControl(''),
       isAssertVerification: new FormControl('false'),
+      isOptional: new FormControl(''),
       browserDetail: new FormGroup({
         actionType: new FormControl('', Validators.required),
         value: new FormControl(''),
@@ -222,6 +221,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
       value: this.uiControlForm.get('value')?.value,
       userId: this.customerDetail.userId,
       uiActionType: this.uiControlForm.get('uiactionType')?.value,
+      isOptional: this.uiControlForm.get('isOptional')?.value,
       isAssertVerification: this.uiControlForm.get('isAssertVerification')
         ?.value,
     };
@@ -275,6 +275,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
         order: order,
         optionType: control.get('optionType')?.value,
         waitDuration: control.get('waitinseconds')?.value,
+        conditionType: control.get('conditionType')?.value,
       };
       createActionOptionModels.push(createActionOptionModel);
       order++;

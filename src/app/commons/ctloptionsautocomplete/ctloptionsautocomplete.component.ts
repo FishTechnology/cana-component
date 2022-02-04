@@ -6,6 +6,7 @@ import {
   FormArray,
   FormControl,
   FormGroup,
+  Validators,
 } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -14,6 +15,7 @@ import { UiControlOptoinType } from 'src/app/automation/configuration/action/cre
 
 import { map, startWith } from 'rxjs/operators';
 import { SelectModel } from '../models/SelectModel';
+import { UIConditionType } from 'src/app/automation/configuration/action/createaction/types/uicontrol/models/UIConditionType';
 
 @Component({
   selector: 'app-ctloptionsautocomplete',
@@ -27,10 +29,24 @@ export class CtlOptionsAutocompleteComponent implements OnInit {
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   ctlOptions: SelectModel[] = [];
+  conditionTypes: SelectModel[] = [
+    { text: 'Appear', value: UIConditionType.appear },
+    { text: 'Checked', value: UIConditionType.checked },
+    { text: 'Disabled', value: UIConditionType.disabled },
+    { text: 'Disappear', value: UIConditionType.disappear },
+    { text: 'Empty', value: UIConditionType.empty },
+    { text: 'Enabled', value: UIConditionType.enabled },
+    { text: 'Exist', value: UIConditionType.exist },
+    { text: 'Focused', value: UIConditionType.focused },
+    { text: 'Hidden', value: UIConditionType.hidden },
+    { text: 'Image', value: UIConditionType.image },
+    { text: 'Read Only', value: UIConditionType.readonly },
+    { text: 'Selected', value: UIConditionType.selected },
+  ];
+
   allCtlOptions: SelectModel[] = [
     { text: 'Wait', value: UiControlOptoinType.WAIT },
-    { text: 'Wait For Visible', value: UiControlOptoinType.WAIT_FOR_VISIBLE },
-    { text: 'Optional', value: UiControlOptoinType.OPTIONAL },
+    { text: 'Wait For ', value: UiControlOptoinType.WAIT_FOR },
     { text: 'Contains', value: UiControlOptoinType.CONTAINS },
     { text: 'Size', value: UiControlOptoinType.SIZE },
   ];
@@ -110,6 +126,7 @@ export class CtlOptionsAutocompleteComponent implements OnInit {
     return new FormGroup({
       waitinseconds: new FormControl(''),
       optionType: new FormControl(selectionModel.value),
+      conditionType: new FormControl('', Validators.required),
     });
   }
 }

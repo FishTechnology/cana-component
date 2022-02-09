@@ -8,7 +8,7 @@ import { conditionType } from './models/ConditionType';
 @Component({
   selector: 'app-browser',
   templateUrl: './browser.component.html',
-  styleUrls: ['./browser.component.scss'],
+  styleUrls: ['./browser.component.scss']
 })
 export class BrowserComponent implements OnInit {
   uiControlForm!: FormGroup;
@@ -18,43 +18,44 @@ export class BrowserComponent implements OnInit {
   browserActionTypes: SelectModel[] = [
     { text: 'Open', value: BrowserActionType.Open },
     { text: 'Close', value: BrowserActionType.Close },
-    { text: 'Navigation', value: BrowserActionType.Navigation },
+    { text: 'Navigation', value: BrowserActionType.Navigation }
   ];
   conditionTypes: SelectModel[] = [
     { text: 'Equal', value: conditionType.Equal },
     { text: 'Not Equal', value: conditionType.Not_Equal },
     { text: 'Contains', value: conditionType.Contains },
     { text: 'Start With', value: conditionType.Start_With },
-    { text: 'End With', value: conditionType.End_With },
+    { text: 'End With', value: conditionType.End_With }
   ];
 
-  constructor(private controlContainer: ControlContainer) {}
+  constructor(private controlContainer: ControlContainer) {
+  }
 
   ngOnInit(): void {
     this.uiControlForm = this.controlContainer.control as FormGroup;
     this.browserForm = this.uiControlForm.get('browserDetail') as FormGroup;
-
+    this.isAssertVerification = this.uiControlForm.get('isAssertVerification')?.value;
     this.setBrowserActionTypes();
 
     this.uiControlForm
       .get('isAssertVerification')
       ?.valueChanges.subscribe((data: boolean) => {
-        this.isAssertVerification = data;
-        this.setBrowserActionTypes();
-      });
+      this.isAssertVerification = data;
+      this.setBrowserActionTypes();
+    });
   }
 
   setBrowserActionTypes(): void {
     if (this.isAssertVerification) {
       this.browserActionTypes = [
         { text: 'Title', value: BrowserActionType.Title },
-        { text: 'Url', value: BrowserActionType.Url },
+        { text: 'Url', value: BrowserActionType.Url }
       ];
     } else {
       this.browserActionTypes = [
         { text: 'Open', value: BrowserActionType.Open },
         { text: 'Close', value: BrowserActionType.Close },
-        { text: 'Navigation', value: BrowserActionType.Navigation },
+        { text: 'Navigation', value: BrowserActionType.Navigation }
       ];
     }
   }

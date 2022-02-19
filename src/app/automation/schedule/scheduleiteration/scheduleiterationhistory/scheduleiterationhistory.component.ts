@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from 'src/app/commons/customer/customer.service';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
@@ -7,13 +7,14 @@ import { ScheduleService } from '../../schedule.service';
 import { ActionResultModel } from './models/ActionResultModel';
 import { ScheduleIterationResultModel } from './models/ScheduleIterationResultModel';
 import { TestCaseResultModel } from './models/TestCaseResultModel';
+import hljs from 'highlight.js';
 
 @Component({
   selector: 'app-scheduleiterationhistory',
   templateUrl: './scheduleiterationhistory.component.html',
-  styleUrls: ['./scheduleiterationhistory.component.scss'],
+  styleUrls: ['./scheduleiterationhistory.component.scss']
 })
-export class ScheduleIterationHistoryComponent implements OnInit {
+export class ScheduleIterationHistoryComponent implements OnInit, AfterViewInit {
   scheduleId!: string;
   scheduleIterationId!: string;
   scheduleIterationResultModel!: ScheduleIterationResultModel;
@@ -35,12 +36,18 @@ export class ScheduleIterationHistoryComponent implements OnInit {
           this.customerDetail = res;
           this.getScheduleResult();
         },
-        error: () => {},
+        error: () => {
+        }
       });
     });
   }
 
-  ngOnInit(): void {}
+  ngAfterViewInit(): void {
+   // ace.config.set('fontSize', '14px');
+  }
+
+  ngOnInit(): void {
+  }
 
   getScheduleResult(): void {
     this.scheduleService
@@ -62,6 +69,7 @@ export class ScheduleIterationHistoryComponent implements OnInit {
   }
 
   showAction(testCaseResultModel: TestCaseResultModel): void {
+    hljs.highlightAll();
     this.actionResultModels = testCaseResultModel.actionResults;
   }
 }

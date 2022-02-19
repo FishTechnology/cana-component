@@ -4,12 +4,12 @@
     <div fxFlex="20%">
       <mat-card>
         <mat-card-content>
-          <mat-toolbar fxFill> Test Plan </mat-toolbar>
+          <mat-toolbar fxFill> Test Plan</mat-toolbar>
           <mat-list>
             <mat-list-item>
               {{
-                scheduleIterationResultModel?.testPlanResultSummary
-                  ?.testPlanName
+              scheduleIterationResultModel?.testPlanResultSummary
+                ?.testPlanName
               }}
             </mat-list-item>
           </mat-list>
@@ -19,7 +19,7 @@
     <div fxFlex="25%">
       <mat-card>
         <mat-card-content>
-          <mat-toolbar fxFill> Test Case </mat-toolbar>
+          <mat-toolbar fxFill> Test Case</mat-toolbar>
           <mat-selection-list [multiple]="false">
             <mat-list-option
               *ngFor="
@@ -45,13 +45,29 @@
             *ngFor="let actionResultModel of actionResultModels"
             fxFill
           >
-            <mat-card class="margin-bottom" fxFill>
-              <div fxFlex="40%">Key: {{ actionResultModel.key }}</div>
-              <div fxFlex="40%">Value: {{ actionResultModel.value }}</div>
-              <div fxFlex="20%">
-                <mat-chip>{{ actionResultModel.status }}</mat-chip>
-              </div>
-            </mat-card>
+            <mat-accordion fxFill>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <div fxFlex="40%">Key: {{ actionResultModel.key }}</div>
+                  <div fxFlex="40%">Value: {{ actionResultModel.value }}</div>
+                  <div fxFlex="20%">
+                    <mat-chip>{{ actionResultModel.status }}</mat-chip>
+                  </div>
+                </mat-expansion-panel-header>
+                <div *ngIf="actionResultModel.errorMessage">
+                  <div class="mat-subheading-2 center">
+                    <mat-label>Error Message</mat-label>
+                  </div>
+                  <div>
+                    <pre>
+                      <code class="java">
+                            {{actionResultModel.errorMessage}}
+                      </code>
+                    </pre>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
           </div>
         </mat-card-content>
       </mat-card>

@@ -1,9 +1,9 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
   MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
+  MatSnackBarVerticalPosition
 } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
@@ -25,7 +25,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-testplan',
   templateUrl: './testplan.component.html',
-  styleUrls: ['./testplan.component.scss'],
+  styleUrls: ['./testplan.component.scss']
 })
 export class TestplanComponent implements OnInit {
   displayedColumns: string[] = ['select', 'name', 'status', 'createdon'];
@@ -36,9 +36,11 @@ export class TestplanComponent implements OnInit {
   globalVariableModels!: GlobalVariableModel[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  isShowDeleteBtn: boolean = false;
+  isShowDeleteBtn = false;
   configId: string | undefined;
   configDetail!: ConfigModel;
+  @ViewChild('testPlanTable', { static: true }) testPlanTableRef!: TemplateRef<ElementRef>;
+  isTestPlanDialogOpen = false;
 
   constructor(
     public dialog: MatDialog,
@@ -50,21 +52,22 @@ export class TestplanComponent implements OnInit {
   ) {
     this.customerService.getUserDetail().subscribe((res) => {
       this.customerDetail = res;
-      this.getTestplanByUserId();
+      this.getTestPlanByUserId();
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
+  isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
+  masterToggle(): void {
     if (this.isAllSelected()) {
       this.selection.clear();
       return;
@@ -84,14 +87,14 @@ export class TestplanComponent implements OnInit {
     return '';
   }
 
-  createTestPlan() {
-    var modelRef = this.dialog.open(CreateTestplanComponent, {
+  createTestPlan(): void {
+    const modelRef = this.dialog.open(CreateTestplanComponent, {
       data: {
-        customerDetail: this.customerDetail,
-      },
+        customerDetail: this.customerDetail
+      }
     });
     modelRef.componentInstance.testPlanEvent.subscribe((event) => {
-      this.getTestplanByUserId();
+      this.getTestPlanByUserId();
     });
   }
 
@@ -104,16 +107,16 @@ export class TestplanComponent implements OnInit {
     this.dialog.open(CreateTestcaseComponent, {
       data: {
         customerDetail: this.customerDetail,
-        testPlanId: this.selection.selected[0].id,
-      },
+        testPlanId: this.selection.selected[0].id
+      }
     });
   }
 
-  refresh() {
-    this.getTestplanByUserId();
+  refresh(): void {
+    this.getTestPlanByUserId();
   }
 
-  deleteTestPlan() {
+  deleteTestPlan(): void {
     this.testplanService
       .deleteTestPlanById(
         this.customerDetail.applicationId,
@@ -123,23 +126,23 @@ export class TestplanComponent implements OnInit {
         this.snackbarService.openSnackBar(
           'successfully delete global variables'
         );
-        this.getTestplanByUserId();
+        this.getTestPlanByUserId();
       });
   }
 
-  updateTestPlan() {
-    var modelRef = this.dialog.open(CreateTestplanComponent, {
+  updateTestPlan(): void {
+    const modelRef = this.dialog.open(CreateTestplanComponent, {
       data: {
         customerDetail: this.customerDetail,
-        testPlanId: this.selection.selected[0].id,
-      },
+        testPlanId: this.selection.selected[0].id
+      }
     });
     modelRef.componentInstance.testPlanEvent.subscribe((event) => {
-      this.getTestplanByUserId();
+      this.getTestPlanByUserId();
     });
   }
 
-  getTestplanByUserId(): void {
+  getTestPlanByUserId(): void {
     this.testplanService
       .getTestPlansByUserId(
         this.customerDetail.applicationId,
@@ -157,9 +160,9 @@ export class TestplanComponent implements OnInit {
   }
 
   updateTestPlanStatus(status: string): void {
-    let updateTestplanStatusModel: UpdateTestplanStatusModel = {
+    const updateTestplanStatusModel: UpdateTestplanStatusModel = {
       userId: this.customerDetail.userId,
-      status: status,
+      status
     };
     this.testplanService
       .updateTestPlanStatus(
@@ -172,7 +175,7 @@ export class TestplanComponent implements OnInit {
           this.snackbarService.openSnackBar(
             'successfully updated test plan status'
           );
-          this.getTestplanByUserId();
+          this.getTestPlanByUserId();
         },
         (err) => {
           this.snackbarService.openSnackBar(
@@ -182,18 +185,19 @@ export class TestplanComponent implements OnInit {
       );
   }
 
-  createEnvironmentVariable(): void {}
+  createEnvironmentVariable(): void {
+  }
 
   navigateEnvironmentVariable(): void {
     this.getConfig();
   }
 
   createConfig(): void {
-    let createConfigModel: CreateConfigModel = {
+    const createConfigModel: CreateConfigModel = {
       name: ConfigType.TestPlan,
       userId: this.customerDetail!.userId,
       identifier: this.selection.selected[0].id.toString(),
-      applicationId: this.customerDetail.applicationId,
+      applicationId: this.customerDetail.applicationId
     };
     this.configService
       .createConfig(
@@ -207,7 +211,7 @@ export class TestplanComponent implements OnInit {
           this.route.navigate([
             '/configuration/environments',
             this.configId,
-            'environmentvariables',
+            'environmentvariables'
           ]);
         },
         (err) => {
@@ -232,7 +236,7 @@ export class TestplanComponent implements OnInit {
             this.route.navigate([
               '/configuration/environments',
               this.configId,
-              'environmentvariables',
+              'environmentvariables'
             ]);
             return;
           }
@@ -248,15 +252,29 @@ export class TestplanComponent implements OnInit {
   }
 
   copyTestPlan(): void {
-    var modelRef = this.dialog.open(CreateTestplanComponent, {
+    const modelRef = this.dialog.open(CreateTestplanComponent, {
       data: {
         customerDetail: this.customerDetail,
         isTestPlanCopy: true,
-        testPlanId: this.selection.selected[0].id,
-      },
+        testPlanId: this.selection.selected[0].id
+      }
     });
     modelRef.componentInstance.testPlanEvent.subscribe((event) => {
-      this.getTestplanByUserId();
+      this.getTestPlanByUserId();
+    });
+  }
+
+  fullScreen(): void {
+    this.isTestPlanDialogOpen = true;
+    const dialogRef = this.dialog.open(this.testPlanTableRef, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.isTestPlanDialogOpen = false;
     });
   }
 }

@@ -43,7 +43,7 @@ export class ScheduleIterationHistoryComponent implements OnInit, AfterViewInit 
   }
 
   ngAfterViewInit(): void {
-   // ace.config.set('fontSize', '14px');
+    // ace.config.set('fontSize', '14px');
   }
 
   ngOnInit(): void {
@@ -71,5 +71,18 @@ export class ScheduleIterationHistoryComponent implements OnInit, AfterViewInit 
   showAction(testCaseResultModel: TestCaseResultModel): void {
     hljs.highlightAll();
     this.actionResultModels = testCaseResultModel.actionResults;
+  }
+
+  getStatusClassName(status: string): string {
+    switch (status) {
+      case 'COMPLETED':
+        return 'status-success';
+      case 'NOT_STARTED':
+        return 'status-not-started';
+      case 'ERROR':
+        return 'status-failure';
+      default:
+        return 'status-not-started';
+    }
   }
 }

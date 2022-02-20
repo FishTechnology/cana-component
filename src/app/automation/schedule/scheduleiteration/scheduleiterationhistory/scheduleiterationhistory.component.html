@@ -28,7 +28,15 @@
               "
               (click)="showAction(testCaseResult)"
             >
-              {{ testCaseResult.testCaseName }}
+              <div>
+                <div fxFlex="90%">
+                  {{ testCaseResult.testCaseName }}
+                </div>
+                <div fxFlex="10%">
+                <mat-icon [class]="getStatusClassName(testCaseResult.status)">check_circle</mat-icon>
+                </div>
+                <mat-divider></mat-divider>
+              </div>
             </mat-list-option>
           </mat-selection-list>
         </mat-card-content>
@@ -51,7 +59,7 @@
                   <div fxFlex="40%">Key: {{ actionResultModel.key }}</div>
                   <div fxFlex="40%">Value: {{ actionResultModel.value }}</div>
                   <div fxFlex="20%">
-                    <mat-chip>{{ actionResultModel.status }}</mat-chip>
+                    <mat-icon [class]="getStatusClassName(actionResultModel.status)">check_circle</mat-icon>
                   </div>
                 </mat-expansion-panel-header>
                 <div *ngIf="actionResultModel.errorMessage">

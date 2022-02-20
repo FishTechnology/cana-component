@@ -2,6 +2,26 @@
 @import "~highlight.js/styles/github.css";
 @import "~highlight.js/styles/ir-black.css";
 
-p > code {
+pre > code {
   white-space: pre-wrap;
+}
+
+.status-success {
+  font-size: 35px;
+  color: green;
+}
+
+.status-failure {
+  font-size: 35px;
+  color: red;
+}
+
+.status-skipped {
+  font-size: 35px;
+  color: #ffb302;
+}
+
+.status-not-started {
+  font-size: 35px;
+  color: #9ea7ad;
 }

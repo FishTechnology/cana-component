@@ -23,29 +23,47 @@
           </button>
           <button mat-menu-item>Delete</button>
           <button mat-menu-item (click)="navigateToActionEdit()">Edit</button>
+          <button mat-menu-item (click)="isEnableDragAndDrop = true" *ngIf="!isEnableDragAndDrop">Enable Drag and Drop
+          </button>
+          <button mat-menu-item (click)="isEnableDragAndDrop = false" *ngIf="isEnableDragAndDrop">Disable Drag and
+            Drop
+          </button>
+          <button mat-menu-item (click)="saveActionOrder()">Save Order</button>
         </mat-menu>
       </mat-toolbar>
     </div>
   </mat-card>
-  <div id="actionlayout">
+  <div id="actionlayout" class="action-list" [cdkDropListDisabled]="!isEnableDragAndDrop" cdkDropList
+       (cdkDropListDropped)="drop($event)">
     <div
       fxFill
       fxLayout="row"
       fxLayoutAlign="start start"
       fxLayoutGap="10px"
       *ngFor="let action of actionDetailModels"
-      class="margin-bottom"
-    >
+      class="margin-bottom action-list-item"
+      cdkDrag>
       <div *ngIf="action.type === 'UI_ACTION'" fxFill>
-        <app-browser-readonly
-          [actionDetailModel]="action"
-          *ngIf="action.uiActionType === 'BROWSER'"
-        ></app-browser-readonly>
-        <app-uicontrol-readonly
-          [actionDetailModel]="action"
-          *ngIf="action.uiActionType !== 'BROWSER'"
-          fxFill
-        ></app-uicontrol-readonly>
+        <div fxLayout="row">
+          <div fxFlex="95%">
+            <app-browser-readonly
+              [actionDetailModel]="action"
+              *ngIf="action.uiActionType === 'BROWSER'"
+            ></app-browser-readonly>
+            <app-uicontrol-readonly
+              [actionDetailModel]="action"
+              *ngIf="action.uiActionType !== 'BROWSER'"
+              fxFill
+            >
+            </app-uicontrol-readonly>
+          </div>
+          <div fxFlex="5%" fxFlexAlign="center">
+            <button mat-fab color="primary" aria-label="Example icon button with a delete icon"
+                    (click)="deleteAction(action)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

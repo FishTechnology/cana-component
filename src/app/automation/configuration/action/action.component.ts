@@ -5,16 +5,20 @@ import { CustomerService } from 'src/app/commons/customer/customer.service';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { ActionService } from './action.service';
 import { ActionDetailModel } from './models/ActionDetailModel';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { UpdateActionOrderModel } from './models/UpdateActionOrderModel';
+import { ActionOrderModel } from './models/ActionOrderModel';
 
 @Component({
   selector: 'app-action',
   templateUrl: './action.component.html',
-  styleUrls: ['./action.component.scss'],
+  styleUrls: ['./action.component.scss']
 })
 export class ActionComponent implements OnInit {
-  testPlanId!: number;
-  testCaseId!: number;
+  testPlanId!: string;
+  testCaseId!: string;
   actionDetailModels!: ActionDetailModel[];
+  isEnableDragAndDrop = true;
 
   constructor(
     public dialog: MatDialog,
@@ -25,13 +29,14 @@ export class ActionComponent implements OnInit {
     private actionService: ActionService
   ) {
     this.route.params.subscribe((params) => {
-      this.testCaseId = params['testcaseid'];
-      this.testPlanId = params['testplanid'];
+      this.testCaseId = params.testcaseid;
+      this.testPlanId = params.testplanid;
       this.getActionByTestCaseId();
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   refresh(): void {
     this.getActionByTestCaseId();
@@ -59,5 +64,50 @@ export class ActionComponent implements OnInit {
       .subscribe((res) => {
         this.actionDetailModels = res;
       });
+  }
+
+  drop(event: CdkDragDrop<ActionDetailModel[]>): void {
+    moveItemInArray(this.actionDetailModels, event.previousIndex, event.currentIndex);
+  }
+
+  deleteAction(action: ActionDetailModel): void {
+    this.actionService.deleteActionById(this.testCaseId, action.id)
+      .subscribe({
+        next: (res) => {
+          if (res) {
+            this.snackbarService.openSnackBar('successfully deleted action');
+            this.getActionByTestCaseId();
+          }
+        },
+        error: (err) => {
+          this.snackbarService.openSnackBar('error while deleting action');
+        }
+      });
+  }
+
+  saveActionOrder(): void {
+    const actionOrderModels: ActionOrderModel[] = [];
+    let currentOrder = 1;
+    for (const actionDetailModel of this.actionDetailModels) {
+      const actionOrderModel: ActionOrderModel = {
+        actionId: actionDetailModel.id,
+        currentExecutionOrder: currentOrder,
+        oldExecutionOrder: actionDetailModel.order
+      };
+      actionOrderModels.push(actionOrderModel);
+      currentOrder++;
+    }
+    const updateActionOrderModel: UpdateActionOrderModel = {
+      actionOrderModels
+    };
+
+    this.actionService.updateOrder(this.testCaseId, updateActionOrderModel).subscribe({
+      next: (res) => {
+        this.snackbarService.openSnackBar('successfully updated action order');
+      },
+      error: (err) => {
+        this.snackbarService.openSnackBar('error while updating action order');
+      }
+    });
   }
 }

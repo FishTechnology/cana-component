@@ -1,7 +1,7 @@
 import { ActionOptionModel } from './ActionOptionModel';
 
 export interface ActionDetailModel {
-  id: number;
+  id: string;
   type: string;
   key: string;
   value: string;

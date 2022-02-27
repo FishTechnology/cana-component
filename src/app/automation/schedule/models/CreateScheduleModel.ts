@@ -8,4 +8,5 @@ export interface CreateScheduleModel {
   isCaptureNetworkTraffic: boolean;
   browserType: string;
   notification?: CreateNotificationModel;
+  retryCount?: number;
 }

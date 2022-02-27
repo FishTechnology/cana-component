@@ -27,7 +27,6 @@ export class TestcaseComponent implements OnInit {
   selection = new SelectionModel<TestCaseModel>(true, []);
   moment = moment;
   customerDetail!: CustomerDetail;
-  testcaseModels!: TestCaseModel[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   testPlanId!: string;
@@ -52,14 +51,14 @@ export class TestcaseComponent implements OnInit {
   ngOnInit(): void {}
 
   /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
+  isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
+  masterToggle(): void {
     if (this.isAllSelected()) {
       this.selection.clear();
       return;
@@ -79,7 +78,7 @@ export class TestcaseComponent implements OnInit {
     return '';
   }
 
-  createTestCase() {
+  createTestCase(): void {
     var modelRef = this.dialog.open(CreateTestcaseComponent, {
       data: {
         customerDetail: this.customerDetail,
@@ -122,11 +121,11 @@ export class TestcaseComponent implements OnInit {
 
   navigateAddNewEnv(): void {}
 
-  refresh() {
+  refresh(): void {
     this.getTestCases();
   }
 
-  delete() {
+  delete(): void {
     this.testcaseService
       .delete(this.customerDetail.applicationId, this.selection.selected[0].id)
       .subscribe({
@@ -141,7 +140,7 @@ export class TestcaseComponent implements OnInit {
       });
   }
 
-  edit() {
+  edit(): void {
     var modelRef = this.dialog.open(CreateTestcaseComponent, {
       data: {
         customerDetail: this.customerDetail,

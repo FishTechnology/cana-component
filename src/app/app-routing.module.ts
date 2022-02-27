@@ -20,6 +20,7 @@ import { TestcaseMappingComponent } from './automation/configuration/testcase/te
 import { AddTestcaseComponent } from './automation/configuration/testcase/add-testcase/add-testcase.component';
 import { HtmlEditorComponent } from './commons/html-editor/html-editor.component';
 import { AddTestcasesComponent } from './automation/configuration/testplan/add-testcases/add-testcases.component';
+import { ViewSystemComponent } from './automation/configuration/system/view-system/view-system.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -38,6 +39,10 @@ const routes: Routes = [
       {
         path: 'applications',
         component: ApplicationComponent,
+      },
+      {
+        path: 'systemVariables',
+        component: ViewSystemComponent,
       },
       {
         path: 'applications/:applicationid/applicationconfigs',

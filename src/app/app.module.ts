@@ -53,6 +53,7 @@ import { HtmlEditorComponent } from './commons/html-editor/html-editor.component
 import { ViewSystemComponent } from './automation/configuration/system/view-system/view-system.component';
 import { CreateSystemComponent } from './automation/configuration/system/create-system/create-system.component';
 import { AddTestcasesComponent } from './automation/configuration/testplan/add-testcases/add-testcases.component';
+import { BreadCrumbsComponent } from './layout/bread-crumbs/bread-crumbs.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { AddTestcasesComponent } from './automation/configuration/testplan/add-t
     ViewSystemComponent,
     CreateSystemComponent,
     AddTestcasesComponent,
+    BreadCrumbsComponent,
   ],
   imports: [
     BrowserModule,

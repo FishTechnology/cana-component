@@ -59,6 +59,7 @@ export class CreateScheduleComponent implements OnInit {
       BrowserType.Google_Chrome,
       Validators.required
     ),
+    retryCount: new FormControl(0)
   });
 
   constructor(
@@ -122,7 +123,7 @@ export class CreateScheduleComponent implements OnInit {
   }
 
   createSchedule(): void {
-    let createScheduleModel: CreateScheduleModel = {
+    const createScheduleModel: CreateScheduleModel = {
       environmentId: this.scheduleFormControl.get('environmenId')?.value,
       userId: this.customerDetail.userId,
       isCaptureNetworkTraffic: this.scheduleFormControl.get(
@@ -132,10 +133,11 @@ export class CreateScheduleComponent implements OnInit {
         this.scheduleFormControl.get('disableScreenshot')?.value,
       isRecordVideoEnabled: this.scheduleFormControl.get('recordVideo')?.value,
       browserType: this.scheduleFormControl.get('browserType')?.value,
+      retryCount: this.scheduleFormControl.get('retryCount')?.value
     };
 
     if (this.scheduleFormControl.get('emailAddresses')?.value) {
-      let notificationModel: CreateNotificationModel = {
+      const notificationModel: CreateNotificationModel = {
         emailAddress: this.scheduleFormControl.get('emailAddresses')?.value,
       };
       createScheduleModel.notification = notificationModel;

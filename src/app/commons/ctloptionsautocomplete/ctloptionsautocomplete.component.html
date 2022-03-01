@@ -123,6 +123,14 @@
                     >
                   </mat-select>
                 </mat-form-field>
+                <mat-form-field class="w-36 ml-10">
+                  <mat-label>duration</mat-label>
+                  <input matInput type="text" formControlName="duration" autocomplete="off" placeholder="enter in seconds">
+                  <button *ngIf="formCtlGroup.controls['duration']?.value" matSuffix mat-icon-button aria-label="Clear" (click)="formCtlGroup.controls['duration']?.reset()">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                  <mat-hint>default 4 seconds. </mat-hint>
+                </mat-form-field>
               </div>
               <div fxFlex="10%" align="center">
                 <button

@@ -88,7 +88,7 @@ export class CtlOptionsAutocompleteComponent implements OnInit {
 
     // Add our fruit
     if (value) {
-      //this.fruits.push(value);
+      // this.fruits.push(value);
     }
 
     // Clear the input value
@@ -102,8 +102,8 @@ export class CtlOptionsAutocompleteComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    //moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
-    let name = '';
+    // moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
+    const name = '';
   }
   private _filter(value: SelectModel): SelectModel[] {
     let filterValue = '';
@@ -127,6 +127,7 @@ export class CtlOptionsAutocompleteComponent implements OnInit {
       waitinseconds: new FormControl(''),
       optionType: new FormControl(selectionModel.value),
       conditionType: new FormControl('', Validators.required),
+      duration: new FormControl('4')
     });
   }
 }

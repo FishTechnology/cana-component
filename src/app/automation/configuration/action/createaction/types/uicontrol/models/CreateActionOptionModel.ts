@@ -3,4 +3,5 @@ export interface CreateActionOptionModel {
   waitDuration: number;
   order: number;
   conditionType: string;
+  duration: number;
 }

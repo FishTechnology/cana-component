@@ -130,7 +130,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
 
     // Add our fruit
     if (value) {
-      //this.fruits.push(value);
+      // this.fruits.push(value);
     }
 
     // Clear the input value
@@ -211,7 +211,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
   }
 
   createUIAction(): void {
-    let createActionModel: CreateActionModel = {
+    const createActionModel: CreateActionModel = {
       key:
         this.uiControlForm.get('keyType')?.value +
         ':' +
@@ -256,7 +256,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
   }
 
   getBrowserOptions(): CreateActionBrowserModel {
-    let createActionBrowserModel: CreateActionBrowserModel = {
+    const createActionBrowserModel: CreateActionBrowserModel = {
       actionType: this.browserForm().get('actionType')?.value,
       value: this.browserForm().get('value')?.value,
       comments: this.browserForm().get('comments')?.value,
@@ -266,16 +266,17 @@ export class UicontrolComponent implements OnInit, OnChanges {
   }
 
   getUIControlOptions(): CreateActionOptionModel[] {
-    let createActionOptionModels: CreateActionOptionModel[] = [];
+    const createActionOptionModels: CreateActionOptionModel[] = [];
 
     const formArray = this.uiControlFormOption();
     let order = 1;
-    for (let control of formArray.controls) {
-      let createActionOptionModel: CreateActionOptionModel = {
-        order: order,
+    for (const control of formArray.controls) {
+      const createActionOptionModel: CreateActionOptionModel = {
+        order,
         optionType: control.get('optionType')?.value,
         waitDuration: control.get('waitinseconds')?.value,
         conditionType: control.get('conditionType')?.value,
+        duration: control.get('duration')?.value
       };
       createActionOptionModels.push(createActionOptionModel);
       order++;
@@ -288,7 +289,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    //moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
-    let name = '';
+    // moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
+    const name = '';
   }
 }

@@ -81,7 +81,7 @@
                     matInput
                     type="text"
                     autocomplete="off"
-                    formControlName="waitinseconds"
+                    formControlName="waitingSeconds"
                   />
                   <button matSuffix mat-icon-button aria-label="Clear">
                     <mat-icon>close</mat-icon>
@@ -123,13 +123,25 @@
                     >
                   </mat-select>
                 </mat-form-field>
-                <mat-form-field class="w-36 ml-10">
+                <mat-form-field class="ml-10 w-36">
                   <mat-label>duration</mat-label>
-                  <input matInput type="text" formControlName="duration" autocomplete="off" placeholder="enter in seconds">
-                  <button *ngIf="formCtlGroup.controls['duration']?.value" matSuffix mat-icon-button aria-label="Clear" (click)="formCtlGroup.controls['duration']?.reset()">
+                  <input
+                    matInput
+                    type="text"
+                    formControlName="duration"
+                    autocomplete="off"
+                    placeholder="enter in seconds"
+                  />
+                  <button
+                    *ngIf="formCtlGroup.controls['duration']?.value"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    (click)="formCtlGroup.controls['duration']?.reset()"
+                  >
                     <mat-icon>close</mat-icon>
                   </button>
-                  <mat-hint>default 4 seconds. </mat-hint>
+                  <mat-hint>default 4 seconds.</mat-hint>
                 </mat-form-field>
               </div>
               <div fxFlex="10%" align="center">
@@ -146,7 +158,35 @@
           </mat-card>
         </div>
         <div
-          *ngIf="ctlOption.value !== 'WAIT' && ctlOption.value !== 'WAIT_FOR'"
+          *ngIf="ctlOption.value === 'CONDITION'"
+          fxLayout="row wrap"
+          fxLayoutAlign="start start"
+          fxLayoutGap="10px"
+          class="mat-elevation-z2"
+        >
+          <mat-card class="full-width">
+            <mat-card-content>
+              <div fxFlex="20%">{{ ctlOption.text }}</div>
+              <div fxFlex="70%"></div>
+              <div fxFlex="10%" align="center">
+                <button
+                  mat-mini-fab
+                  color="primary"
+                  aria-label="delete for ui control options"
+                  (click)="deleteControlOption(ctlOption, i)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div
+          *ngIf="
+            ctlOption.value !== 'WAIT' &&
+            ctlOption.value !== 'WAIT_FOR' &&
+            ctlOption.value !== 'CONDITION'
+          "
           fxLayout="row wrap"
           fxLayoutAlign="start start"
           fxLayoutGap="10px"

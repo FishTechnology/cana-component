@@ -1,6 +1,6 @@
-export enum UiControlOptoinType {
+export enum UiControlOptionType {
   WAIT_FOR = 'WAIT_FOR',
   WAIT = 'WAIT',
-  CONTAINS = 'CONTAINS',
+  CONDITION = 'CONDITION',
   SIZE = 'SIZE',
 }

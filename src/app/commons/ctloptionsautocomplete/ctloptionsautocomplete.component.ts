@@ -11,11 +11,12 @@ import {
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
-import { UiControlOptoinType } from 'src/app/automation/configuration/action/createaction/types/uicontrol/models/UiControlOptoinType';
+import { UiControlOptionType } from 'src/app/automation/configuration/action/createaction/types/uicontrol/models/UiControlOptionType';
 
 import { map, startWith } from 'rxjs/operators';
 import { SelectModel } from '../models/SelectModel';
 import { UIConditionType } from 'src/app/automation/configuration/action/createaction/types/uicontrol/models/UIConditionType';
+import { conditionType } from '../../automation/configuration/action/createaction/types/uicontrol/browser/models/ConditionType';
 
 @Component({
   selector: 'app-ctloptionsautocomplete',
@@ -44,11 +45,19 @@ export class CtlOptionsAutocompleteComponent implements OnInit {
     { text: 'Selected', value: UIConditionType.selected },
   ];
 
+  // conditionTypes: SelectModel[] = [
+  //   { text: 'Equal', value: conditionType.Equal },
+  //   { text: 'Not Equal', value: conditionType.Not_Equal },
+  //   { text: 'Contains', value: conditionType.Contains },
+  //   { text: 'Start With', value: conditionType.Start_With },
+  //   { text: 'End With', value: conditionType.End_With },
+  // ];
+
   allCtlOptions: SelectModel[] = [
-    { text: 'Wait', value: UiControlOptoinType.WAIT },
-    { text: 'Wait For ', value: UiControlOptoinType.WAIT_FOR },
-    { text: 'Contains', value: UiControlOptoinType.CONTAINS },
-    { text: 'Size', value: UiControlOptoinType.SIZE },
+    { text: 'Wait', value: UiControlOptionType.WAIT },
+    { text: 'Wait For ', value: UiControlOptionType.WAIT_FOR },
+    { text: 'Condition', value: UiControlOptionType.CONDITION },
+    { text: 'Size', value: UiControlOptionType.SIZE },
   ];
   filteredCtlOptions!: Observable<SelectModel[]>;
 
@@ -124,10 +133,10 @@ export class CtlOptionsAutocompleteComponent implements OnInit {
 
   newUiControlOption(selectionModel: SelectModel): FormGroup {
     return new FormGroup({
-      waitinseconds: new FormControl(''),
+      waitingSeconds: new FormControl(''),
       optionType: new FormControl(selectionModel.value),
       conditionType: new FormControl('', Validators.required),
-      duration: new FormControl('4')
+      duration: new FormControl('4'),
     });
   }
 }

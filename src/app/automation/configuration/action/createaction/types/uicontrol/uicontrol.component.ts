@@ -22,7 +22,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarService } from 'src/app/commons/snackbar/snackbar.service';
 import { CustomerService } from 'src/app/commons/customer/customer.service';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
-import { UiControlOptoinType } from './models/UiControlOptoinType';
+import { UiControlOptionType } from './models/UiControlOptionType';
 import { CreateActionOptionModel } from './models/CreateActionOptionModel';
 import { UIControlType } from './models/UIControlType';
 import { CreateActionBrowserModel } from './models/CreateActionBrowserModel';
@@ -49,14 +49,14 @@ export class UicontrolComponent implements OnInit, OnChanges {
   uiActionKeyType: SelectModel[] = [];
   ctlOptions: SelectModel[] = [];
   allCtlOptions: SelectModel[] = [
-    { text: 'Wait', value: UiControlOptoinType.WAIT },
-    { text: 'Wait For Visible', value: UiControlOptoinType.WAIT_FOR },
+    { text: 'Wait', value: UiControlOptionType.WAIT },
+    { text: 'Wait For Visible', value: UiControlOptionType.WAIT_FOR },
   ];
   uiCtlActionTypes: SelectModel[];
   matcher = new MyErrorStateMatcher();
   uiControlOptions: SelectModel[] = [
-    { text: 'Wait', value: UiControlOptoinType.WAIT },
-    { text: 'Wait For Visible', value: UiControlOptoinType.WAIT_FOR },
+    { text: 'Wait', value: UiControlOptionType.WAIT },
+    { text: 'Wait For Visible', value: UiControlOptionType.WAIT_FOR },
   ];
   testCaseId!: number;
   testPlanId!: number;
@@ -284,7 +284,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
       const createActionOptionModel: CreateActionOptionModel = {
         order,
         optionType: control.get('optionType')?.value,
-        waitDuration: control.get('waitinseconds')?.value,
+        waitDuration: control.get('waitingSeconds')?.value,
         conditionType: control.get('conditionType')?.value,
         duration: control.get('duration')?.value,
       };

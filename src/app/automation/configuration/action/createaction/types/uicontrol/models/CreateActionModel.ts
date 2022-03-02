@@ -12,4 +12,5 @@ export interface CreateActionModel {
   isOptional?: boolean;
   uiControlOptions?: CreateActionOptionModel[];
   browserOptions?: CreateActionBrowserModel;
+  conditionType?: string;
 }

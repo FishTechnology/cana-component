@@ -39,8 +39,8 @@
               <mat-option
                 *ngFor="let type of uiActionKeyType"
                 [value]="type.value"
-                >{{ type.text }}</mat-option
-              >
+                >{{ type.text }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -68,6 +68,20 @@
             >
               Key is <strong>required</strong>
             </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="15%" *ngIf="isAssertVerification">
+          <mat-form-field appearance="fill" fxFill>
+            <mat-label>Condition Type</mat-label>
+            <mat-select formControlName="conditionType">
+              <mat-option>None</mat-option>
+              <mat-option
+                *ngFor="let conditionType of conditionTypes"
+                [value]="conditionType.value"
+              >
+                {{ conditionType.text }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
         <div fxFlex="44%">

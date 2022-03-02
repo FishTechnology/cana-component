@@ -28,6 +28,7 @@ import { UIControlType } from './models/UIControlType';
 import { CreateActionBrowserModel } from './models/CreateActionBrowserModel';
 import { MyErrorStateMatcher } from 'src/app/commons/error/MyErrorStateMatcher';
 import { UIControlKeyType } from './models/UIControlKeyType';
+import { conditionType } from './browser/models/ConditionType';
 
 @Component({
   selector: 'app-uicontrol',
@@ -59,6 +60,13 @@ export class UicontrolComponent implements OnInit, OnChanges {
   ];
   testCaseId!: number;
   testPlanId!: number;
+  conditionTypes: SelectModel[] = [
+    { text: 'Equal', value: conditionType.Equal },
+    { text: 'Not Equal', value: conditionType.Not_Equal },
+    { text: 'Contains', value: conditionType.Contains },
+    { text: 'Start With', value: conditionType.Start_With },
+    { text: 'End With', value: conditionType.End_With },
+  ];
 
   constructor(
     private uiControlService: UiControlService,
@@ -76,6 +84,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
       comments: new FormControl(''),
       isAssertVerification: new FormControl('false'),
       isOptional: new FormControl(''),
+      conditionType: new FormControl(''),
       browserDetail: new FormGroup({
         actionType: new FormControl('', Validators.required),
         value: new FormControl(''),
@@ -224,6 +233,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
       isOptional: this.uiControlForm.get('isOptional')?.value,
       isAssertVerification: this.uiControlForm.get('isAssertVerification')
         ?.value,
+      conditionType: this.uiControlForm.get('conditionType')?.value,
     };
 
     if (this.uiControlFormOption().length >= 1) {
@@ -276,7 +286,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
         optionType: control.get('optionType')?.value,
         waitDuration: control.get('waitinseconds')?.value,
         conditionType: control.get('conditionType')?.value,
-        duration: control.get('duration')?.value
+        duration: control.get('duration')?.value,
       };
       createActionOptionModels.push(createActionOptionModel);
       order++;

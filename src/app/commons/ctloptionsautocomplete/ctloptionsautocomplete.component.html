@@ -102,7 +102,7 @@
           </mat-card>
         </div>
         <div
-          *ngIf="ctlOption.value === 'WAIT_FOR'"
+          *ngIf="ctlOption.value === 'CONTROL'"
           fxLayout="row wrap"
           fxLayoutAlign="start start"
           fxLayoutGap="10px"
@@ -110,7 +110,7 @@
         >
           <mat-card class="full-width">
             <mat-card-content>
-              <div fxFlex="20%">{{ ctlOption.text }}</div>
+              <div fxFlex="20%">{{ ctlOption.text }} wait for</div>
               <div fxFlex="70%">
                 <mat-form-field class="w-6/12">
                   <mat-label>Condition Type</mat-label>
@@ -119,7 +119,7 @@
                     <mat-option
                       *ngFor="let conditionType of conditionTypes"
                       [value]="conditionType.value"
-                      >{{ conditionType.text }}</mat-option
+                    >{{ conditionType.text }}</mat-option
                     >
                   </mat-select>
                 </mat-form-field>
@@ -158,7 +158,7 @@
           </mat-card>
         </div>
         <div
-          *ngIf="ctlOption.value === 'CONDITION'"
+          *ngIf="ctlOption.value === 'TEXT'"
           fxLayout="row wrap"
           fxLayoutAlign="start start"
           fxLayoutGap="10px"
@@ -166,8 +166,68 @@
         >
           <mat-card class="full-width">
             <mat-card-content>
-              <div fxFlex="20%">{{ ctlOption.text }}</div>
-              <div fxFlex="70%"></div>
+              <div fxFlex="10%">{{ ctlOption.text }}</div>
+              <div fxFlex="80%">
+                <div fxLayout="row wrap"
+                     fxLayoutAlign="start start"
+                     fxLayoutGap="10px">
+                  <div fxFlex="40%">
+                    <mat-form-field fxFill>
+                      <mat-label>Type</mat-label>
+                      <mat-select formControlName="assertType">
+                        <mat-option>None</mat-option>
+                        <mat-option
+                          *ngFor="let assertType of assertTypes"
+                          [value]="assertType.value"
+                        >{{ assertType.text }}</mat-option
+                        >
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="40%">
+                    <mat-form-field fxFill>
+                      <mat-label>value</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="value"
+                        autocomplete="off"
+                      />
+                      <button
+                        *ngIf="formCtlGroup.controls['value']?.value"
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Clear"
+                        (click)="formCtlGroup.controls['value']?.reset()"
+                      >
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="10%">
+                    <mat-form-field fxFill>
+                      <mat-label>duration</mat-label>
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="duration"
+                        autocomplete="off"
+                        placeholder="enter in seconds"
+                      />
+                      <button
+                        *ngIf="formCtlGroup.controls['duration']?.value"
+                        matSuffix
+                        mat-icon-button
+                        aria-label="Clear"
+                        (click)="formCtlGroup.controls['duration']?.reset()"
+                      >
+                        <mat-icon>close</mat-icon>
+                      </button>
+                      <mat-hint>default 4 seconds.</mat-hint>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
               <div fxFlex="10%" align="center">
                 <button
                   mat-mini-fab
@@ -184,8 +244,8 @@
         <div
           *ngIf="
             ctlOption.value !== 'WAIT' &&
-            ctlOption.value !== 'WAIT_FOR' &&
-            ctlOption.value !== 'CONDITION'
+            ctlOption.value !== 'CONTROL' &&
+            ctlOption.value !== 'TEXT'
           "
           fxLayout="row wrap"
           fxLayoutAlign="start start"

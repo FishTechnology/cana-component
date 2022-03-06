@@ -45,19 +45,18 @@ export class CtlOptionsAutocompleteComponent implements OnInit {
     { text: 'Selected', value: UIConditionType.selected },
   ];
 
-  // conditionTypes: SelectModel[] = [
-  //   { text: 'Equal', value: conditionType.Equal },
-  //   { text: 'Not Equal', value: conditionType.Not_Equal },
-  //   { text: 'Contains', value: conditionType.Contains },
-  //   { text: 'Start With', value: conditionType.Start_With },
-  //   { text: 'End With', value: conditionType.End_With },
-  // ];
+  assertTypes: SelectModel[] = [
+    { text: 'Equal', value: conditionType.Equal },
+    { text: 'Not Equal', value: conditionType.Not_Equal },
+    { text: 'Contains', value: conditionType.Contains },
+    { text: 'Start With', value: conditionType.Start_With },
+    { text: 'End With', value: conditionType.End_With },
+  ];
 
   allCtlOptions: SelectModel[] = [
     { text: 'Wait', value: UiControlOptionType.WAIT },
-    { text: 'Wait For ', value: UiControlOptionType.WAIT_FOR },
-    { text: 'Condition', value: UiControlOptionType.CONDITION },
-    { text: 'Size', value: UiControlOptionType.SIZE },
+    { text: 'Control ', value: UiControlOptionType.CONTROL },
+    { text: 'Text', value: UiControlOptionType.TEXT },
   ];
   filteredCtlOptions!: Observable<SelectModel[]>;
 
@@ -114,6 +113,7 @@ export class CtlOptionsAutocompleteComponent implements OnInit {
     // moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
     const name = '';
   }
+
   private _filter(value: SelectModel): SelectModel[] {
     let filterValue = '';
     if (value.value) {
@@ -137,6 +137,8 @@ export class CtlOptionsAutocompleteComponent implements OnInit {
       optionType: new FormControl(selectionModel.value),
       conditionType: new FormControl('', Validators.required),
       duration: new FormControl('4'),
+      value: new FormControl(),
+      assertType: new FormControl(),
     });
   }
 }

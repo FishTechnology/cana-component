@@ -1,6 +1,5 @@
 export enum UiControlOptionType {
-  WAIT_FOR = 'WAIT_FOR',
+  CONTROL = 'CONTROL',
   WAIT = 'WAIT',
-  CONDITION = 'CONDITION',
-  SIZE = 'SIZE',
+  TEXT = 'TEXT'
 }

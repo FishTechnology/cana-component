@@ -50,13 +50,13 @@ export class UicontrolComponent implements OnInit, OnChanges {
   ctlOptions: SelectModel[] = [];
   allCtlOptions: SelectModel[] = [
     { text: 'Wait', value: UiControlOptionType.WAIT },
-    { text: 'Wait For Visible', value: UiControlOptionType.WAIT_FOR },
+    { text: 'Wait For Visible', value: UiControlOptionType.CONTROL },
   ];
   uiCtlActionTypes: SelectModel[];
   matcher = new MyErrorStateMatcher();
   uiControlOptions: SelectModel[] = [
     { text: 'Wait', value: UiControlOptionType.WAIT },
-    { text: 'Wait For Visible', value: UiControlOptionType.WAIT_FOR },
+    { text: 'Wait For Visible', value: UiControlOptionType.CONTROL },
   ];
   testCaseId!: number;
   testPlanId!: number;
@@ -287,6 +287,8 @@ export class UicontrolComponent implements OnInit, OnChanges {
         waitDuration: control.get('waitingSeconds')?.value,
         conditionType: control.get('conditionType')?.value,
         duration: control.get('duration')?.value,
+        value: control.get('value')?.value,
+        assertType: control.get('assertType')?.value,
       };
       createActionOptionModels.push(createActionOptionModel);
       order++;

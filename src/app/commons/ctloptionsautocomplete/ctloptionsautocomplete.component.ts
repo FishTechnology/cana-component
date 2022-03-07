@@ -56,7 +56,7 @@ export class CtlOptionsAutocompleteComponent implements OnInit {
   allCtlOptions: SelectModel[] = [
     { text: 'Wait', value: UiControlOptionType.WAIT },
     { text: 'Control ', value: UiControlOptionType.CONTROL },
-    { text: 'Text', value: UiControlOptionType.TEXT },
+    { text: 'Text', value: UiControlOptionType.CONTENT },
   ];
   filteredCtlOptions!: Observable<SelectModel[]>;
 
@@ -133,7 +133,6 @@ export class CtlOptionsAutocompleteComponent implements OnInit {
 
   newUiControlOption(selectionModel: SelectModel): FormGroup {
     return new FormGroup({
-      waitingSeconds: new FormControl(''),
       optionType: new FormControl(selectionModel.value),
       conditionType: new FormControl('', Validators.required),
       duration: new FormControl('4'),

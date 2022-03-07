@@ -81,7 +81,7 @@
                     matInput
                     type="text"
                     autocomplete="off"
-                    formControlName="waitingSeconds"
+                    formControlName="duration"
                   />
                   <button matSuffix mat-icon-button aria-label="Clear">
                     <mat-icon>close</mat-icon>
@@ -158,7 +158,7 @@
           </mat-card>
         </div>
         <div
-          *ngIf="ctlOption.value === 'TEXT'"
+          *ngIf="ctlOption.value === 'CONTENT'"
           fxLayout="row wrap"
           fxLayoutAlign="start start"
           fxLayoutGap="10px"
@@ -245,7 +245,7 @@
           *ngIf="
             ctlOption.value !== 'WAIT' &&
             ctlOption.value !== 'CONTROL' &&
-            ctlOption.value !== 'TEXT'
+            ctlOption.value !== 'CONTENT'
           "
           fxLayout="row wrap"
           fxLayoutAlign="start start"

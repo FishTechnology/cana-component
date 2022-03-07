@@ -284,7 +284,6 @@ export class UicontrolComponent implements OnInit, OnChanges {
       const createActionOptionModel: CreateActionOptionModel = {
         order,
         optionType: control.get('optionType')?.value,
-        waitDuration: control.get('waitingSeconds')?.value,
         conditionType: control.get('conditionType')?.value,
         duration: control.get('duration')?.value,
         value: control.get('value')?.value,

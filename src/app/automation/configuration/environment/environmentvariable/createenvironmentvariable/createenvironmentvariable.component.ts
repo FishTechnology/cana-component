@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
+  MatSnackBarVerticalPosition
 } from '@angular/material/snack-bar';
 import { CustomerDetail } from 'src/app/commons/customer/models/CustomerDetail';
 import { SelectModel } from 'src/app/commons/models/SelectModel';
@@ -15,7 +15,7 @@ import { ConfigType } from '../../../config/models/config-type';
 @Component({
   selector: 'app-createenvironmentvariable',
   templateUrl: './createenvironmentvariable.component.html',
-  styleUrls: ['./createenvironmentvariable.component.scss'],
+  styleUrls: ['./createenvironmentvariable.component.scss']
 })
 export class CreateEnvironmentVariableComponent implements OnInit {
   @Output() environmentVariableEvent = new EventEmitter<string>();
@@ -45,7 +45,7 @@ export class CreateEnvironmentVariableComponent implements OnInit {
       valueType: new FormControl('text', Validators.required),
       comments: new FormControl(''),
       isApplicationVariable: new FormControl(''),
-      applicationVariable: new FormControl(''),
+      applicationVariable: new FormControl('')
     });
     if (this.data.envVariableId) {
       // this.environmentVariableService
@@ -70,24 +70,24 @@ export class CreateEnvironmentVariableComponent implements OnInit {
     this.environmentVariableForm
       .get('valueType')
       ?.valueChanges.subscribe((value) => {
-        if (value === 'file') {
-          this.environmentVariableForm.get('value')?.clearValidators();
-        } else {
-          this.environmentVariableForm
-            .get('value')
-            ?.setValidators(Validators.required);
-        }
-        this.environmentVariableForm.get('value')?.updateValueAndValidity();
-      });
+      if (value === 'file') {
+        this.environmentVariableForm.get('value')?.clearValidators();
+      } else {
+        this.environmentVariableForm
+          .get('value')
+          ?.setValidators(Validators.required);
+      }
+      this.environmentVariableForm.get('value')?.updateValueAndValidity();
+    });
   }
 
   ngOnInit(): void {
     this.environmentValueTypes = [
       { text: 'Text', value: 'text' },
-      { text: 'File', value: 'file' },
+      { text: 'File', value: 'file' }
     ];
     this.applicationVariables = [
-      { text: 'Accept Untrusted Certs', value: 'ACCEPT_UNTRUSTED_CERTS' },
+      { text: 'Accept Untrusted Certs', value: 'ACCEPT_UNTRUSTED_CERTS' }
     ];
   }
 
@@ -96,22 +96,27 @@ export class CreateEnvironmentVariableComponent implements OnInit {
     this.files.push(...event.addedFiles);
   }
 
-  onRemove(event: any) {
+  onRemove(event: any): void {
     console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
   }
-  createEnvironmentVariable(fileId?: string) {
-    let createConfigKeyValueModel: CreateConfigKeyValueModel = {
+
+  createEnvironmentVariable(fileId?: string): void {
+    const createConfigKeyValueModel: CreateConfigKeyValueModel = {
       comments: this.environmentVariableForm.get('comments')?.value,
       key: this.environmentVariableForm.get('key')?.value,
       value: this.environmentVariableForm.get('value')?.value,
       type: this.environmentVariableForm.get('valueType')?.value,
       userId: this.data.customerDetail.userId,
-      fileId: fileId,
+      fileId,
       isApplicationVariable: this.environmentVariableForm.get(
         'isApplicationVariable'
-      )?.value,
+      )?.value
     };
+
+    if (!createConfigKeyValueModel.isApplicationVariable) {
+      createConfigKeyValueModel.isApplicationVariable = false;
+    }
 
     if (createConfigKeyValueModel.isApplicationVariable) {
       createConfigKeyValueModel.key = this.environmentVariableForm.get(
@@ -199,7 +204,8 @@ export class CreateEnvironmentVariableComponent implements OnInit {
     //   );
   }
 
-  valueTypeChange($event: any) {}
+  valueTypeChange($event: any) {
+  }
 
   changeApplicationVariable(): void {
     if (this.isShowApplicationVariable) {

@@ -32,6 +32,7 @@ export class ScheduleComponent implements OnInit, AfterViewInit {
     'environment',
     'status',
     'lastexecute',
+    'action',
   ];
   scheduleIterations!: ScheduleIterationModel[];
 

@@ -19,38 +19,51 @@ import { ScheduleService } from '../schedule.service';
 @Component({
   selector: 'app-create-schedule',
   templateUrl: './create.schedule.component.html',
-  styleUrls: ['./create.schedule.component.scss'],
+  styleUrls: ['./create.schedule.component.scss']
 })
 export class CreateScheduleComponent implements OnInit {
   testPlanId!: string;
   testPlanModel!: TestPlanModel;
   customerDetail!: CustomerDetail;
   environmentDetails!: ConfigModel[];
+  resolutionStats: SelectModel[] = [
+    { text: '1024x768', value: '1024x768' },
+    { text: '1280x800', value: '1280x800' },
+    { text: '1280x1024', value: '1280x1024' },
+    { text: '1366x768', value: '1366x768' },
+    { text: '1440x900', value: '1440x900' },
+    { text: '1680x1050', value: '1680x1050' },
+    { text: '1600x1200', value: '1600x1200' },
+    { text: '1920x1200', value: '1920x1200' },
+    { text: '1920x1080', value: '1920x1080' },
+    { text: '2048x1536', value: '2048x1536' },
+    { text: '2560x1440', value: '2560x1440' }
+  ];
   supportedBrowserTypes: SelectModel[] = [
     {
       text: 'Google Chrome',
-      value: BrowserType.Google_Chrome,
+      value: BrowserType.Google_Chrome
     },
     {
       text: 'Internet Explorer',
-      value: BrowserType.Internet_Explorer,
+      value: BrowserType.Internet_Explorer
     },
     {
       text: 'Mozilla Firefox',
-      value: BrowserType.Mozilla_Firefox,
+      value: BrowserType.Mozilla_Firefox
     },
     {
       text: 'Opera',
-      value: BrowserType.Opera,
+      value: BrowserType.Opera
     },
     {
       text: 'Safari',
-      value: BrowserType.Safari,
-    },
+      value: BrowserType.Safari
+    }
   ];
 
   scheduleFormControl = new FormGroup({
-    environmenId: new FormControl('', Validators.required),
+    environmentId: new FormControl('', Validators.required),
     recordVideo: new FormControl(true),
     disableScreenshot: new FormControl(false),
     captureNetworkTraffic: new FormControl(false),
@@ -59,6 +72,7 @@ export class CreateScheduleComponent implements OnInit {
       BrowserType.Google_Chrome,
       Validators.required
     ),
+    resolution: new FormControl('1920x1080', Validators.required),
     retryCount: new FormControl(0)
   });
 
@@ -82,7 +96,8 @@ export class CreateScheduleComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   getTestPlanDetail(): void {
     this.testPlanService
@@ -96,6 +111,7 @@ export class CreateScheduleComponent implements OnInit {
         }
       );
   }
+
   getEnvironmentByUserId(): void {
     this.configService
       .getConfigByAppId(
@@ -108,7 +124,7 @@ export class CreateScheduleComponent implements OnInit {
         },
         error: (err) => {
           this.snackbarService.openSnackBar('error while loading environment');
-        },
+        }
       });
     // this.environmentService
     //   .getEnvironment(this.customerDetail.userId)
@@ -124,21 +140,22 @@ export class CreateScheduleComponent implements OnInit {
 
   createSchedule(): void {
     const createScheduleModel: CreateScheduleModel = {
-      environmentId: this.scheduleFormControl.get('environmenId')?.value,
+      environmentId: this.scheduleFormControl.get('environmentId')?.value,
       userId: this.customerDetail.userId,
       isCaptureNetworkTraffic: this.scheduleFormControl.get(
         'captureNetworkTraffic'
       )?.value,
       isDisableScreenshot:
-        this.scheduleFormControl.get('disableScreenshot')?.value,
+      this.scheduleFormControl.get('disableScreenshot')?.value,
       isRecordVideoEnabled: this.scheduleFormControl.get('recordVideo')?.value,
       browserType: this.scheduleFormControl.get('browserType')?.value,
-      retryCount: this.scheduleFormControl.get('retryCount')?.value
+      retryCount: this.scheduleFormControl.get('retryCount')?.value,
+      resolution: this.scheduleFormControl.get('resolution')?.value
     };
 
     if (this.scheduleFormControl.get('emailAddresses')?.value) {
       const notificationModel: CreateNotificationModel = {
-        emailAddress: this.scheduleFormControl.get('emailAddresses')?.value,
+        emailAddress: this.scheduleFormControl.get('emailAddresses')?.value
       };
       createScheduleModel.notification = notificationModel;
     }

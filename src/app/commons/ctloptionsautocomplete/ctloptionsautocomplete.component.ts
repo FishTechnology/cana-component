@@ -56,7 +56,7 @@ export class CtlOptionsAutocompleteComponent implements OnInit {
   allCtlOptions: SelectModel[] = [
     { text: 'Wait', value: UiControlOptionType.WAIT },
     { text: 'Control ', value: UiControlOptionType.CONTROL },
-    { text: 'Text', value: UiControlOptionType.CONTENT },
+    { text: 'Content', value: UiControlOptionType.CONTENT },
   ];
   filteredCtlOptions!: Observable<SelectModel[]>;
 

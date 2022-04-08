@@ -9,4 +9,5 @@ export interface CreateScheduleModel {
   browserType: string;
   notification?: CreateNotificationModel;
   retryCount?: number;
+  resolution?: string;
 }

@@ -1,7 +1,7 @@
 export interface CreateActionOptionModel {
   optionType: string;
   order: number;
-  conditionType: string;
+  controlConditionType: string;
   duration: number;
   value: string;
   assertType: string;

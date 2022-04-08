@@ -31,7 +31,8 @@ export class CreateApplicationComponent implements OnInit {
     public data: { customerDetail: CustomerDetail; applicationId: bigint },
     private applicationService: ApplicationService,
     private dialogRef: MatDialogRef<CreateApplicationComponent>,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private window: Window
   ) {
     this.applicationForm = new FormGroup({
       id: new FormControl(''),
@@ -61,7 +62,7 @@ export class CreateApplicationComponent implements OnInit {
     if (this.applicationForm.get('id')?.value) {
       return this.updateApplication();
     }
-    let createApplication: CreateApplicationModel = {
+    const createApplication: CreateApplicationModel = {
       name: this.applicationForm.get('name')?.value,
       comments: this.applicationForm.get('comments')?.value,
       userId: this.customerDetail.userId.toString(),
@@ -70,7 +71,7 @@ export class CreateApplicationComponent implements OnInit {
       (res) => {
         this.snackbarService.openSnackBar('successfully created application');
         this.dialogRef.close();
-        this.applicationEvent.emit('success');
+        this.window.location.reload();
       },
       (err) => {
         this.snackbarService.openSnackBar('Error in creating application');
@@ -78,7 +79,7 @@ export class CreateApplicationComponent implements OnInit {
     );
   }
   updateApplication(): void {
-    let updateApplicationModel: UpdateApplicationModel = {
+    const updateApplicationModel: UpdateApplicationModel = {
       name: this.applicationForm.get('name')?.value,
       comments: this.applicationForm.get('comments')?.value,
       userId: this.customerDetail.userId.toString(),

@@ -1,1 +1,96 @@
-<p>create-system works!</p>
+<div class="model-container">
+  <mat-card>
+    <form [formGroup]="systemForm">
+      <mat-dialog-content>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <div fxFlex="49%">
+            <mat-form-field
+              appearance="fill"
+              class="full-width"
+              *ngIf="!isShowSystemVariable"
+            >
+              <mat-label>System Variable Key</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="key"
+                placeholder="key"
+                autocomplete="off"
+              />
+              <button
+                *ngIf="systemForm.controls['key'].value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="systemForm.controls['key'].reset()"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+            <mat-form-field
+              appearance="fill"
+              class="full-width"
+              *ngIf="isShowSystemVariable"
+            >
+              <mat-label>Value Type</mat-label>
+              <mat-select formControlName="name">
+                <mat-option></mat-option>
+                <mat-option
+                  [value]="systemVariable.key"
+                  *ngFor="let systemVariable of systemVariables"
+                >{{ systemVariable.text }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>System Variable Value</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="value"
+                placeholder="value"
+                autocomplete="off"
+              />
+              <button
+                *ngIf="systemForm.controls['value'].value"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="systemForm.controls['value'].reset()"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div fxFlex="20%">
+            <mat-checkbox
+              formControlName="isPortalVariable"
+              (click)="changeSystemVariable()"
+            >is System Variable</mat-checkbox
+            >
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Leave a comment</mat-label>
+            <textarea matInput formControlName="comments"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-dialog-content>
+      <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close [mat-dialog-close]="true">
+          Cancel
+        </button>
+        <button
+          mat-raised-button
+          cdkFocusInitial
+          color="primary"
+          [disabled]="!systemForm.valid"
+          (click)="createSystemVariable()"
+        >
+          Save
+        </button>
+      </mat-dialog-actions>
+    </form>
+  </mat-card>
+</div>

@@ -12,4 +12,5 @@ export interface ScheduleIterationModel {
   modifiedOn: string;
   createdBy: string;
   modifiedBy: string;
+  sessionId: string;
 }

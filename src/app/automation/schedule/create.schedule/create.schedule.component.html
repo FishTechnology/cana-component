@@ -6,7 +6,7 @@
         <div fxFlex="25%">
           <mat-form-field appearance="fill" fxFill>
             <mat-label>Schedule environment</mat-label>
-            <mat-select formControlName="environmenId" required>
+            <mat-select formControlName="environmentId" required>
               <mat-option>--</mat-option>
               <mat-option
                 *ngFor="let envionment of environmentDetails"
@@ -17,9 +17,10 @@
             </mat-select>
             <mat-error
               *ngIf="
-                scheduleFormControl.get('environmenId')?.hasError('required')
+                scheduleFormControl.get('environmentId')?.hasError('required')
               "
-              >Please choose an environment</mat-error
+            >Please choose an environment
+            </mat-error
             >
           </mat-form-field>
         </div>
@@ -39,7 +40,8 @@
               *ngIf="
                 scheduleFormControl.get('browserType')?.hasError('required')
               "
-              >Please choose an browser type</mat-error
+            >Please choose an browser type
+            </mat-error
             >
           </mat-form-field>
         </div>
@@ -52,23 +54,38 @@
       >
         <div fxFlex="10%">
           <mat-checkbox formControlName="recordVideo"
-            >Record Video</mat-checkbox
+          >Record Video
+          </mat-checkbox
           >
+          <mat-form-field appearance="fill" fxFill>
+            <mat-label>Resolution:</mat-label>
+            <mat-select formControlName="resolution" required>
+              <mat-option>---</mat-option>
+              <mat-option *ngFor="let resolutionStat of resolutionStats" [value]="resolutionStat.value">
+                {{resolutionStat.text}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="scheduleFormControl.get('resolution')?.hasError('required')">
+            Please choose an resolution
+            </mat-error>
+          </mat-form-field>
         </div>
         <div fxFlex="10%">
           <mat-checkbox formControlName="disableScreenshot"
-            >Disable screenshot</mat-checkbox
+          >Disable screenshot
+          </mat-checkbox
           >
         </div>
         <div fxFlex="10%">
           <mat-checkbox formControlName="captureNetworkTraffic"
-            >Capture Network Traffic</mat-checkbox
+          >Capture Network Traffic
+          </mat-checkbox
           >
         </div>
         <div fxFlex="10%">
           <mat-form-field appearance="fill">
             <mat-label>Retry Count</mat-label>
-            <input matInput type="text"  formControlName="retryCount">
+            <input matInput type="text" formControlName="retryCount">
             <mat-hint> max retry is 5</mat-hint>
           </mat-form-field>
         </div>
@@ -76,8 +93,10 @@
       <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
         <mat-accordion class="example-headers-align" fxFill>
           <mat-expansion-panel hideToggle [expanded]="true"
-            ><mat-expansion-panel-header
-              ><mat-panel-title> Notification </mat-panel-title>
+          >
+            <mat-expansion-panel-header
+            >
+              <mat-panel-title> Notification</mat-panel-title>
             </mat-expansion-panel-header>
             <mat-form-field fxFill>
               <mat-label>Email Address</mat-label>

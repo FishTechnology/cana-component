@@ -116,7 +116,12 @@ import { LiveVideoViewComponent } from './commons/live-video-view/live-video-vie
     HttpClientModule,
     FlexLayoutModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: Window,
+      useValue: window,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

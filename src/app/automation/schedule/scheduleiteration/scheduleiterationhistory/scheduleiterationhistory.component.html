@@ -33,7 +33,7 @@
                   {{ testCaseResult.testCaseName }}
                 </div>
                 <div fxFlex="10%">
-                <mat-icon [class]="getStatusClassName(testCaseResult.status)">check_circle</mat-icon>
+                  <mat-icon [class]="getStatusClassName(testCaseResult.status)">check_circle</mat-icon>
                 </div>
                 <mat-divider></mat-divider>
               </div>
@@ -56,9 +56,9 @@
             <mat-accordion fxFill class="mb-4">
               <mat-expansion-panel>
                 <mat-expansion-panel-header>
-                  <div fxFlex="40%">Key: {{ actionResultModel.key }}</div>
+                  <div fxFlex="50%">Key: {{ actionResultModel.key }}</div>
                   <div fxFlex="40%">Value: {{ actionResultModel.value }}</div>
-                  <div fxFlex="20%">
+                  <div fxFlex="10%">
                     <mat-icon [class]="getStatusClassName(actionResultModel.status)">check_circle</mat-icon>
                   </div>
                 </mat-expansion-panel-header>

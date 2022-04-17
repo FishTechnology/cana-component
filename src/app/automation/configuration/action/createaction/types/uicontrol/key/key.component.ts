@@ -116,11 +116,11 @@ export class KeyComponent implements OnInit {
     this.formCtlGroup.get('eventOption')!.setValue(null);
   }
 
-  remove(key: SelectModel): void {
-    const index = this.Keys.indexOf(key);
+  remove(ctlOption: SelectModel, indexOfElement: number): void {
+    this.uiControlFormOption().removeAt(indexOfElement);
 
-    if (index >= 0) {
-      this.Keys.splice(index, 1);
+    if (indexOfElement >= 0) {
+      this.keyOptions.splice(indexOfElement, 1);
     }
   }
 

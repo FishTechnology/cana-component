@@ -1,26 +1,32 @@
-<mat-form-field class="example-chip-list" appearance="fill">
-  <mat-label>Favorite Fruits</mat-label>
-  <mat-chip-list #chipList aria-label="Fruit selection">
-    <mat-chip
-      *ngFor="let key of Keys"
-      (removed)="remove(key)">
-      {{key.text}}
-      <button matChipRemove>
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </mat-chip>
-    <input
-      placeholder="New fruit..."
-      #fruitInput
-      [formControl]="fruitCtrl"
-      [matAutocomplete]="auto"
-      [matChipInputFor]="chipList"
-      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-      (matChipInputTokenEnd)="add($event)">
-  </mat-chip-list>
-  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-    <mat-option *ngFor="let key of filteredKeys | async" [value]="Keys">
-      {{key.text}}
-    </mat-option>
-  </mat-autocomplete>
-</mat-form-field>
+<div [formGroup]="formCtlGroup">
+  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+    <div fxFill>
+      <mat-form-field class="example-chip-list" appearance="fill" fxFill>
+        <mat-label>Keys</mat-label>
+        <mat-chip-list #chipList aria-label="key selection">
+          <mat-chip
+            *ngFor="let key of Keys"
+            (removed)="remove(key)">
+            {{key.text}}
+            <button matChipRemove *ngIf="removable">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input
+            placeholder="New key..."
+            #ctlOptionInput
+            formControlName="eventOption"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let key of filteredKeyOptions | async" [value]="Keys">
+            {{key.text}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </div>
+</div>

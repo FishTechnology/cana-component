@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { SelectModel } from '../../../../../../../commons/models/SelectModel';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Observable } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ControlContainer, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-key',
@@ -11,10 +13,15 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
   styleUrls: ['./key.component.scss']
 })
 export class KeyComponent implements OnInit {
+  @ViewChild('ctlOptionInput') ctlOptionInput!: ElementRef<HTMLInputElement>;
+  @Input() formCtlGroup!: FormGroup;
+  selectable = true;
+  removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  filteredKeys: Observable<SelectModel[]>;
+  filteredKeyOptions!: Observable<SelectModel[]>;
+  keyOptions: SelectModel[] = [];
   Keys: SelectModel[] = [];
-  allKeys: SelectModel[] = [
+  allKeyOptions: SelectModel[] = [
     { text: 'Null', value: 'NULL' },
     { text: 'Cancel', value: 'CANCEL' },
     { text: 'Help', value: 'HELP' },
@@ -81,10 +88,18 @@ export class KeyComponent implements OnInit {
     { text: 'Zenkaku Hankaku', value: 'ZENKAKU_HANKAKU' }
   ];
 
-  constructor() {
-  }
+  constructor(private controlContainer: ControlContainer) {}
 
   ngOnInit(): void {
+    this.formCtlGroup = this.controlContainer.control as FormGroup;
+    this.filteredKeyOptions = this.formCtlGroup
+      .get('eventOption')!
+      .valueChanges.pipe(
+        startWith(null),
+        map((key: SelectModel | null) =>
+          key ? this._filter(key) : this.allKeyOptions.slice()
+        )
+      );
   }
 
   add(event: MatChipInputEvent): void {
@@ -92,13 +107,13 @@ export class KeyComponent implements OnInit {
 
     // Add our fruit
     if (value) {
-      this.Keys.push(value);
+      // this.fruits.push(value);
     }
 
     // Clear the input value
     event.chipInput!.clear();
 
-    this.fruitCtrl.setValue(null);
+    this.formCtlGroup.get('eventOption')!.setValue(null);
   }
 
   remove(key: SelectModel): void {
@@ -110,15 +125,39 @@ export class KeyComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.Keys.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
+    this.uiControlFormOption().push(
+      this.newUiControlOption(event.option.value)
+    );
+    this.keyOptions.push(event.option.value);
+    this.ctlOptionInput.nativeElement.value = '';
+    this.formCtlGroup.get('eventOption')!.setValue(null);
   }
 
-  private _filter(value: string): SelectModel[] {
-    const filterValue = value.toLowerCase();
+  private _filter(value: SelectModel): SelectModel[] {
+    let filterValue = '';
+    if (value.value) {
+      filterValue = value.value.toLowerCase();
+    } else {
+      filterValue = (value as unknown as string).toLowerCase();
+    }
 
-    return this.allKeys.filter(key => key.value.toLowerCase().includes(filterValue));
+    return this.allKeyOptions.filter((ctlOption) =>
+      ctlOption.value.toLowerCase().includes(filterValue)
+    );
+  }
+
+  uiControlFormOption(): FormArray {
+    return this.formCtlGroup.get('uiControlFormOptions') as FormArray;
+  }
+
+  newUiControlOption(selectionModel: SelectModel): FormGroup {
+    return new FormGroup({
+      optionType: new FormControl(selectionModel.value),
+      conditionType: new FormControl('', Validators.required),
+      duration: new FormControl('4'),
+      value: new FormControl(),
+      assertType: new FormControl(),
+    });
   }
 
 }

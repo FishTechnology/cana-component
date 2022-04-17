@@ -55,6 +55,7 @@ import { CreateSystemComponent } from './automation/configuration/system/create-
 import { AddTestcasesComponent } from './automation/configuration/testplan/add-testcases/add-testcases.component';
 import { BreadCrumbsComponent } from './layout/bread-crumbs/bread-crumbs.component';
 import { LiveVideoViewComponent } from './commons/live-video-view/live-video-view.component';
+import { KeyComponent } from './automation/configuration/action/createaction/types/uicontrol/key/key.component';
 
 @NgModule({
   declarations: [
@@ -105,6 +106,7 @@ import { LiveVideoViewComponent } from './commons/live-video-view/live-video-vie
     AddTestcasesComponent,
     BreadCrumbsComponent,
     LiveVideoViewComponent,
+    KeyComponent,
   ],
   imports: [
     BrowserModule,

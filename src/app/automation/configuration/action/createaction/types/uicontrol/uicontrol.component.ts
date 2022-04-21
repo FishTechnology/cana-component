@@ -93,7 +93,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
         conditionType: new FormControl('')
       }),
       uiControlFormOptions: new FormArray([]),
-      uiControlFormKeyOptions: new FormArray([]);
+      uiControlFormKeyOptions: new FormArray([]),
     });
 
     this.uiActionKeyType = [

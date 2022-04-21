@@ -6,7 +6,7 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SelectModel } from 'src/app/commons/models/SelectModel';
@@ -29,11 +29,12 @@ import { CreateActionBrowserModel } from './models/CreateActionBrowserModel';
 import { MyErrorStateMatcher } from 'src/app/commons/error/MyErrorStateMatcher';
 import { UIControlKeyType } from './models/UIControlKeyType';
 import { conditionType } from './browser/models/ConditionType';
+import { CreateActionKeyModel } from './models/CreateActionKeyModel';
 
 @Component({
   selector: 'app-uicontrol',
   templateUrl: './uicontrol.component.html',
-  styleUrls: ['./uicontrol.component.scss'],
+  styleUrls: ['./uicontrol.component.scss']
 })
 export class UicontrolComponent implements OnInit, OnChanges {
   @Input() saveEvent!: EventEmitter<string>;
@@ -50,13 +51,13 @@ export class UicontrolComponent implements OnInit, OnChanges {
   ctlOptions: SelectModel[] = [];
   allCtlOptions: SelectModel[] = [
     { text: 'Wait', value: UiControlOptionType.WAIT },
-    { text: 'Wait For Visible', value: UiControlOptionType.CONTROL },
+    { text: 'Wait For Visible', value: UiControlOptionType.CONTROL }
   ];
   uiCtlActionTypes: SelectModel[];
   matcher = new MyErrorStateMatcher();
   uiControlOptions: SelectModel[] = [
     { text: 'Wait', value: UiControlOptionType.WAIT },
-    { text: 'Wait For Visible', value: UiControlOptionType.CONTROL },
+    { text: 'Wait For Visible', value: UiControlOptionType.CONTROL }
   ];
   testCaseId!: number;
   testPlanId!: number;
@@ -65,7 +66,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
     { text: 'Not Equal', value: conditionType.Not_Equal },
     { text: 'Contains', value: conditionType.Contains },
     { text: 'Start With', value: conditionType.Start_With },
-    { text: 'End With', value: conditionType.End_With },
+    { text: 'End With', value: conditionType.End_With }
   ];
 
   constructor(
@@ -89,21 +90,22 @@ export class UicontrolComponent implements OnInit, OnChanges {
         actionType: new FormControl('', Validators.required),
         value: new FormControl(''),
         comments: new FormControl(''),
-        conditionType: new FormControl(''),
+        conditionType: new FormControl('')
       }),
       uiControlFormOptions: new FormArray([]),
+      uiControlFormKeyOptions: new FormArray([]);
     });
 
     this.uiActionKeyType = [
       { text: 'Id', value: UIControlKeyType.Id },
       { text: 'Css', value: UIControlKeyType.Css },
-      { text: 'Xpath', value: UIControlKeyType.Xpath },
+      { text: 'Xpath', value: UIControlKeyType.Xpath }
     ];
 
     this.uiCtlActionTypes = [
       { text: 'Input', value: UIControlType.INPUT },
       { text: 'Click', value: UIControlType.CLICK },
-      { text: 'Browser', value: UIControlType.BROWSER },
+      { text: 'Browser', value: UIControlType.BROWSER }
     ];
 
     this.uiControlForm
@@ -177,7 +179,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
   newUiControlOption(selectionModel: SelectModel): FormGroup {
     return new FormGroup({
       waitinseconds: new FormControl(''),
-      optionType: new FormControl(selectionModel.value),
+      optionType: new FormControl(selectionModel.value)
     });
   }
 
@@ -198,18 +200,18 @@ export class UicontrolComponent implements OnInit, OnChanges {
     if (
       changes.isAssertVerification &&
       changes.isAssertVerification.currentValue !==
-        changes.isAssertVerification.previousValue
+      changes.isAssertVerification.previousValue
     ) {
       if (changes.isAssertVerification.currentValue) {
         this.uiCtlActionTypes = [
           { text: 'Input', value: UIControlType.INPUT },
-          { text: 'Browser', value: UIControlType.BROWSER },
+          { text: 'Browser', value: UIControlType.BROWSER }
         ];
       } else {
         this.uiCtlActionTypes = [
           { text: 'Input', value: UIControlType.INPUT },
           { text: 'Click', value: UIControlType.CLICK },
-          { text: 'Browser', value: UIControlType.BROWSER },
+          { text: 'Browser', value: UIControlType.BROWSER }
         ];
       }
 
@@ -233,8 +235,12 @@ export class UicontrolComponent implements OnInit, OnChanges {
       isOptional: this.uiControlForm.get('isOptional')?.value,
       isAssertVerification: this.uiControlForm.get('isAssertVerification')
         ?.value,
-      conditionType: this.uiControlForm.get('conditionType')?.value,
+      conditionType: this.uiControlForm.get('conditionType')?.value
     };
+
+    if (this.uiControlFormKeyOption().length >= 1) {
+      createActionModel.uiActionKeys = this.getUIActionKeys();
+    }
 
     if (this.uiControlFormOption().length >= 1) {
       createActionModel.uiControlOptions = this.getUIControlOptions();
@@ -251,12 +257,12 @@ export class UicontrolComponent implements OnInit, OnChanges {
           this.snackbarService.openSnackBar('successfully created ui action');
           if (this.testPlanId) {
             this.router.navigate([
-              `configuration/testplans/${this.testPlanId}/testcases/${this.testCaseId}/actions`,
+              `configuration/testplans/${this.testPlanId}/testcases/${this.testCaseId}/actions`
             ]);
             return;
           }
           this.router.navigate([
-            `configuration/testcases/${this.testCaseId}/actions`,
+            `configuration/testcases/${this.testCaseId}/actions`
           ]);
         },
         (err: any) => {
@@ -270,7 +276,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
       actionType: this.browserForm().get('actionType')?.value,
       value: this.browserForm().get('value')?.value,
       comments: this.browserForm().get('comments')?.value,
-      conditionType: this.browserForm().get('conditionType')?.value,
+      conditionType: this.browserForm().get('conditionType')?.value
     };
     return createActionBrowserModel;
   }
@@ -287,7 +293,7 @@ export class UicontrolComponent implements OnInit, OnChanges {
         controlConditionType: control.get('conditionType')?.value,
         duration: control.get('duration')?.value,
         value: control.get('value')?.value,
-        assertType: control.get('assertType')?.value,
+        assertType: control.get('assertType')?.value
       };
       createActionOptionModels.push(createActionOptionModel);
       order++;
@@ -302,5 +308,25 @@ export class UicontrolComponent implements OnInit, OnChanges {
   drop(event: CdkDragDrop<string[]>) {
     // moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
     const name = '';
+  }
+
+  getUIActionKeys(): CreateActionKeyModel[] {
+    const createActionKeyModels = [] as unknown as CreateActionKeyModel[];
+    const formArray = this.uiControlFormOption();
+    let order = 1;
+    for (const control of formArray.controls) {
+      const createActionKeyModel: CreateActionKeyModel = {
+        key: control.get('keyOption')?.value,
+        orderNumber: order
+      };
+      createActionKeyModels.push(createActionKeyModel);
+      order++;
+    }
+
+    return createActionKeyModels;
+  }
+
+  uiControlFormKeyOption(): FormArray {
+    return this.uiControlForm.get('uiControlFormKeyOptions') as FormArray;
   }
 }

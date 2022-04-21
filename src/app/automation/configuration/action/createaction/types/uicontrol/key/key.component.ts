@@ -13,7 +13,7 @@ import { map, startWith } from 'rxjs/operators';
   styleUrls: ['./key.component.scss']
 })
 export class KeyComponent implements OnInit {
-  @ViewChild('ctlOptionInput') ctlOptionInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('keyOptionInput') keyOptionInput!: ElementRef<HTMLInputElement>;
   @Input() formCtlGroup!: FormGroup;
   selectable = true;
   removable = true;
@@ -88,12 +88,13 @@ export class KeyComponent implements OnInit {
     { text: 'Zenkaku Hankaku', value: 'ZENKAKU_HANKAKU' }
   ];
 
-  constructor(private controlContainer: ControlContainer) {}
+  constructor(private controlContainer: ControlContainer) {
+  }
 
   ngOnInit(): void {
     this.formCtlGroup = this.controlContainer.control as FormGroup;
     this.filteredKeyOptions = this.formCtlGroup
-      .get('eventOption')!
+      .get('keyOption')!
       .valueChanges.pipe(
         startWith(null),
         map((key: SelectModel | null) =>
@@ -113,7 +114,7 @@ export class KeyComponent implements OnInit {
     // Clear the input value
     event.chipInput!.clear();
 
-    this.formCtlGroup.get('eventOption')!.setValue(null);
+    this.formCtlGroup.get('keyOption')!.setValue(null);
   }
 
   remove(ctlOption: SelectModel, indexOfElement: number): void {
@@ -129,8 +130,8 @@ export class KeyComponent implements OnInit {
       this.newUiControlOption(event.option.value)
     );
     this.keyOptions.push(event.option.value);
-    this.ctlOptionInput.nativeElement.value = '';
-    this.formCtlGroup.get('eventOption')!.setValue(null);
+    this.keyOptionInput.nativeElement.value = '';
+    this.formCtlGroup.get('keyOption')!.setValue(null);
   }
 
   private _filter(value: SelectModel): SelectModel[] {
@@ -141,22 +142,18 @@ export class KeyComponent implements OnInit {
       filterValue = (value as unknown as string).toLowerCase();
     }
 
-    return this.allKeyOptions.filter((ctlOption) =>
-      ctlOption.value.toLowerCase().includes(filterValue)
+    return this.allKeyOptions.filter((keyOption) =>
+      keyOption.value.toLowerCase().includes(filterValue)
     );
   }
 
   uiControlFormOption(): FormArray {
-    return this.formCtlGroup.get('uiControlFormOptions') as FormArray;
+    return this.formCtlGroup.get('uiControlFormKeyOptions') as FormArray;
   }
 
   newUiControlOption(selectionModel: SelectModel): FormGroup {
     return new FormGroup({
-      optionType: new FormControl(selectionModel.value),
-      conditionType: new FormControl('', Validators.required),
-      duration: new FormControl('4'),
-      value: new FormControl(),
-      assertType: new FormControl(),
+      keyOption: new FormControl(selectionModel.value),
     });
   }
 

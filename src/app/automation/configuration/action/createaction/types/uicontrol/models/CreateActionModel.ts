@@ -1,5 +1,6 @@
 import { CreateActionBrowserModel } from './CreateActionBrowserModel';
 import { CreateActionOptionModel } from './CreateActionOptionModel';
+import { CreateActionKeyModel } from './CreateActionKeyModel';
 
 export interface CreateActionModel {
   type: string;
@@ -13,4 +14,5 @@ export interface CreateActionModel {
   uiControlOptions?: CreateActionOptionModel[];
   browserOptions?: CreateActionBrowserModel;
   conditionType?: string;
+  uiActionKeys?: CreateActionKeyModel[];
 }

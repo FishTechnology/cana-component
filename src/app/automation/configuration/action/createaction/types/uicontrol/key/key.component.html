@@ -3,7 +3,7 @@
     <div fxFill>
       <mat-form-field class="example-chip-list" appearance="fill" fxFill>
         <mat-label>Keys</mat-label>
-        <mat-chip-list #chipList aria-label="key selection">
+        <mat-chip-list #chipList class="example-chip" aria-label="key selection" cdkDropListOrientation="horizontal">
           <mat-chip
             *ngFor="let keyOption of keyOptions; let indexOfElement = index"
             [selectable]="selectable"
@@ -16,8 +16,8 @@
           </mat-chip>
           <input
             placeholder="New key..."
-            #ctlOptionInput
-            formControlName="eventOption"
+            #keyOptionInput
+            formControlName="keyOption"
             [matAutocomplete]="auto"
             [matChipInputFor]="chipList"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"

@@ -8,7 +8,7 @@
             <mat-option
               [value]="uiCtlActionType.value"
               *ngFor="let uiCtlActionType of uiCtlActionTypes"
-              >{{ uiCtlActionType.text }}</mat-option
+            >{{ uiCtlActionType.text }}</mat-option
             >
           </mat-select>
         </mat-form-field>
@@ -39,7 +39,7 @@
               <mat-option
                 *ngFor="let type of uiActionKeyType"
                 [value]="type.value"
-                >{{ type.text }}
+              >{{ type.text }}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -97,6 +97,8 @@
         </div>
       </div>
       <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+        <app-key [formGroup]="uiControlForm" fxFill>
+        </app-key>
         <app-ctloptionsautocomplete
           [formGroup]="uiControlForm"
           fxFill
